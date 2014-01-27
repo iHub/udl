@@ -1,0 +1,48 @@
+
+<div class="page-header">
+	<h2 class="pull-left">Comments</h2>
+
+	<ul class="nav nav-pills pull-right">
+		<li><%#= render 'shared/nav/back_to_session'  %></li>
+
+	</ul>
+	<div class="clearfix"></div>
+</div>
+
+<% if @fb_comments.empty? %>
+	<div class="well well-sm">
+		<p>Your Search did not return any Results</p>
+	</div>
+
+<% else %>
+	<div class="panel panel-default">
+		<div class="panel-heading">Search</div>
+  		<div class="panel-body">
+		<%= search_form_for(@search, url: fb_comments_search_path , method: :post)  do |f| %>
+			<div class="form-group">
+				<%= f.label		:message_cont, "Search Comments..." %>
+				<%= f.text_field :message_cont, class: "form-control", 
+										placeholder: "Search Comments..." %>
+			</div>
+			<%= f.submit "Search", class: "btn btn-large btn-primary" %>
+		<% end %>
+		</div>
+	</div>
+
+	<div class="whitespace"></div>
+	<hr>
+	<%= render 'shared/fb_comment_list'  %>
+	<div class="center-block">
+		
+	</div>
+<% end %>
+
+
+
+
+
+
+<% content_for :debug_dump do %>
+ <p>is empty <%= @fb_comments.empty? %></p>
+ <p>Search Params: <%= @search_params.inspect %></p>
+<% end %>

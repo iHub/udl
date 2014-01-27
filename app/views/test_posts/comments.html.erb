@@ -1,0 +1,31 @@
+
+<div class="page-header">
+  <h2>Test index of comments - ktnkenya</h2>
+</div>
+
+  <!-- base post feed -->
+
+<% if @comment_list.nil? %>
+  <div class="well well-sm">
+    <p>post_list Nil!!!</p>
+  </div>
+
+<% else %>
+  <div class="page-header">
+    <h3>post_list Feed</h3>
+  </div>
+  
+  <div class="container">
+    <ul>
+      <% @comment_list.each do |post_obj| %>
+        <li><%= post_obj.inspect %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+
+<% content_for :debug_dump do %>
+  <p>Comment list => <%= @comment_list.count %></p>
+<% end %>

@@ -1,0 +1,52 @@
+<% provide(:page_title, "Facebook Posts" ) %>
+
+<div class="page-header">
+    <h2 class="pull-left">Facebook Posts</h2>
+    <ul class="nav nav-pills pull-right">
+        <li><%= render 'shared/nav/back_to_session'  %></li>
+    </ul>   
+    <div class="clearfix"></div>
+</div>
+
+
+<% if !@fb_posts.blank? %>
+    <div class="row">
+        <div class="col-md-8">
+            <% if @fb_posts_scope == "session" %>
+                <%= render 'shared/scrape_session_description' %>
+            <% elsif @fb_posts_scope == "page" %>
+                <%= render 'shared/scrape_page_description' %>
+            <% end %>
+        </div>
+        
+        <div class="col-md-4 pull-right">
+            <%= search_form_for(@search, url: fb_posts_search_path , method: :post,  class: "navbar-form navbar-left pull-right", role: "search" )  do |f| %>
+                <div class="form-group description-search">
+                    <%= f.text_field :message_cont, class: "form-control ", 
+                                            placeholder: "Search Posts..." %>
+                </div>
+                <%= f.submit "Search", class: "btn btn-large btn-primary" %>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <hr />
+
+    <%= render 'shared/fb_post_list' %>
+
+    <!--  pagination -->
+    <div class="center-block">
+      <%= will_paginate @fb_posts %>
+    </div>
+
+<% else %>
+    <div class="well well-sm">
+        <h4>There are no posts.</h4>
+    </div>
+<% end %>
+
+
+<% content_for :debug_dump do %>
+
+<% end %>

@@ -1,0 +1,76 @@
+<%= form_for [@scrape_session, @scrape_page] do |f|%>
+	
+	<div class="form-group">
+		<h4>Facebook Page URL</h4>
+	</div>
+	<div class="input-group input-group">
+		<span class="input-group-addon">www.facebook.com/</span>
+		<%= f.text_field :page_url, class: "form-control", 
+								placeholder: "page url", 
+								required: "text", autofocus: "" %>
+	</div>
+
+	<div class="whitespace"></div>
+
+
+	<div class="form-group">
+		<h4>Perform an Initial Scrape?</h4>
+		<p>If you would like to get old posts from this page, select the date upto which the initial scrape should be performed. All Comments from the Start date to the End date you specify will be added to the session</p>
+	</div>
+
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<div class="pull-left">
+			<%= f.label	:initial_scrape_start %>
+
+			<%= f.text_field :initial_scrape_start, class: "form-control date-field",
+											   placeholder: "Start Date" %>
+		</div>
+		<div class="form-date-divider pull-left"><h4>to</h4></div>
+		<div class="pull-left">
+			<%= f.label	:initial_scrape_end %>
+
+			<%= f.text_field :initial_scrape_end, class: "form-control date-field", 
+											   placeholder: "End Date" %>
+		</div>
+
+		<div class="clearfix"></div>
+	</div>
+
+	<div class="form-divider"></div>
+
+	<div class="form-group">
+		<h4>Continous Collection:</h4>
+		<p>Would you like to Perform Continous collection on this page?</p>
+	</div>
+
+	<div class="form-group">
+		<div class="form-radio-group">
+		<%= f.radio_button :continous_scrape,  "true", class: "form-control form-radio"%>
+		<%= f.label	:continous_scrape, "True", :value => "true", class: "form-radio-label" %>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<div class="form-radio-group">
+		<%= f.radio_button :continous_scrape,  "false", class: "form-control form-radio" %>
+		<%= f.label	:continous_scrape, "False", :value => "false", class: "form-radio-label" %>
+		</div>
+		
+	</div>
+
+	<div class="clearfix"></div>
+
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<%= f.label	:scrape_frequency %>
+		
+		<%= f.select( :scrape_frequency_select,  options_for_select(@scrape_frequencies, selected: 1)) %>
+		
+	</div>
+
+
+	<%= f.submit "Add Page", class: "btn btn-large btn-primary" %>
+<% end %>

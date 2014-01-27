@@ -1,0 +1,71 @@
+<% provide(:page_title, "Application Settings" ) %>
+
+<div class="page-header">
+	<h2>Application Settings</h2>
+</div>
+
+<% if @app_setting %>
+	<div class="col-md-6 panel">
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">App Name</h3>
+		  </div>
+		  <div class="panel-body">
+		    <p><%= @app_setting.app_name %></p>
+		  </div>
+		</div>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Welcome Message (on signup)</h3>
+		  </div>
+		  <div class="panel-body">
+		    <p><%= @app_setting.welcome_message %></p>
+		  </div>
+		</div>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">FB App Name</h3>
+		  </div>
+		  <div class="panel-body">
+		    <p><%= @app_setting.fb_app_name %></p>
+		  </div>
+		</div>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">FB App ID</h3>
+		  </div>
+		  <div class="panel-body">
+		    <p><%= @app_setting.fb_app_id %></p>
+		  </div>
+		</div>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">FB App Secret</h3>
+		  </div>
+		  <div class="panel-body">
+		    <p><%= @app_setting.fb_app_secret %></p>
+		  </div>
+		</div>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">FB App Access Token</h3>
+		  </div>
+		  <div class="panel-body" style="overflow:hidden">
+		    <p><%= @app_setting.fb_app_access_token %></p>
+		  </div>
+		</div>
+
+		<%= link_to "Edit Application Settings", edit_app_setting_path(@app_setting), class: "btn btn-large btn-primary btn-block"  %>
+
+	</div>
+<% else %>
+	<div class="well well-sm">
+		<h4>Application Settings Not initialized</h4>
+		<%= link_to "Add App Settings", new_app_setting_path %>
+	</div>
+<% end %>

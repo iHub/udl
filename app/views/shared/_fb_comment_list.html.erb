@@ -1,0 +1,30 @@
+
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Page</th>
+        <th>User</th>
+        <th class="success">Message</th>
+        <th style="width: 15%">Created on</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      
+      <% @fb_comments.each.with_index do |fb_comment, index| %>
+        
+        <tr>
+          <td><%= index + fb_comment.offset(@page_number) + 1  %></td>
+          <td><%= fb_comment.page_url %></td>
+          <td><%= fb_comment.from_user_name %></td>
+          <td><%= raw(fb_comment.is_reply) %><%= fb_comment.message %></td>
+          <td class="comment-created-time"><%= fb_comment.created_time.strftime("%I:%M %p, %b %e %Y") %></td>
+        </tr>
+      <% end %>
+      
+    </tbody>
+  </table>
+</div>

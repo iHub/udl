@@ -1,0 +1,17 @@
+<%= form_for [@scrape_session, @question] do |f|%>
+	
+	<div class="form-group">
+		<%= f.label		 :question %>
+		<%= f.text_field :question, class: "form-control", 
+								placeholder: "The Question", 
+								required: "text" %>
+	</div>
+
+	<div class="form-group">
+		<%= f.label		:description %>
+		<%= f.text_area :description, class: "form-control", 
+								placeholder: "Description" %>
+	</div>
+
+	<%= f.submit "Create Question", class: "btn btn-large btn-primary" %>
+<% end %>

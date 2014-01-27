@@ -1,0 +1,42 @@
+
+<% content_for :debug_dump do %>
+  <p>Is current user a manager? <%= current_user.ismanager? %></p>
+  <p>Is current user an admin? <%= current_user.isadmin? %></p> 
+  <p>Number of Sessions <%= current_user.scrape_sessions.count %></p> 
+<% end %>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Session Name</th>
+        <th>Description</th>
+        <th style="width:19%">Created</th>
+        <th style="width:8%">Pages</th>
+        <th style="width:8%">Comments</th>
+        <th style="width:9%">Annotations</th>
+        
+      </tr>
+    </thead>
+
+    <tbody>
+      <% counter = 0 %>
+      <% current_user.scrape_sessions.each.with_index do |scrape_session, index| %>
+        <% counter +=1 %>
+        <tr>
+          <td><%= index+1 %></td>
+          <td>
+              <strong><%= link_to scrape_session.name,  scrape_session %><strong>
+          </td>
+          <td><%= scrape_session.description %></td>
+          <td><%= scrape_session.created_at.strftime("%I:%M %p, %b %e %Y") %></td>
+          <td><%= scrape_session.total_pages %></td>
+          <td><%= scrape_session.total_comments %></td>
+          <td>##</td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

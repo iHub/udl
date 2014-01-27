@@ -1,0 +1,24 @@
+<% provide(:page_title, current_user.username ) %>
+
+<div class="page-header">
+	<h2 class="pull-left"><%= current_user.username %></h2>
+	<%= link_to "Create New Session", '/scrape_sessions/new', class: "btn btn-large btn-primary pull-right" %>
+	<div class="clearfix"></div>
+</div>
+
+
+
+<% if current_user.scrape_sessions.any? %>
+	<div>
+		<h3>Sessions</h3>
+	</div>
+
+	<%= render 'shared/scrape_session_list' %>
+
+<% else %>
+	<div class="well well-sm">
+		<h4>You don't have any sessions</h4>
+	</div>
+<% end %>
+
+<%= will_paginate @scrape_sessions %>

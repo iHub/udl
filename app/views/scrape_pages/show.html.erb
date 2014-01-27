@@ -1,0 +1,52 @@
+<% provide(:page_title, "Page") %>
+
+
+<div class="page-header">
+	<h2 class="pull-left">Posts Collected</h2>
+
+	<ul class="nav nav-pills pull-right">
+		<li><%= render 'shared/nav/back_to_session'  %></li>
+	  	<li><%= render 'shared/nav/back_to_scrape_page'  %></li>
+	  	<li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id, scrape_page_id: @scrape_page.id} %></li>
+		<li><%= link_to("Delete Page", scrape_session_scrape_page_path(@scrape_session, @scrape_page), :method => :delete, class: "delete-link", :data => {:confirm => "Are you sure?"}) %>
+		</li>
+	</ul>
+	<div class="clearfix"></div>
+</div>
+
+<% if @fb_posts.empty? %>
+	<div class="well well-sm">
+		<p>This Page doesn't have any posts.</p>
+	</div>
+
+<% else %>
+	<div class="row">
+		<div class="col-md-8">
+			<%= render 'shared/scrape_page_description' %>
+		</div>
+		
+		<div class="col-md-4 pull-right">
+			<%= search_form_for(@search, url: fb_posts_search_path , method: :post,  class: "navbar-form navbar-left pull-right", role: "search" )  do |f| %>
+				<div class="form-group description-search">
+					<%= f.text_field :message_cont, class: "form-control ", 
+											placeholder: "Search Posts..." %>
+				</div>
+				<%= f.submit "Search", class: "btn btn-large btn-primary" %>
+			<% end %>
+			
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<hr />
+
+	<%= render 'shared/fb_post_list'  %>
+	<div class="center-block">
+		<%= will_paginate @fb_posts %>
+	</div>
+<% end %>
+
+<% content_for :debug_dump do %>
+ <p>is empty <%= @fb_posts.empty? %></p>
+ <p>test feed</p>
+ <p><%= @flat_feed.inspect %></p>
+<% end %>

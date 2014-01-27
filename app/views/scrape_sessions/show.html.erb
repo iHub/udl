@@ -1,0 +1,76 @@
+<% provide(:page_title, "Show Session") %>
+
+<div class="page-header">
+	<h2 class="pull-left">Manage Session</h2>
+
+	<ul class="nav nav-pills pull-right">
+		
+		<li class="active"><a href="#">Annotate</a></li>
+		<li><%= link_to "Questions", scrape_session_questions_path(@scrape_session) %></li>
+		<li><%= link_to "Pages", scrape_session_scrape_pages_path(@scrape_session) %></li>
+		<li><%= link_to "Posts", {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id} %></li>
+		<li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id} %></li>
+		<li><%= link_to("Delete", @scrape_session, :method => :delete, :confirm => "Are you sure? You cannot undo this action", class: "delete-link") %>
+		</li>
+	</ul>
+
+	<div class="clearfix"></div>
+</div>
+
+<div class="well well-sm">
+	<h3 class="session-name">
+		<span><%= @scrape_session.name %></span>
+		<small class="pull-right">Created by 
+			<strong><%= @created_by %></strong>
+		</small>
+	</h3>
+	<p class="session-description-well"><%= @scrape_session.description %></p>
+	<hr />
+	<h4>Pages    : <%= @scrape_pages.count  unless @scrape_pages.nil? %></h4>
+	<h4>Questions: <%= @questions.count unless @questions.nil? %></h4>
+</div>
+
+<div class="whitespace"></div>
+
+<% if !@scrape_pages.empty? %>
+	<div>
+		<h3>Pages Scraped</h3>
+	</div>
+
+	<%= render 'shared/scrape_page_list' %>
+
+	<!-- add pagination -->
+
+<% else %>
+	<div class="container">
+		<p>You haven't added any Pages to this session</p>
+	</div>
+<% end %>
+
+
+<div class="whitespace"></div>
+
+
+<% if !@questions.empty? %>
+	<div>
+		<h3>Questions for this Session</h3>
+	</div>
+
+	<%= render 'shared/question_list' %>
+
+	<!-- add pagination -->
+
+<% else %>
+	<div class="container">
+		<h4>You haven't added any Questions to this session</h4>
+	</div>
+<% end %>
+
+<% content_for :debug_dump do %>
+	<h4>Scrape Session Info</h4>
+	<p>scrape_session <%= @scrape_session.inspect %></p>
+	<p>@questions nil?<%= @questions.nil? %></p>
+	<p>@scrape_pages empty?<%= @scrape_pages.empty? %></p>
+	  	
+	<br />
+<% end %>

@@ -1,0 +1,41 @@
+<div class="page-header">
+	<h2 class="pull-left">Posts in Database</h2>
+
+	<ul class="nav nav-pills pull-right">
+		<li><%= render 'shared/nav/back_to_session'  %></li>
+
+	</ul>
+	<div class="clearfix"></div>
+</div>
+
+<% if @facebook_posts.empty? %>
+	<div class="well well-sm">
+		<p>This <%= @selected_posts[:source].capitalize %> doesn't have any posts.</p>
+	</div>
+
+<% else %>
+	<div class="panel panel-default">
+		<div class="panel-heading">Search</div>
+  		<div class="panel-body">
+		<%= search_form_for(@search, url: facebook_posts_search_path , method: :post)  do |f| %>
+			<div class="form-group">
+				<%= f.label		:message_cont, "Search contents of Comments..." %>
+				<%= f.text_field :message_cont, class: "form-control", 
+										placeholder: "Search Comments..." %>
+			</div>
+			<%= f.submit "Search", class: "btn btn-large btn-primary" %>
+		<% end %>
+		</div>
+	</div>
+
+	<div class="whitespace"></div>
+	<hr>
+	<%= render 'shared/facebook_post_list'  %>
+	<div class="center-block">
+		<%= will_paginate @facebook_posts %>
+	</div>
+<% end %>
+
+<% content_for :debug_dump do %>
+ <p>is empty <%= @facebook_posts.empty? %></p>
+<% end %>

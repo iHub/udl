@@ -1,0 +1,47 @@
+<% provide(:page_title, "Answers" ) %>
+
+<div class="page-header">
+	<h2 class="pull-left">Answers</h2>
+	<ul class="nav nav-pills pull-right">
+	  <li><%= render 'shared/nav/back_to_session'  %></li>
+	  <li><%= render 'shared/nav/back_to_question' %></li>
+	  <li><%= link_to "Add New Answer", new_scrape_session_question_answer_path %></li>
+	</ul>
+	<div class="clearfix"></div>
+</div>
+
+<div class="well well-sm">
+	<h3 class="session-name"><small class="pull-right">Session: <strong><%= @scrape_session.name %></strong></small></h3>
+	<div class="clearfix"></div>
+	<hr />
+	<p class="session-question"><%= @question.question %></p>
+	
+	<p class="session-description-well"><%= @question.description %></p>
+	
+</div>
+
+<% if !@answers.blank? %>
+	<div>
+		<h3>Answers for this Question</h3>
+	</div>
+
+	<%= render 'shared/answer_list' %>
+
+	<!-- add pagination -->
+
+<% else %>
+	<div class="well well-sm">
+		<h4>You haven't added any answers</h4>
+	</div>
+<% end %>
+
+
+<% content_for :debug_dump do %>
+  <p>inspect <%= @answers.inspect %></p>
+  <p>Class <%= @answers.class %></p>
+  <p>Nil <%= @answers.nil? %></p>
+  <p>Blank <%= @answers.blank? %></p>
+  <hr />
+  <p>inspect @question <%= @question.inspect %></p>
+
+<% end %>

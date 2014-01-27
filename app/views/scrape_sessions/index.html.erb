@@ -1,0 +1,20 @@
+<div class="page-header">
+	<h2>Sessions</h2>
+</div>
+
+<% if @scrape_sessions.any? %>
+	<div class="well well-sm">
+		<h4><%= pluralize current_user.scrape_sessions.count, "Session"  %></h4>
+	</div>
+	<%= render 'shared/scrape_session_list' %>
+<% else %>
+	<div class="well well-sm">
+		<h4>You don't have any sessions</h4>
+	</div>
+<% end %>
+
+<% content_for :debug_dump do %>
+	<h4>Scrape Session Info</h4>
+	<p>Any? <%= @scrape_sessions.inspect %></p>
+	<br />
+<% end %>

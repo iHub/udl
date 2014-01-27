@@ -1,0 +1,90 @@
+<% provide(:page_title, "Page") %>
+
+
+<div class="page-header">
+	<h2 class="pull-left">Page</h2>
+
+	<ul class="nav nav-pills pull-right">
+		<li>
+	  	<%= link_to  scrape_session_path(@scrape_session) do %>
+	  		<span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;Back to Session
+	  	<% end %>
+	  	</li>
+		<li><%= link_to("Delete Page", scrape_session_scrape_page_path(@scrape_session, @scrape_page), :method => :delete, :data => {:confirm => "Are you sure?"}) %>
+		</li>
+	</ul>
+	<div class="clearfix"></div>
+</div>
+
+<div class="well well-sm">
+	<h3 class="session-name"><%= @scrape_page.page_url %><small class="pull-right">Session: <strong><%= @scrape_session.name %></strong></small>
+	</h3>
+	
+	<hr />
+</div>
+
+<div class="page-header">
+	<h3><%= Time.now %> </h3>
+</div>
+
+<% if @error.nil? %>
+	<div class="page-header">
+		<h3>Comment nesting Keys and values</h3>
+	</div>
+	<div class="table-responsive">
+	  <table class="table table-striped table-bordered table-hover table-condensed">
+	    <thead>
+	      <tr>
+	        <th>#</th>
+	        <th>id</th>
+	        <th>Name</th>
+	        <th>Message</th>
+	        <th>Date:Time</th>
+
+	      </tr>
+	    </thead>
+		<tbody>
+			<% counter = 0 %> 
+			
+			<% @page_feed.each do |message_object| %>
+				<% if !message_object["comments"].nil? %>
+					<% message_object["comments"]["data"].each do |comments| %>
+						<% counter +=1 %>
+						<tr>
+							<td><%= counter %></td>
+							<td><%= comments["id"] %></td>
+							<td><%= comments["from"]["name"] %></td>
+							<td><%= comments["message"] %></td>
+							<% created_at_time = comments["created_time"].to_datetime  %>
+							<td><%=  created_at_time.strftime("%I:%M %p, %b %e %Y") %></td>
+						</tr>
+					<% end %>
+				<% end %>
+			<% end %>	
+		</tbody>
+	  </table>
+	</div>
+
+	
+
+<% else %>
+	<div class="page-header">
+		<h4><%= @error %></h4>
+	</div>
+<% end %>
+
+
+<% content_for :debug_dump do %>
+	<% if @error.nil? %>
+		<h4>Page Feed - First Object</h4>
+		<% first_object = @page_feed.first %>
+		<% if !all_comments = first_object["comments"].nil? %>
+			<% all_comments = first_object["comments"]["data"] %>
+		<% end %>
+		<p><%= all_comments.inspect %></p>
+		<br />
+		<hr />
+	<% else %>
+		<p><%= @error.inspect %></p>
+	<% end %>
+<% end %>

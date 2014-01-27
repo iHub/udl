@@ -1,0 +1,49 @@
+<% provide(:page_title, "Show Question") %>
+
+
+<div class="page-header">
+	<h2 class="pull-left">Question</h2>
+
+	<ul class="nav nav-pills pull-right">
+		<li><%= render 'shared/nav/back_to_session'  %></li>
+		<li><%= link_to "Manage Answers", scrape_session_question_answers_path(@scrape_session, @question) %></li>
+		<li><%= link_to("Delete Question", scrape_session_question_path(@scrape_session, @question), :method => :delete, :confirm => "Are you sure?", class: "delete-link") %>
+		</li>
+	</ul>
+	<div class="clearfix"></div>
+</div>
+
+<div class="well well-sm">
+	<h3 class="session-name"><%= @question.question %><small class="pull-right">Session: <strong><%= @scrape_session.name %></strong></small>
+	</h3>
+	<p class="session-description-well"><%= @question.description %></p>
+	<hr />
+</div>
+
+<% if !@answers.blank? %>
+	<div>
+		<h3>Answers for this Question</h3>
+	</div>
+
+	<%= render 'shared/answer_list' %>
+
+	<!-- add pagination -->
+
+<% else %>
+	<div class="well well-sm">
+		<h4>You haven't added any answers to this Question</h4>
+		<br />
+		<p>
+			<%= link_to "Add New Answer", new_scrape_session_question_answer_path(@scrape_session, @question, @answer), class: "btn btn-large btn-primary" %>
+		</p>
+	</div>
+<% end %>
+
+
+<% content_for :debug_dump do %>
+	<h4>Question Info</h4>
+	<p><%= @question.inspect %></p>
+	<br />
+	<p>Answers <%= @answers.inspect %></p>
+	<br />
+<% end %>

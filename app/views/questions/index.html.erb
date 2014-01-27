@@ -1,0 +1,45 @@
+<% provide(:page_title, "Questions" ) %>
+
+<div class="page-header">
+	<h2 class="pull-left">Questions</h2>
+	<ul class="nav nav-pills pull-right">
+		<li><%= render 'shared/nav/back_to_session'  %></li>
+		<li>
+			<%= link_to "Create New Question", new_scrape_session_question_path() %>
+		</li>
+	</ul>	
+	<div class="clearfix"></div>
+</div>
+
+<div class="well well-sm">
+	<h3 class="session-name"><small class="pull-right">Session: <strong><%= @scrape_session.name %></strong></small></h3>
+	<div class="clearfix"></div>
+	<hr />	
+	<p class="session-description-well"><%= @scrape_session.description %></p>
+</div>
+
+<% if !@questions.blank? %>
+	<div>
+		<h3>Questions for this Session</h3>
+	</div>
+
+	<%= render 'shared/question_list' %>
+
+	<!-- add pagination -->
+
+<% else %>
+	<div class="well well-sm">
+		<h4>You haven't asked any questions</h4>
+	</div>
+<% end %>
+
+
+<% content_for :debug_dump do %>
+  <p>inspect <%= @questions.inspect %></p>
+  <p>Class <%= @questions.class %></p>
+  <p>Nil <%= @questions.nil? %></p>
+  <p>Blank <%= @questions.blank? %></p>
+  <hr />
+  <p>inspect @scrape_session <%= @scrape_session.inspect %></p>
+
+<% end %>

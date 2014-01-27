@@ -1,0 +1,25 @@
+<% if object.errors.any? %>
+
+    <div class="alert alert-danger alert-dismissable">
+    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    	<p>Kindly attend to the following <%= pluralize(object.errors.count, "error") %></p>
+       <ul>
+	    <% object.errors.full_messages.each do |msg| %>
+	      <li class="text-warning"><%= msg %></li>
+	    <% end %>
+    	</ul>
+    </div>
+
+    <% content_for :debug_dump do %>
+		<h4>Object Errors</h4>
+		<p>Inspect</p>
+	  	<p><%= object.errors.inspect %></p>
+	  	<p>Class</p>
+	  	<p><%= object.errors.class %></p>
+	  	<p>Superclass</p>
+	  	<p><%= object.errors.class.class %></p>
+		<br />
+	<% end %>
+   
+<% end %>
+

@@ -1,0 +1,32 @@
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+      <tr>
+        <% if @selected_posts[:source] == "session" %>
+          <th>Page</th>
+        <% end %>
+        <th>Created</th>
+        <th>User</th>
+        <th>Message</th>        
+        <th>Annotations</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% counter = 0 %>
+      <% @facebook_posts.each.with_index do |facebook_post, index| %>
+        <% counter +=1 %>
+        <tr>
+          <% if @selected_posts[:source] == "session" %>
+            <td><%= facebook_post.scrape_page_name %></td>
+          <% end %>
+          <td><%= facebook_post.created_at.strftime("%I:%M %p, %b %e %Y") %></td>
+          <td><%= facebook_post.from_user_name %></td>
+          <td><%= facebook_post.message %></td>
+          <td>--##--</td>
+        </tr>
+      <% end %>
+      
+    </tbody>
+  </table>
+</div>

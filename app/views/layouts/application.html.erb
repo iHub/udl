@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= full_title(yield(:page_title)) %></title>
+
+    <!-- css -->
+    <link href='http://fonts.googleapis.com/css?family=Muli:400,700' rel='stylesheet' type='text/css'>
+    <%= stylesheet_link_tag "application", media: "all",
+                                           "data-turbolinks-track" => true %>
+	
+	<!-- js -->
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    
+    <!-- meta -->
+    <%= csrf_meta_tags %>
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+  	<!-- Page Wrapper -->
+    <div id="wrap">
+
+	    <%= render 'layouts/header' %>
+
+	    <!-- main content -->
+    	<div class="container">
+        <!-- messages - errors, warnings, success -->
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>">
+            <%= value %>
+          </div>
+        <% end %>
+
+    		<%= yield %>
+    	</div> 
+
+      <div class="container debug-dump">
+        <hr />
+        <h3>Debug Info</h3>
+        <%= yield :debug_dump %>
+        <%= debug(params) if Rails.env.development? %>
+      </div>
+
+    	<!-- /container -->
+    </div> <!-- /wrapper -->
+
+    <%= render 'layouts/footer' %>
+
+  </body>
+</html>

@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+# original comment was /usr/bin/env ruby.exe after the hash-bang
+APP_PATH = File.expand_path('../../config/application',  __FILE__)
+require_relative '../config/boot'
+require 'rails/commands'

@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h2>Test index of posts - ktnkenya</h2>
+</div>
+
+<div class="container">
+    <p>
+      <%= @the_query.inspect %>
+    </p>
+  </div>
+
+<% if @post_list.nil? %>
+  <div class="well well-sm">
+    <p>post_list Nil!!!</p>
+  </div>
+
+<% else %>
+  <div class="page-header">
+    <h3>post_list Feed</h3>
+  </div>
+  
+  <div class="container">
+    <ul>
+      <% @post_list.each do |post_obj| %>
+        <li><%= post_obj.inspect %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if @post_list_next_page.nil? %>
+  <div class="well well-sm">
+    <p>post_list_next_page Nil!!!</p>
+  </div>
+
+<% else %>
+  <div class="page-header">
+    <h3>post_list_next_page Feed</h3>
+  </div>
+  
+  <div class="container">
+    <ul>
+      <% @post_list_next_page.each do |post_obj| %>
+        <li><%= post_obj.inspect %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+<% content_for :debug_dump do %>
+
+<% end %>

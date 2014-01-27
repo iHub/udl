@@ -1,0 +1,22 @@
+<% provide(:page_title, "New Page") %>
+
+<div class="page-header">
+	<h2>Add a Page to this Session</h2>
+</div>
+
+<div class="col-md-8 panel panel-default signup">
+
+	<div class="panel-body">
+		
+		<%= render 'shared/scrape_page_form' %>
+	</div>
+</div>
+
+<% content_for :debug_dump do %>
+	<h4>Object value</h4>
+	<p>Inspect <%= @question.inspect %></p>
+  	<p>Class <%= @question.class %></p>
+  	<p>nil <%= @question.nil? %></p>
+
+	<br />
+<% end %>

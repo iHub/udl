@@ -1,0 +1,18 @@
+<%= form_for(object) do |f|%>
+	<%= render 'shared/error_messages', object: f.object %>
+
+	<div class="form-group">
+		<%= f.label		:name %>
+		<%= f.text_field 	:name, class: "form-control", 
+									placeholder: "Session Name", 
+									required: "text" %>
+	</div>
+
+	<div class="form-group">
+		<%= f.label		:description %>
+		<%= f.text_area 	:description, class: "form-control", 
+									placeholder: "Description" %>
+	</div>
+
+	<%= f.submit "Create Session", class: "btn btn-large btn-primary" %>
+<% end %>

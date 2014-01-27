@@ -1,0 +1,23 @@
+<% provide(:page_title, "CSV Import") %>
+
+<div class="page-header">
+	<h2>Import a CSV File into your Session</h2>
+</div>
+
+<p class="lead">Kindly ensure that your CSV is created using the Guidelines. For more Info, please see the <%= link_to "Help",  help_path %> section</p>
+
+<div class="col-md-4 panel panel-default signup">
+	<div class="panel-body">
+		<form id="form1" enctype="multipart/form-data" method="post" action="">
+			<div class="form-group">
+			  <label>Select a File to Upload</label>
+
+			  <input type="file" class="btn btn-large btn-primary btn-sm btn-block" />
+			</div>
+
+			<div class="form-group">
+			  <input type="button" value="Upload" class="btn btn-large btn-primary btn-block" />
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,52 @@
+<!-- Header - Fixed navbar -->
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+
+      <!-- <a class="navbar-brand" href="#">Umati Data Logger</a> -->
+      <%= link_to image_tag("umati-logger-logo.png", size: "200x30", alt: "Umati Data Logger"),  root_path, class: "navbar-brand" %>
+    </div>
+
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to "Home",  root_path %></li>
+          <li><%= link_to "About", about_path %></li>
+          <li><%= link_to "Help",  help_path %></li>
+
+          <% if signed_in? %>
+            <% if current_user.isadmin? %>
+              <li><%= link_to "Users", users_path %></li>
+            <% end %>
+            <li><%= link_to "Sessions",  '/scrape_sessions/' %></li>
+            <li><%= link_to "CSV Import",  '/csv_import/import' %></li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%= current_user.username %>
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Profile", current_user %></li>
+                <li><%= link_to "User Settings", edit_user_path(current_user) %></li>
+                <li class="divider"></li>
+
+                <% if current_user.isadmin? %>
+                  <li><%= link_to "App Settings", '/app_settings' %></li>
+                  <li class="divider"></li>
+                <% end %>
+
+                
+
+                <li>
+                  <%= link_to "Sign out", signout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Sign in", signin_path %></li>
+          <% end %>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
