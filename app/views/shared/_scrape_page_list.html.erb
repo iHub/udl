@@ -21,7 +21,11 @@
           <td>
               <strong><%= link_to scrape_page.page_url,  scrape_session_scrape_page_path(@scrape_session.id, scrape_page) %><strong>
           </td>
-          <td><%= distance_of_time_in_words(scrape_page.scrape_frequency) %></td>
+          <% if scrape_page.scrape_frequency? %>
+            <td><%= distance_of_time_in_words(scrape_page.scrape_frequency) %></td>
+          <% else %>
+            <td>Not Set</td>
+          <% end %>
           <td><%= time_ago_in_words(scrape_page.created_at)%> ago</td>
           <td><%= scrape_page.total_posts %></td>
           <td><%= scrape_page.total_comments %></td>

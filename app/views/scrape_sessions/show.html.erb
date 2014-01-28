@@ -32,7 +32,7 @@
 
 <div class="whitespace"></div>
 
-<% if !@scrape_pages.empty? %>
+<% if !@scrape_pages.nil? %>
 	<div>
 		<h3>Pages Scraped</h3>
 	</div>
@@ -70,7 +70,7 @@
 	<h4>Scrape Session Info</h4>
 	<p>scrape_session <%= @scrape_session.inspect %></p>
 	<p>@questions nil?<%= @questions.nil? %></p>
-	<p>@scrape_pages empty?<%= @scrape_pages.empty? %></p>
+	<p>@scrape_pages nil?<%= @scrape_pages.nil? %></p>
 	  	
 	<br />
 <% end %>

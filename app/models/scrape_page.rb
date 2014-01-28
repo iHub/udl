@@ -1,6 +1,7 @@
 class ScrapePage < ActiveRecord::Base
 	
 	attr_accessor :scrape_frequency_select
+
 	#associations
 	belongs_to  :scrape_session	
 	has_many    :fb_posts, 		dependent: :destroy
@@ -24,11 +25,12 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	def total_comments
-		total_comments = 0
-		self.fb_posts.find_each do |fb_post|
-			total_comments += fb_post.fb_comments.count
-		end
-		total_comments
+		# total_comments = 0
+		# self.fb_posts.find_each do |fb_post|
+		# 	total_comments += fb_post.fb_comments.count
+		# end
+		# total_comments
+		self.fb_comments.count
 	end
 
 	def collect_comments
@@ -39,7 +41,7 @@ class ScrapePage < ActiveRecord::Base
 
 		if scraping_pages.count > 0
 			scraping_pages.each do |current_scrape_page|
-				if epoch_time current_scrape_page.next_scrape_date  < epoch_time Time.now
+				if epoch_time(current_scrape_page.next_scrape_date ) < epoch_time(Time.now)
 					logger.debug "next_scrape_date < Time.now ||| #{current_scrape_page.next_scrape_date} vs #{Time.now}"
 					logger.debug "get_new_fb_posts called"
 
@@ -59,11 +61,13 @@ class ScrapePage < ActiveRecord::Base
 			logger.debug "No pages with continous scraping set up"
 		end
 	end
-	# handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
+	handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
 
 	def get_new_fb_posts(scrape_page)		
 		logger.debug "SCRAPER : get_fb_posts >>>"
-		scrape_page.next_scrape_date = Time.now - 1.day if scrape_page.next_scrape_date?
+		if scrape_page.next_scrape_date?
+			scrape_page.next_scrape_date = Time.now - 1.day 
+		end
 		get_fb_posts scrape_page, epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
 	end
 
@@ -157,63 +161,60 @@ class ScrapePage < ActiveRecord::Base
 
 	def save_fb_comments(fb_post, fb_post_graph_object)
 
-		if !fb_post_graph_object["comments"].nil?
-	        fb_post_graph_object["comments"]["data"].each do |comment|
-	            this_comment = {}
-	            this_comment[:comment_id]      = comment["id"]
-	            this_comment[:message]         = comment["message"]
-	            this_comment[:from_user_id]    = comment["from"]["id"]
-	            this_comment[:from_user_name]  = comment["from"]["name"]
-	            this_comment[:created_time]    = comment["created_time"]
-	            this_comment[:fb_post_id]      = fb_post.id
-	            this_comment[:parent_id]       =  "0"
+        fb_post_graph_object["comments"]["data"].each do |comment|
+            this_comment = {}
+            this_comment[:comment_id]      = comment["id"]
+            this_comment[:message]         = comment["message"]
+            this_comment[:from_user_id]    = comment["from"]["id"]
+            this_comment[:from_user_name]  = comment["from"]["name"]
+            this_comment[:created_time]    = comment["created_time"]
+            this_comment[:fb_post_id]      = fb_post.id
+            this_comment[:parent_id]       =  "0"
 
-	            # @get_next_page = true
+            # @get_next_page = true
 
-	            fb_comment = fb_post.fb_comments.build(this_comment)
+            fb_comment = fb_post.fb_comments.build(this_comment)
 
-	            @comment_list << this_comment
+            @comment_list << this_comment
 
-	            @comment_count +=1  
+            @comment_count +=1  
 
-	            if fb_comment.save
-	              @saved_comments +=1
-	              logger.debug "SAVED. @saved_comments = #{@saved_comments}"
-	            else
-	              logger.debug "<><><><><><> NOT SAVED.possible duplicate <><><><><><>"
-	            end
+            if fb_comment.save
+              @saved_comments +=1
+              logger.debug "SAVED. @saved_comments = #{@saved_comments}"
+            else
+              logger.debug "<><><><><><> NOT SAVED.possible duplicate <><><><><><>"
+            end
 
-	            # grab nested comments
-	            if !comment["comments"].nil? 
-					comment["comments"]["data"].each do |comment_reply|
-						nested_comment = {}
-						nested_comment[:comment_id]      = comment_reply["id"]
-						nested_comment[:message]         = comment_reply["message"]
-						nested_comment[:from_user_id]    = comment_reply["from"]["id"]
-						nested_comment[:from_user_name]  = comment_reply["from"]["name"]
-						nested_comment[:created_time]    = comment_reply["created_time"]
-						nested_comment[:fb_post_id]      = fb_post.id
-						nested_comment[:parent_id]       = this_comment[:comment_id]
+            # grab nested comments
+            if !comment["comments"].nil? 
+				comment["comments"]["data"].each do |comment_reply|
+					nested_comment = {}
+					nested_comment[:comment_id]      = comment_reply["id"]
+					nested_comment[:message]         = comment_reply["message"]
+					nested_comment[:from_user_id]    = comment_reply["from"]["id"]
+					nested_comment[:from_user_name]  = comment_reply["from"]["name"]
+					nested_comment[:created_time]    = comment_reply["created_time"]
+					nested_comment[:fb_post_id]      = fb_post.id
+					nested_comment[:parent_id]       = this_comment[:comment_id]
 
-						@comment_list << nested_comment
+					@comment_list << nested_comment
 
-						fb_comment = fb_post.fb_comments.build(nested_comment)
+					fb_comment = fb_post.fb_comments.build(nested_comment)
 
-						@comment_count +=1
+					@comment_count +=1
 
-						if fb_comment.save
-							@saved_comments +=1
-							logger.debug "SAVED -- Nested comment. @saved_comments = #{@saved_comments}"
-						else
-							logger.debug "<><><><><><> Nested Comment not SAVED. Possible Duplicate <><><><><><>"
-						end
+					if fb_comment.save
+						@saved_comments +=1
+						logger.debug "SAVED -- Nested comment. @saved_comments = #{@saved_comments}"
+					else
+						logger.debug "<><><><><><> Nested Comment not SAVED. Possible Duplicate <><><><><><>"
 					end
-	            end
+				end
+            end
 
-	        end
-	        logger.debug "fb_post_graph_object processing complete"
-	    end
-		
+        end
+        logger.debug "fb_post_graph_object processing complete"
 	end
 
 	def get_fb_posts(scrape_page, start_date, end_date)

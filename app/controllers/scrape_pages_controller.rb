@@ -100,6 +100,7 @@ class ScrapePagesController < ApplicationController
 
 	def show
 		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		
 		@scrape_page = @scrape_session.scrape_pages.find(params[:id])
 
 		@fb_posts = @scrape_page.fb_posts.paginate(page: params[:page])
