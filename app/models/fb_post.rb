@@ -2,7 +2,7 @@ class FbPost < ActiveRecord::Base
 
     # associations
     belongs_to :scrape_page
-    has_many   :fb_comments
+    has_many   :fb_comments, dependent: :destroy
 
     # validates_uniqueness_of :fb_post_id, scope: :scrape_page_id
     before_save :post_unique_to_this_page

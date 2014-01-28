@@ -34,7 +34,13 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		@user.role = "annotator"
+		has_users = User.last
+		if has_users.nil?
+			@user.role = "admin"
+		else
+			@user.role = "annotator"
+		end
+
 		if @user.save
 			sign_in @user
 			flash[:success] = WELCOME_MESSAGE
