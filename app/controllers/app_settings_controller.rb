@@ -23,8 +23,9 @@ class AppSettingsController < ApplicationController
 		@app_setting = AppSetting.new(app_setting_params)
 		if @app_setting.save
 			flash[:success] = "Settings Created"
+			render	'index'
 		else
-			render app_setting_path
+			render 'new'
 		end	
 	end
 

@@ -16,3 +16,4 @@ $ ->
   ###############################################
   $(".date-field").datepicker
   	dateFormat: 'yy-mm-dd'
+  console.log "again"

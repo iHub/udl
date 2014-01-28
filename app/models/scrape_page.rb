@@ -148,7 +148,7 @@ class ScrapePage < ActiveRecord::Base
 			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
 			
 			logger.debug "graph complete on current_fb_post"
-			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspe}"
+			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspect}"
 			logger.debug "pass graph query result to save_fb_comments"
 
 			if !fb_post_graph_object["comments"].nil?

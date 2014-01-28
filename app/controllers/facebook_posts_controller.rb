@@ -41,7 +41,7 @@ class FacebookPostsController < ApplicationController
 
   	if @facebook_post.save
   		flash[:success] = "Post Added!" 
-      	redirect_to scrape_session_scrape_page_facebook_posts_path
+      redirect_to scrape_session_scrape_page_facebook_posts_path
   	else
   		render 'new'
   	end
