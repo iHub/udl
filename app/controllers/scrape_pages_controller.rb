@@ -47,15 +47,6 @@ class ScrapePagesController < ApplicationController
     		if valid_init_scrape == "true" || valid_init_scrape == "false"
 	    		logger.debug "is valid_page_url && is valid_init_scrape"
 
-	    		# logger.debug "@scrape_page.scrape_frequency before setter call => #{@scrape_page.scrape_frequency}"
-	    		# logger.debug "*************************************"
-	    		# logger.debug "params[:scrape_page, :page_url] => #{params[:scrape_page][:page_url].inspect}"
-	    		
-	    		# @scrape_page.scrape_frequency = params[:scrape_page][:scrape_frequency_select]
-
-	    		# logger.debug "@scrape_page.scrape_frequency after setter => #{@scrape_page.scrape_frequency}"
-
-	    		
 				if @scrape_page.save 		# has been saved?
 					logger.debug "page saved;"
 
@@ -106,8 +97,6 @@ class ScrapePagesController < ApplicationController
 			render edit_scrape_session_scrap_page_path(@scrape_page)
 		end
 	end
-
-
 
 	def show
 		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
