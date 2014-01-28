@@ -72,112 +72,6 @@ class ScrapePage < ActiveRecord::Base
 		get_fb_comments scrape_page_id
 	end
 
-	# def scrape_frequency=() 
-	# 	logger.debug "scrape_frequency_select => #{scrape_frequency_select}"
-	# 	frequency = case self.scrape_frequency_select
-	# 		when "10 Minutes"	then 10.minutes.to_i
-	# 		when "30 Minutes"	then 30.minutes.to_i
-	# 		when "1 Hour"		then 1.hour.to_i
-	# 		when "3 Hours"		then 3.hours.to_i
-	# 		when "6 Hours"		then 6.hours.to_i
-	# 		when "12 Hours"		then 12.hours.to_i
-	# 		when "Daily"		then 1.day.to_i
-	# 		when "Every 3 Days"	then 3.days.to_i
-	# 		when "Weekly"		then 1.week.to_i
-	# 		else  10.minutes.to_i
-	# 	end
-	# 	 write_attribute(:scrape_frequency, frequency)
-	# end
-
-	# def scrape_frequency_select
-	# 	@scrape_frequency_select
-	# end
-
-	# def scrape_frequency_select=(value)
-	# 	@scrape_frequency_select = value
-	# end
-
-	# def scrape_fb_page (page_url, start_scrape_date, end_scrape_date)
-	# 	logger.debug "Delayed JOB :: scrape_fb_page called"
-	# 	@comment_list = []
-	# 	@get_next_page = false
-	# 	@request_page_count = 0
-
-	# 	begin
-	# 		graph = Koala::Facebook::API.new(fb_app_access_token)
-	# 	rescue Koala::Facebook::APIError => e
-	# 		flash.now[:danger] = e
-	# 		return	false
-	# 	end
-
-	# 	logger.debug "page_url #{page_url}"
-	# 	@page_feed = graph.get_connections(page_url, "feed", :fields => "comments")
-
-	# 	get_fb_comments @page_feed, start_scrape_date, end_scrape_date
-
-	# 	until @get_next_page == false
-	# 		logger.debug  "@get_next_page block => #{@get_next_page}"
-	# 		@request_page_count +=1
-	# 		next_page_feed = @page_feed.next_page
-	# 		get_fb_comments next_page_feed, start_scrape_date, end_scrape_date
-	# 	end
-	# 	logger.debug "Comment List => \n #{@comment_list}"
-	# 	@comment_list
-	# end
-
-	# def get_fb_comments(current_page_feed, start_scrape_date, end_scrape_date)
-	# 	logger.debug "running get_fb_comments method"
-
-	# 	current_page_feed.each do |message_object|
-	# 		if !message_object["comments"].nil?
-	# 			message_object["comments"]["data"].each do |comment|
-	# 				@init_scrape_post_count +=1 			
-					
-	# 				comment_created_at = comment["created_time"].to_datetime
-
-	# 				# if scrape_frequency.nil? 
-	# 				# 	end_scrape_date = 10.minutes.ago  # hard code limit for scrape page end date
-	# 				# else
-	# 				# 	end_scrape_date = scrape_frequency.minutes.ago
-	# 				# end
-
-	# 				logger.debug "comment_created_at #{comment_created_at.strftime("%I:%M %p, %b %e %Y")}"
-	# 				# logger.debug "end_scrape_date #{end_scrape_date.strftime("%I:%M %p, %b %e %Y")}"
-	# 				# logger.debug "date compare: (comment_created_at > end_scrape_date) => #{(comment_created_at > end_scrape_date)}"
-	# 				# logger.debug "@scrape_page.id => #{@scrape_page.id}"
-
-	# 				if (comment_created_at > end_scrape_date)
-	# 					# logger.debug "in the block if(comment_created_at < end_scrape_date)"
-	# 					this_comment = {}
-	# 					this_comment[:comment_id] 	 	 = comment["id"] 
-	# 					this_comment[:from_user_id]  = comment["from"]["id"]
-	# 					this_comment[:from_user_name] 	 = comment["from"]["name"]
-	# 					this_comment[:message]  = comment["message"]
-	# 					this_comment[:created_time]	 = comment_created_at
-	# 					this_comment[:scrape_page_id]	 = self.id
-
-	# 					@get_next_page = true
-
-	# 					@facebook_post = @scrape_page.facebook_posts.build(this_comment)
-	# 					@comment_list << this_comment
-
-	# 					if @facebook_post.save
-	# 						@init_scrape_post_count +=1
-	# 						logger.debug "SAVED. @init_scrape_post_count = #{@init_scrape_post_count}"
-	# 					end
-
-	# 				else 
-	# 					logger.debug "!(comment_created_at < end_scrape_date) so setting get_next_page to false"
-	# 					@get_next_page = false
-	# 				end
-	# 			end # message_object each
-	# 		elsif message_object["comments"].nil?
-	# 			logger.debug "I'm nil bitch!"
-	# 		end # if not nil
-	# 	end # current page feed main block
-	# 	@comment_list
-	# end
-
 	def valid_page_url(fb_url, scrape_session_id)
 		
 		scrape_session = ScrapeSession.find(scrape_session_id)
@@ -208,10 +102,6 @@ class ScrapePage < ActiveRecord::Base
 			return "Please enter both dates for the Initial collection"
 		end
 	end
-
-	# def self.init_scrape_start(id)
-	# 	init_scrape_start(id)
-	# end
 
 	def init_scrape_start
 
@@ -262,53 +152,6 @@ class ScrapePage < ActiveRecord::Base
 		    else
 		    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "
 			end
-
-		    # current_page["comments"]["data"].each do |comment|
-
-		    #     this_comment = {}
-		    #     this_comment[:comment_id]      = comment["id"]
-		    #     this_comment[:message]         = comment["message"]
-		    #     this_comment[:from_user_id]    = comment["from"]["id"]
-		    #     this_comment[:from_user_name]  = comment["from"]["name"]
-		    #     this_comment[:created_time]    = comment["created_time"]
-		    #     this_comment[:fb_post_id]      = current_fb_post.id
-		    #     this_comment[:parent_id]       =  "0"
-
-		    #     @get_next_page = true
-
-		    #     fb_comment = fb_post.fb_comments.build(this_comment)
-
-		    #     @comment_list << this_comment
-
-		    #     if fb_comment.save
-		    #       @comment_count +=1
-		    #       logger.debug "SAVED. @comment_count = #{@comment_count}"
-		    #     end
-
-		    #     # grab nested comments
-		    #     if !comment["comments"].nil?
-		    #         comment["comments"]["data"].each do |comment_reply|
-		    #             nested_comment = {}
-		    #             nested_comment[:comment_id]      = comment_reply["id"]
-		    #             nested_comment[:message]         = comment_reply["message"]
-		    #             nested_comment[:from_user_id]    = comment_reply["from"]["id"]
-		    #             nested_comment[:from_user_name]  = comment_reply["from"]["name"]
-		    #             nested_comment[:created_time]    = comment_reply["created_time"]
-		    #             nested_comment[:fb_post_id]      = current_fb_post.id
-		    #             nested_comment[:parent_id]       = this_comment[:comment_id]
-
-		    #             @comment_list << nested_comment
-
-		    #             fb_comment = fb_post.fb_comments.build(nested_comment)
-
-		    #             if fb_comment.save
-		    #               @comment_count +=1
-		    #               logger.debug "SAVED -- Nested comment. @comment_count = #{@comment_count}"
-		    #             end
-		    #         end
-		    #     end
-
-		    # end
 		end
 	end
 
