@@ -31,7 +31,12 @@ class ScrapePagesController < ApplicationController
     	logger.debug "params[:scrape_page][:continous_scrape] => #{params[:scrape_page][:continous_scrape]}"
     	logger.debug "@scrape_page.continous_scrape => #{@scrape_page.continous_scrape}"
 
-    	valid_url = @scrape_page.valid_page_url(@scrape_page.page_url, @scrape_session.id)
+    	if has_app_access_token?
+    		valid_url = @scrape_page.valid_page_url(@scrape_page.page_url, @scrape_session.id)
+		else
+			flash.now[:danger] = "Please initialize the application to continue"			
+			redirect_to new_app_setting_path and return
+		end
 
     	valid_init_scrape = @scrape_page.valid_init_scrape_date(@scrape_page.initial_scrape_start, @scrape_page.initial_scrape_end)
 
@@ -130,6 +135,13 @@ class ScrapePagesController < ApplicationController
 
 		def access_token			
 			"CAAI9jQBuPWwBAFQTU7KZATPhEEjMi0RjZBI7ZBXH5J8QtRSnqBxjMZCAl8DyiHbQd4jNrV6TMJgKDbUIiA8XzsCaomrubFxpOqRpNnirwIAZATYHW69ZCvOT33oegkPcUjDsbqoXxrCg2A254owUBS2UDPBo6bL9wTWK0glXvjUM6Kw5YRRIK3CQUDJX4sTwALHEh21C5lNwZDZD"
+		end
+
+		def has_app_access_token?
+			has_settings = AppSetting.last
+			if !has_settings.nil?
+				return true if !has_settings.fb_app_access_token.nil? 		
+			end
 		end
 
 		def graph

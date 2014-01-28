@@ -286,6 +286,13 @@ class ScrapePage < ActiveRecord::Base
 
 	end
 
+	def has_app_access_token?
+		has_settings = AppSetting.last
+		if !has_settings.nil?
+			return true if !has_settings.fb_app_access_token.nil? 		
+		end
+	end
+
 	private
 
 		def fb_graph
@@ -293,6 +300,8 @@ class ScrapePage < ActiveRecord::Base
 		end
 
 		def fb_app_access_token
-			fb_app_access_token ||= AppSetting.last.fb_app_access_token
+			if has_app_access_token?
+				fb_app_access_token ||= AppSetting.last.fb_app_access_token
+			end 
 		end
 end
