@@ -21,8 +21,8 @@
 
 set :output, "#{path}/log/cron.log"
 
-set :environment, "development"
+set :environment, :development
 
     every 10.minutes do
-      runner "ScrapePage.collect_comments"
+      runner "ScrapePage.new.collect_comments"
     end

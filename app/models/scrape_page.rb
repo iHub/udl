@@ -32,34 +32,44 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	def collect_comments
+		logger.debug ">>>>>>>>>>>>>>>>> collect_comments running >>>>>>>>>>>>>>>>>"
+
 		scraping_pages = ScrapePage.continous
-		scraping_pages.each do |current_scrape_page|
-			if current_scrape_page.next_scrape_date < Time.now
-				logger.debug "next_scrape_date < Time.now ||| #{next_scrape_date} vs #{Time.now}"
-				logger.debug "get_new_fb_posts called"
+		logger.debug "Number of pages that have continous collection: #{scraping_pages.count}"
 
-				get_new_fb_posts current_scrape_page
+		if scraping_pages.count > 0
+			scraping_pages.each do |current_scrape_page|
+				if epoch_time current_scrape_page.next_scrape_date  < epoch_time Time.now
+					logger.debug "next_scrape_date < Time.now ||| #{current_scrape_page.next_scrape_date} vs #{Time.now}"
+					logger.debug "get_new_fb_posts called"
 
-				logger.debug "calling get_new_fb_comments"
+					get_new_fb_posts current_scrape_page
 
-				get_new_fb_comments scrape_page
+					logger.debug "calling get_new_fb_comments"
 
-				# set date for next scrape & save to db
-				next_scrape_date = Time.now + scrape_page.scrape_frequency
-				scrape_page.update(next_scrape_date: next_scrape_date)
+					get_new_fb_comments current_scrape_page.id
+
+					# set date for next scrape & save to db
+					next_scrape_date = Time.now + current_scrape_page.scrape_frequency
+					current_scrape_page.update(next_scrape_date: next_scrape_date)
+				end
 			end
+			logger.debug "*********************** All pages processed ***********************"
+		else
+			logger.debug "No pages with continous scraping set up"
 		end
 	end
 	# handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
 
 	def get_new_fb_posts(scrape_page)		
-		logger.debug "get_fb_posts >>>"
-		get_fb_posts scrape_page.id, epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
+		logger.debug "SCRAPER : get_fb_posts >>>"
+		scrape_page.next_scrape_date = Time.now - 1.day if scrape_page.next_scrape_date?
+		get_fb_posts scrape_page, epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
 	end
 
-	def get_new_fb_comments(scrape_page)
-		logger.debug "SCRAPER : get_new_fb_comments called"
-		get_fb_comments scrape_page.id
+	def get_new_fb_comments(scrape_page_id)
+		logger.debug "SCRAPER : get_new_fb_comments >>>"
+		get_fb_comments scrape_page_id
 	end
 
 	# def scrape_frequency=() 
@@ -211,7 +221,7 @@ class ScrapePage < ActiveRecord::Base
 		@last_result_created_time = end_date
 		logger.debug ">>>>>>>>>>> Running Init Scrape Start (via Controller) <<<<<<<<<<<<"
 
-		get_fb_posts self.fb_page_id, start_date, end_date
+		get_fb_posts self, start_date, end_date
 		logger.debug "get_fb_posts complete =>> get_fb_comments"
 
 		get_fb_comments self.id
@@ -237,16 +247,21 @@ class ScrapePage < ActiveRecord::Base
 
 		all_posts.each do |current_fb_post|
 
-			logger.debug "going through each all_post object"
+			logger.debug "going through each post from all_post collection object"
 
-			logger.debug "perform graph search on fb post from all_posts"
+			logger.debug "perform graph search on current_fb_post from all_posts"
 
-			fb_post_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
+			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
 			
-			logger.debug "graph complete on all post single post"
+			logger.debug "graph complete on current_fb_post"
+			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspe}"
+			logger.debug "pass graph query result to save_fb_comments"
 
-			logger.debug "pass the object to method to strip and save comments"
-		    save_fb_comments current_fb_post, fb_post_object
+			if !fb_post_graph_object["comments"].nil?
+		    	save_fb_comments current_fb_post, fb_post_graph_object
+		    else
+		    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "
+			end
 
 		    # current_page["comments"]["data"].each do |comment|
 
@@ -297,10 +312,10 @@ class ScrapePage < ActiveRecord::Base
 		end
 	end
 
-	def save_fb_comments(fb_post, fb_post_object)
+	def save_fb_comments(fb_post, fb_post_graph_object)
 
-		if !fb_post_object["comments"].nil?
-	        fb_post_object["comments"]["data"].each do |comment|
+		if !fb_post_graph_object["comments"].nil?
+	        fb_post_graph_object["comments"]["data"].each do |comment|
 	            this_comment = {}
 	            this_comment[:comment_id]      = comment["id"]
 	            this_comment[:message]         = comment["message"]
@@ -321,6 +336,8 @@ class ScrapePage < ActiveRecord::Base
 	            if fb_comment.save
 	              @saved_comments +=1
 	              logger.debug "SAVED. @saved_comments = #{@saved_comments}"
+	            else
+	              logger.debug "<><><><><><> NOT SAVED.possible duplicate <><><><><><>"
 	            end
 
 	            # grab nested comments
@@ -344,22 +361,24 @@ class ScrapePage < ActiveRecord::Base
 						if fb_comment.save
 							@saved_comments +=1
 							logger.debug "SAVED -- Nested comment. @saved_comments = #{@saved_comments}"
+						else
+							logger.debug "<><><><><><> Nested Comment not SAVED. Possible Duplicate <><><><><><>"
 						end
 					end
 	            end
 
 	        end
-	        logger.debug "array populated"
+	        logger.debug "fb_post_graph_object processing complete"
 	    end
 		
 	end
 
-	def get_fb_posts(fb_page_id, start_date, end_date)
+	def get_fb_posts(scrape_page, start_date, end_date)
 
 		logger.debug "============ Running get_fb_posts ==============="
 
 		query_limit  = 500
-		posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
+		posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{scrape_page.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
 		logger.debug "posts_fql_query => #{posts_fql_query}"
 
 		fb_posts = fb_graph.fql_query(posts_fql_query)
@@ -369,7 +388,7 @@ class ScrapePage < ActiveRecord::Base
 		    logger.debug "----- Before Save ----------"
 		    logger.debug "fb_posts.inspect => #{fb_posts.inspect}"
 
-		    save_fb_posts fb_page_id, fb_posts
+		    save_fb_posts scrape_page, fb_posts
 
 		    logger.debug "@last_result_created_time => #{@last_result_created_time}"
 		    logger.debug "start_date => #{start_date}"
@@ -378,7 +397,7 @@ class ScrapePage < ActiveRecord::Base
 		    if @last_result_created_time > start_date
 		        logger.debug "@last_result_created_time < start_date => true"
 		        logger.debug "@last_result_created_time => #{@last_result_created_time} vs start_date => #{start_date}"
-		        get_fb_posts fb_page_id, start_date, @last_result_created_time
+		        get_fb_posts scrape_page, start_date, @last_result_created_time
 		    end
 
 		elsif fb_posts.empty?
@@ -387,7 +406,7 @@ class ScrapePage < ActiveRecord::Base
 
 	end
 
-	def save_fb_posts(fb_page_id, fb_posts)
+	def save_fb_posts(scrape_page, fb_posts)
 		logger.debug "_________________ save_fb_posts ____________________"
 		logger.debug "fb_posts.nil? => #{fb_posts.nil?}"
 
@@ -397,8 +416,8 @@ class ScrapePage < ActiveRecord::Base
 		    this_post[:fb_post_id] 	    = fb_post["post_id"]
 		    this_post[:created_time] 	= Time.at(fb_post["created_time"]).utc
 		    this_post[:message] 		= fb_post["message"]
-		    this_post[:fb_page_id] 		= fb_page_id
-		    this_post[:scrape_page_id]  = self.id
+		    this_post[:fb_page_id] 		= scrape_page.fb_page_id
+		    this_post[:scrape_page_id]  = scrape_page.id
 		    
 		    current_post = FbPost.new(this_post)
 
@@ -414,6 +433,8 @@ class ScrapePage < ActiveRecord::Base
 
 		    if current_post.save
 		        logger.debug "!!!!!!!!!!!!!!!!!! Record Saved !!!!!!!!!!!!!!!!!!"
+		    else
+		    	logger.debug "--------------- Record NOT Saved | possible duplicate -----------------"
 		    end
 		end
 
