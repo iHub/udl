@@ -1,14 +1,28 @@
 class ScrapeSession < ActiveRecord::Base
 
-	#associations
+	# associations
 	belongs_to :user
 	has_many :scrape_pages, dependent: :destroy
+
+	# data from outside
 	has_many :fb_posts, 	:through => :scrape_pages
 	has_many :fb_comments, 	:through => :fb_posts
 
 	has_many :questions, 	dependent: :destroy
 	has_many :annotators, 	dependent: :destroy
 	has_many :annotations, 	dependent: :destroy
+
+	# log associations
+	has_many :question_logs,	dependent: :destroy
+	has_many :answer_logs, 		dependent: :destroy
+
+	has_many :new_page_logs, 	 dependent: :destroy
+	has_many :deleted_page_logs, dependent: :destroy
+
+	has_many :init_scrape_logs, 	dependent: :destroy
+	has_many :regular_scrape_logs,  dependent: :destroy
+
+	###############################################
 
 	default_scope -> { order('created_at DESC') }
 	# validates :user_id, presence: true

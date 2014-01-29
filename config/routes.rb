@@ -1,17 +1,17 @@
 ULog::Application.routes.draw do
 
-  get "answer_logs/index"
-  get "answer_logs/show"
-  get "question_logs/index"
-  get "question_logs/show"
-  get "deleted_page_logs/index"
-  get "deleted_page_logs/show"
-  get "new_page_logs/index"
-  get "new_page_logs/show"
-  get "init_scrape_logs/index"
-  get "init_scrape_logs/show"
-  get "regular_scrape_logs/index"
-  get "regular_scrape_logs/show"
+  # get "answer_logs/index"
+  # get "answer_logs/show"
+  # get "question_logs/index"
+  # get "question_logs/show"
+  # get "deleted_page_logs/index"
+  # get "deleted_page_logs/show"
+  # get "new_page_logs/index"
+  # get "new_page_logs/show"
+  # get "init_scrape_logs/index"
+  # get "init_scrape_logs/show"
+  # get "regular_scrape_logs/index"
+  # get "regular_scrape_logs/show"
   get "fb_comments/index"
   get "fb_comments/show"
   match "fb_comments/search", to: 'fb_comments#search', via: 'post'
@@ -40,7 +40,6 @@ ULog::Application.routes.draw do
   
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-
   resources :app_settings
   
   resources :scrape_sessions do
@@ -52,6 +51,16 @@ ULog::Application.routes.draw do
     resources :questions do
       resources :answers
     end
+
+    # Session logs
+    resources :answer_logs,       only: [:index, :show, :search]
+    resources :question_logs,     only: [:index, :show, :search]
+
+    resources :init_scrape_logs,    only: [:index, :show, :search]
+    resources :regular_scrape_logs, only: [:index, :show, :search]
+
+    resources :deleted_page_logs, only: [:index, :show, :search]
+    resources :new_page_logs,     only: [:index, :show, :search]
     
   end    
   
