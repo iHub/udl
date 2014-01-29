@@ -191,6 +191,7 @@ h3.panel-title{
 .description-search{
   width: 15em;  
 }
+
 .page-header{
 
   h2{
@@ -221,6 +222,15 @@ h3.panel-title{
       background-color: $navHoverRed;
     }
 
+}
+.post-content{
+
+  span{
+    color: $headerGreen;
+    padding-left: 10px;
+    font-style: italic;
+    font-weight: bold;
+  }
 }
 
 .navbar-brand {

@@ -6,11 +6,26 @@
     <ul class="nav nav-pills pull-right">
         <li><%= render 'shared/nav/back_to_session'  %></li>
         <li><%= render 'shared/nav/back_to_scrape_page'  %></li>
+        <li><%= render 'shared/nav/back_to_posts'  %></li>
     </ul>
     <div class="clearfix"></div>
 </div>
 
+
+
+<div class="container">
 <% if @fb_comments.empty? %>
+    <div class="post-content">
+        <h4>Source: <strong><%= @scrape_page.page_url %></strong></h4>
+        <h5>Created <%= @fb_post.created_time.strftime("%I:%M %p, %b %e %Y") %> Ago<span><%= pluralize(@fb_comments.count, "Comment")  %></span></h5>
+        <div class="whitespace"></div>
+        <div class="well well-sm">
+            <p><%= @fb_post.message %></p>
+        </div>
+    </div>
+
+    <hr />
+
     <div class="well well-sm">
         <p>This post doesn't have any comments.</p>
     </div>
@@ -40,6 +55,7 @@
         <%= will_paginate @fb_comments %>
     </div>
 <% end %>
+</div>
 
 <% content_for :debug_dump do %>
  <p>is empty <%= @fb_comments.empty? %></p>
