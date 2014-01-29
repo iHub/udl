@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129095834) do
+ActiveRecord::Schema.define(version: 20140129120136) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 20140129095834) do
     t.datetime "next_scrape_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "scrape_page_url"
   end
 
   add_index "regular_scrape_logs", ["scrape_page_id"], name: "index_regular_scrape_logs_on_scrape_page_id"
