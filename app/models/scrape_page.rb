@@ -25,11 +25,6 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	def total_comments
-		# total_comments = 0
-		# self.fb_posts.find_each do |fb_post|
-		# 	total_comments += fb_post.fb_comments.count
-		# end
-		# total_comments
 		self.fb_comments.count
 	end
 
@@ -61,7 +56,7 @@ class ScrapePage < ActiveRecord::Base
 			logger.debug "No pages with continous scraping set up"
 		end
 	end
-	handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
+	# handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
 
 	def get_new_fb_posts(scrape_page)		
 		logger.debug "SCRAPER : get_fb_posts >>>"
@@ -247,7 +242,6 @@ class ScrapePage < ActiveRecord::Base
 		elsif fb_posts.empty?
 		    logger.debug "###################### fb_posts is Empty!"
 		end
-
 	end
 
 	def save_fb_posts(scrape_page, fb_posts)

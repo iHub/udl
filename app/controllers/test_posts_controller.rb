@@ -4,21 +4,6 @@ class TestPostsController < ApplicationController
 
   def index
 
-    FbPost.destroy_all()
-
-    page_id      = 40941045532
-    start_date   = 2.week.ago.to_time.utc.to_i         # convert date to unix epoch time
-    end_date     = (1.week.ago).to_time.utc.to_i
-   
-    @last_result_created_time = end_date
-    
-    logger.debug ">>>>>>>>>>>First run of get_fb_posts <<<<<<<<<<<<"
-    get_fb_posts page_id, start_date, end_date
-
-  end
-
-  def show
-      FbPost.destroy_all()
   end
 
   def get_fb_posts(fb_page_id, start_date, end_date)
@@ -89,7 +74,7 @@ class TestPostsController < ApplicationController
 
   def test
     
-    fb_post = FbPost.find(5992)
+    fb_post = FbPost.last
 
     @test_feed = fb_graph.get_object(fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time)")
 
@@ -149,20 +134,7 @@ class TestPostsController < ApplicationController
 
 
   def comments_fql
-    # scrape_page_id = 92
 
-    # @comment_list = []
-
-    # logger.debug "Pre:: all fb_posts query"
-    # fb_posts = FbPost.where(scrape_page_id: scrape_page_id)
-    
-    # logger.debug "------------------ Query complete ------------------"
-
-    # @init_comment_count = 0
-
-    # fb_posts.each do |fb_post|
-    #   logger.debug "single fb post"
-    # end
 
     @comment_list = []
     @init_comment_count = 0
@@ -303,12 +275,6 @@ class TestPostsController < ApplicationController
         end
     end
     
-
-    # @fb_posts.each do |fb_post|
-    #     @fb_comments = fb_graph.get_object(fb_post, "feed")
-    # end
-    # fb_comments = fb_graph.get_object(page_url, "feed", :fields => "comments")
-      
   end
 
   private
@@ -320,64 +286,5 @@ class TestPostsController < ApplicationController
     def fb_app_access_token
       fb_app_access_token ||= AppSetting.last.fb_app_access_token
     end
-
-
-  #   @page_feed = graph.get_connections("ktnkenya", "feed")
-
-  #   end_scrape_date = 10.hour.ago
-  #   @comment_list = []
-  #   @init_scrape_post_count = 1    
-  #   @posts = []
-
-  #   @page_feed.each do |post_object|
-  #     @posts << post_object
-  #     if !post_object["comments"].nil?
-  #       post_object["comments"]["data"].each do |comment|
-               
-          
-  #         comment_created_at = comment["created_time"].to_datetime
-
-  #         # if scrape_frequency.nil? 
-  #         #   end_scrape_date = 10.minutes.ago  # hard code limit for scrape page end date
-  #         # else
-  #         #   end_scrape_date = scrape_frequency.minutes.ago
-  #         # end
-
-  #         logger.debug "comment_created_at #{comment_created_at.strftime("%I:%M %p, %b %e %Y")}"
-  #         # logger.debug "end_scrape_date #{end_scrape_date.strftime("%I:%M %p, %b %e %Y")}"
-  #         # logger.debug "date compare: (comment_created_at > end_scrape_date) => #{(comment_created_at > end_scrape_date)}"
-  #         # logger.debug "@scrape_page.id => #{@scrape_page.id}"
-
-  #         if (comment_created_at > end_scrape_date)
-  #           # logger.debug "in the block if(comment_created_at < end_scrape_date)"
-  #           this_comment = {}
-  #           this_comment[:comment_id]      = comment["id"] 
-  #           this_comment[:from_user_id]  = comment["from"]["id"]
-  #           this_comment[:from_user_name]    = comment["from"]["name"]
-  #           this_comment[:message]  = comment["message"]
-  #           this_comment[:created_time]  = comment_created_at
-  #           this_comment[:scrape_page_id]  = @init_scrape_post_count
-
-  #           # @get_next_page = true
-
-  #           # @facebook_post = @scrape_page.facebook_posts.build(this_comment)
-  #           @comment_list << this_comment
-  #           @init_scrape_post_count +=1  
-
-  #           # if @facebook_post.save
-  #           #   @init_scrape_post_count +=1
-  #           #   logger.debug "SAVED. @init_scrape_post_count = #{@init_scrape_post_count}"
-  #           # end
-
-  #         else 
-  #           logger.debug "comment falls outside range"
-  #           @get_next_page = false
-  #         end
-  #       end # post_object each
-  #     elsif post_object["comments"].nil?
-  #       logger.debug "I'm nil bitch!"
-  #     end # if not nil
-  #   end 
-  # end
 
 end
