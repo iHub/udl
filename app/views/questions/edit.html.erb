@@ -8,13 +8,14 @@
 
 	<div class="panel-body">
 		
-		<%= form_for(@question) do |f|%>
+		<%= form_for [@scrape_session, @question] do |f|%>
+			
 			<%= render 'shared/error_messages', object: f.object %>
 
 			<div class="form-group">
-				<%= f.label		:name %>
-				<%= f.text_field 	:name, class: "form-control", 
-											placeholder: "Question Name", 
+				<%= f.label		:question %>
+				<%= f.text_field 	:question, class: "form-control", 
+											placeholder: "The Question", 
 											required: "text" %>
 			</div>
 

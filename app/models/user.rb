@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
 	end
 
 	def username
-		"#{self.firstname} #{self.lastname}"
+		"#{self.firstname.capitalize} #{self.lastname.capitalize}"
 	end
 	#app specific
 	def isadmin?
