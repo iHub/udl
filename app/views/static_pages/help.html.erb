@@ -4,17 +4,101 @@
 	<h2>Help</h2>
 </div>
 
-<p class="lead">I am Cain. I will help you.</p>
+<div class="help-content">
+  
+  <div class="help-section">
+    <h3>CSV Import</h3>
 
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">CSV Import</h3>
-  </div>
-  <div class="panel-body">
     <ol>
-		<li>Ensure that your file has only the required fields and in the correct order</li>
-		<li>Export your file as a CSV with <strong>UTF-8 Encoding</strong></li>
-	</ol>
+  		<li>Ensure that your file has only the required fields and in the correct order</li>
+  		<li>Export your file as a CSV with <strong>UTF-8 Encoding</strong></li>
+  	</ol>
   </div>
+
+    <!-- logs intro -->
+  <div class="help-section">
+      <h3>LOGS</h3>
+
+      <p>Each log event belongs to a particular session and is associated directly</p>
+      <p>The following items are logged:</p>
+      <ul>
+        <li>Scrapes</li>
+        <li>Pages</li>
+        <li>Questions</li>
+        <li>Answers</li>
+      </ul>
+
+    <!-- scrape logs description  -->
+    <div class="help-section-sub">
+      <h4>Scrape Logs</h4>
+
+      <p>There are two different scraping events each with their respective logs</p>
+      <ol>
+        <li>
+          <h5>Initial Scrape Logs</h5>
+          <p>This creates a log of the results of the initial scrape.</p>
+          <p>Events Logged</p>
+          <ol>
+            <li></li>
+
+          </ol>
+        </li>
+        <li>
+          <h5>Regular Scrape Logs</h5>
+          <p>This creates a log of the regular scrapes.</p>
+          <p>Events Logged</p>
+          <ol>
+            <li></li>
+
+          </ol>
+        </li>
+      </ol>
+    </div>
+
+
+
+    <!-- question logs description -->
+    <div class="help-section-sub">
+      <h4>Question Logs</h4>
+      <p>Events Logged:</p>
+      <ol>
+        <li>Create a Question</li>
+        <li>Edit a Question</li>
+        <li>Delete a Question</li>
+      </ol>
+
+      <p>Question Log Details</p>
+      <ol>
+        <li>The Question id</li>
+        <li>The Question</li>
+        <li>Time</li>
+        <li>The User &amp; Username</li>
+        <li>The Event type</li>
+      </ol>
+    </div>
+
+
+    <!-- answer logs description  -->
+    <div class="help-section-sub">
+      <h4>Answer Logs</h4>
+      <p>Events Logged:</p>
+      <ol>
+        <li>Create an Answer</li>
+        <li>Edit an Answer</li>
+        <li>Delete an Answer</li>
+      </ol>
+
+      <p>Answer Log Details</p>
+      <ol>
+        <li>The Answer id</li>
+        <li>The Answer</li>
+        <li>The Question id</li>
+        <li>The Question</li>
+        <li>Time</li>
+        <li>The User &amp; Username</li>
+        <li>The Event type</li>
+      </ol>
+    </div>
+  </div>
+
 </div>

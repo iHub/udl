@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140127114453) do
+ActiveRecord::Schema.define(version: 20140129095834) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -50,9 +50,12 @@ ActiveRecord::Schema.define(version: 20140127114453) do
     t.string   "event_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "question_id"
+    t.string   "question"
   end
 
   add_index "answer_logs", ["answer_id"], name: "index_answer_logs_on_answer_id"
+  add_index "answer_logs", ["question_id"], name: "index_answer_logs_on_question_id"
   add_index "answer_logs", ["scrape_session_id"], name: "index_answer_logs_on_scrape_session_id"
   add_index "answer_logs", ["user_id"], name: "index_answer_logs_on_user_id"
 

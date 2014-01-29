@@ -9,6 +9,7 @@ $well_aux_tex: #546F92;
 $headerGreen: #f7941e; /*#92AF7B;*/
 $well_question: #555; 
 $navHoverRed: rgb(158, 34, 34);
+$helpPageHeader: #68828F;
 
 /*mixin*/
 @mixin box_sizing {
@@ -357,3 +358,26 @@ div.pagination > ul {
     border-top-right-radius: 3px;
 }
 
+/*----------------------------------------------------*/
+.help-content{
+
+  .help-section{
+    padding:15px 0 25px;
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 20px;
+
+    .help-section-sub{
+      margin: 20px 0;
+    }
+  }
+
+  h3, h4{
+    border-bottom : 1px solid #EEEEEE;
+    padding       : 10px 0;
+    margin-bottom : 15px;
+    color: $helpPageHeader;
+  }
+  h5{
+    font-weight: bold;
+  }
+}

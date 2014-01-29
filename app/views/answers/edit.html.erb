@@ -1,2 +1,13 @@
-<h1>Answers#edit</h1>
-<p>Find me in app/views/answers/edit.html.erb</p>
+<% provide(:page_title, "Edit Answer") %>
+
+<div class="page-header">
+    <h2>Edit Answer</h2>
+</div>
+
+<div class="col-md-8 panel panel-default signup">
+
+    <div class="panel-body">
+        
+        <%= render 'shared/answer_form' %>
+    </div>
+</div>

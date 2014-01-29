@@ -19,9 +19,11 @@ class AnswersController < ApplicationController
   end
 
   def create
+    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
   	@answer = @question.answers.build(answer_params)
   	if @answer.save
+      log_answer_event @question, @answer, "create"
   		flash[:success] = "Answer created!" 
       redirect_to scrape_session_question_answers_path
   	else
@@ -29,11 +31,15 @@ class AnswersController < ApplicationController
   	end
   end
 
-  def update    
-    @question = Question.find(params[:question_id])
+  def update
+    @scrape_session = ScrapeSession.find(params[:scrape_session_id])    
+    @question       = @scrape_session.questions.find(params[:question_id])
+    @answer         = @question.answers.find(params[:id])
+
     if @answer.update_attributes(answer_params)
+      log_answer_event @question, @answer, "edit"
       flash[:success] = "Your Question has been updated."
-      redirect_to scrape_session_questions_answers_path
+      redirect_to scrape_session_question_answer_path(@scrape_session, @question, @answer)
     else
       render edit_scrape_session_question_answer_path(@answer)
     end
@@ -46,8 +52,10 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:question_id])
-  	answer = @question.answers.find(params[:id]).destroy 
+    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    question = Question.find(params[:question_id])
+  	answer = question.answers.find(params[:id]).destroy
+    log_answer_event question, answer, "delete"
     flash[:success] = "Answer Deleted!"
     redirect_to scrape_session_question_answers_path
   end
@@ -56,6 +64,25 @@ class AnswersController < ApplicationController
 
     def answer_params
       params.require(:answer).permit(:answer, :description)
+    end
+
+    def log_answer_event(question, answer, event)
+      event_params = {}
+      event_params[:answer_id]   = answer.id
+      event_params[:answer]      = answer.answer
+      event_params[:question_id] = question.id
+      event_params[:question]    = question.question
+      event_params[:event_time]  = Time.now
+      event_params[:user_id]     = current_user.id
+      event_params[:username]    = current_user.username
+      event_params[:event_type]  = event
+
+      log_event = @scrape_session.answer_logs.build(event_params)
+
+      if log_event.save
+        logger.debug "Answer Log : #{event}"
+      end 
+
     end
 
 end
