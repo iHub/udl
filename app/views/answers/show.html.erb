@@ -11,6 +11,7 @@
 				<span class='glyphicon glyphicon-circle-arrow-left'></span>&nbsp;Back to Answers
 			<% end %>
 		</li>
+		<li><%= link_to "Edit Answer", edit_scrape_session_question_answer_path(@scrape_session, @question, @answer) %></li>
 		<li><%= link_to("Delete Answer", scrape_session_question_answer_path(@scrape_session, @question, @answer), :method => :delete, :data => {:confirm => "Are you sure?"}) %>
 		</li>
 	</ul>
