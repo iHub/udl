@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129140503) do
+ActiveRecord::Schema.define(version: 20140130130759) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -180,12 +180,10 @@ ActiveRecord::Schema.define(version: 20140129140503) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "scrape_session_id"
-    t.datetime "initial_scrape_start"
-    t.datetime "initial_scrape_end"
     t.datetime "next_scrape_date"
     t.boolean  "continous_scrape"
-    t.string   "initial_scrape_state"
     t.string   "fb_page_id"
+    t.boolean  "override_session_settings"
   end
 
   add_index "scrape_pages", ["fb_page_id"], name: "index_scrape_pages_on_fb_page_id"

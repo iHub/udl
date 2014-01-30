@@ -12,35 +12,11 @@
 
 	<div class="whitespace"></div>
 
-
-	<div class="form-group">
-		<h4>Perform an Initial Scrape?</h4>
-		<p>If you would like to get old posts from this page, select the date upto which the initial scrape should be performed. All Comments from the Start date to the End date you specify will be added to the session.</p>
-		<p>As this process could take a while depending on the interval between the start and end, it will be carried out in the background.</p>
-	</div>
-
-	<div class="whitespace"></div>
-
-	<div class="form-group">
-		<div class="pull-left">
-			<%= f.label	:initial_scrape_start %>
-
-			<%= f.text_field :initial_scrape_start, class: "form-control date-field",
-											   placeholder: "Start Date" %>
-		</div>
-		<div class="form-date-divider pull-left"><h4>to</h4></div>
-		<div class="pull-left">
-			<%= f.label	:initial_scrape_end %>
-
-			<%= f.text_field :initial_scrape_end, class: "form-control date-field", 
-											   placeholder: "End Date" %>
-		</div>
-
-		<div class="clearfix"></div>
-	</div>
-
 	<div class="form-divider"></div>
-
+	<h3>Page Settings</h3>		
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
+	
 	<div class="form-group">
 		<h4>Continous Collection:</h4>
 		<p>Would you like to Perform Continous collection on this page?</p>
