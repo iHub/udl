@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129120136) do
+ActiveRecord::Schema.define(version: 20140129140503) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -96,22 +96,6 @@ ActiveRecord::Schema.define(version: 20140129120136) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
-  create_table "deleted_page_logs", force: true do |t|
-    t.integer  "scrape_page_id"
-    t.integer  "scrape_session_id"
-    t.string   "scrape_page_url"
-    t.datetime "event_time"
-    t.integer  "user_id"
-    t.string   "username"
-    t.string   "event_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "deleted_page_logs", ["scrape_page_id"], name: "index_deleted_page_logs_on_scrape_page_id"
-  add_index "deleted_page_logs", ["scrape_session_id"], name: "index_deleted_page_logs_on_scrape_session_id"
-  add_index "deleted_page_logs", ["user_id"], name: "index_deleted_page_logs_on_user_id"
-
   create_table "fb_comments", force: true do |t|
     t.integer  "fb_post_id"
     t.string   "comment_id"
@@ -147,43 +131,6 @@ ActiveRecord::Schema.define(version: 20140129120136) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "init_scrape_logs", force: true do |t|
-    t.integer  "scrape_page_id"
-    t.integer  "scrape_session_id"
-    t.string   "scrape_page_url"
-    t.datetime "scrape_start_date"
-    t.datetime "scrape_end_date"
-    t.datetime "scrape_process_start"
-    t.datetime "scrape_process_end"
-    t.integer  "user_id"
-    t.string   "username"
-    t.integer  "init_comments"
-    t.integer  "init_posts"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "init_scrape_logs", ["scrape_page_id"], name: "index_init_scrape_logs_on_scrape_page_id"
-  add_index "init_scrape_logs", ["scrape_session_id"], name: "index_init_scrape_logs_on_scrape_session_id"
-  add_index "init_scrape_logs", ["user_id"], name: "index_init_scrape_logs_on_user_id"
-
-  create_table "new_page_logs", force: true do |t|
-    t.integer  "scrape_page_id"
-    t.integer  "scrape_session_id"
-    t.string   "scrape_page_url"
-    t.datetime "created_time"
-    t.integer  "user_id"
-    t.string   "username"
-    t.boolean  "init_scrape"
-    t.integer  "init_scrape_log_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "new_page_logs", ["scrape_page_id"], name: "index_new_page_logs_on_scrape_page_id"
-  add_index "new_page_logs", ["scrape_session_id"], name: "index_new_page_logs_on_scrape_session_id"
-  add_index "new_page_logs", ["user_id"], name: "index_new_page_logs_on_user_id"
 
   create_table "question_logs", force: true do |t|
     t.integer  "scrape_session_id"
