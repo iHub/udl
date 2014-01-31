@@ -11,12 +11,11 @@
 	</div>
 
 	<div class="whitespace"></div>
-
 	<div class="form-divider"></div>
 	<h3>Page Settings</h3>		
 	<div class="form-divider"></div>
 	<div class="whitespace"></div>
-	
+
 	<div class="form-group">
 		<h4>Continous Collection:</h4>
 		<p>Would you like to Perform Continous collection on this page?</p>
@@ -48,6 +47,33 @@
 		
 	</div>
 
+	<div class="whitespace"></div>
+	<div class="form-divider"></div>
+	<h4>Override Session Settings</h4>		
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<p>Use these settings for scrapes instead of the Session Settings</p>
+	</div>
+
+	<div class="form-group">
+		<div class="form-radio-group">
+		<%= f.radio_button :override_session_settings,  "true", class: "form-control form-radio"%>
+		<%= f.label	:override_session_settings, "True", :value => "true", class: "form-radio-label" %>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<div class="form-radio-group">
+		<%= f.radio_button :override_session_settings,  "false", class: "form-control form-radio" %>
+		<%= f.label	:override_session_settings, "False", :value => "false", class: "form-radio-label" %>
+		</div>
+		
+	</div>
+
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
 
 	<%= f.submit "Add Page", class: "btn btn-large btn-primary" %>
 <% end %>

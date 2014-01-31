@@ -26,8 +26,9 @@ class ScrapePagesController < ApplicationController
 		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
     	@scrape_page = @scrape_session.scrape_pages.build(scrape_page_params)
 
-    	@scrape_page.continous_scrape = params[:scrape_page][:continous_scrape]
-    	
+    	@scrape_page.continous_scrape 			= params[:scrape_page][:continous_scrape]
+    	@scrape_page.override_session_settings  = params[:scrape_page][:override_session_settings]
+
     	logger.debug "params[:scrape_page][:continous_scrape] => #{params[:scrape_page][:continous_scrape]}"
     	logger.debug "@scrape_page.continous_scrape => #{@scrape_page.continous_scrape}"
 
@@ -38,48 +39,50 @@ class ScrapePagesController < ApplicationController
 			redirect_to new_app_setting_path and return
 		end
 
-    	valid_init_scrape = @scrape_page.valid_init_scrape_date(@scrape_page.initial_scrape_start, @scrape_page.initial_scrape_end)
+    	# valid_init_scrape = @scrape_page.valid_init_scrape_date(@scrape_page.initial_scrape_start, @scrape_page.initial_scrape_end)
 
     	if valid_url == "valid"		# valid_page_url
 
     		logger.debug "valid page url"
     		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
     		@scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
-    		logger.debug "------------------------------------------------"
-    		logger.debug "@scrape_page.next_scrape_date => #{@scrape_page.next_scrape_date}"
+
+    		# logger.debug "------------------------------------------------"
+    		# logger.debug "@scrape_page.next_scrape_date => #{@scrape_page.next_scrape_date}"
 
 
-    		if valid_init_scrape == "true" || valid_init_scrape == "false"
-	    		logger.debug "is valid_page_url && is valid_init_scrape"
+			if @scrape_page.save 		# has been saved?
+				logger.debug "page saved;"
 
-				if @scrape_page.save 		# has been saved?
-					logger.debug "page saved;"
+				success_message = "Your page has been added to the Session!"
+				# if valid_init_scrape == "true"  # should i scrape?
+					
+				# 	logger.debug "initial scrape is valid"
+				# 	logger.debug "page saved; befor delay"
+				# 	# delayed_job stuff
+				# 	@scrape_page.init_scrape_start
+				# 	# ScrapePage.delay().init_scrape_start(params[:id])
 
-					success_message = "Your page has been added to the Session!"
-					if valid_init_scrape == "true"  # should i scrape?
-						
-						logger.debug "initial scrape is valid"
-						logger.debug "page saved; befor delay"
-						# delayed_job stuff
-						@scrape_page.init_scrape_start
-						# ScrapePage.delay().init_scrape_start(params[:id])
+				# 	# @scrape_page.delay(queue: "initscrape").init_scrape_start
+				# 	success_message += " Comments are being collected... "
+				# 	logger.debug "page saved; after delay"
+				# end
 
-						# @scrape_page.delay(queue: "initscrape").init_scrape_start
-						success_message += " Comments are being collected... "
-						logger.debug "page saved; after delay"
-					end
+				flash[:success] = success_message
+				redirect_to scrape_session_scrape_pages_path
 
-					flash[:success] = success_message
-					redirect_to scrape_session_scrape_pages_path
-
-				else  # i didnt save, render form and try again
-					flash[:danger] = @scrape_page.errors.inspect
-					render 'new'
-				end
-			else 		# the dates are invalid, try again
-				flash[:danger] = valid_init_scrape
+			else  # i didnt save, render form and try again
+				flash[:danger] = @scrape_page.errors.inspect
 				render 'new'
 			end
+				
+   #  		if valid_init_scrape == "true" || valid_init_scrape == "false"
+	  #   		logger.debug "is valid_page_url && is valid_init_scrape"
+
+			# else 		# the dates are invalid, try again
+			# 	flash[:danger] = valid_init_scrape
+			# 	render 'new'
+			# end
 
     	elsif valid_url == "duplicate"		# invalid page because of duplication
     		logger.debug "duplicate page"
