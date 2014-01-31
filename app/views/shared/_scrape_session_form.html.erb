@@ -51,28 +51,6 @@
 		<%= f.select( :scrape_frequency_select,  options_for_select(@scrape_frequencies, selected: 1)) %>
 	</div>
 
-	<div class="form-divider"></div>
-	<div class="whitespace"></div>
-
-	<div class="form-group">
-		<p>Use these settings Globally instead of individual page settings </p>
-	</div>
-
-	<div class="form-group">
-		<div class="form-radio-group">
-		<%= f.radio_button :use_global_settings,  "true", class: "form-control form-radio"%>
-		<%= f.label	:use_global_settings, "True", :value => "true", class: "form-radio-label" %>
-		</div>
-
-		<div class="clearfix"></div>
-
-		<div class="form-radio-group">
-		<%= f.radio_button :use_global_settings,  "false", class: "form-control form-radio" %>
-		<%= f.label	:use_global_settings, "False", :value => "false", class: "form-radio-label" %>
-		</div>
-		
-	</div>
-
 	<div class="whitespace"></div>
 	<div class="form-divider"></div>
 	<h4>Override Individual Page Settings</h4>		

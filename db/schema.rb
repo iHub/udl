@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140131035253) do
+ActiveRecord::Schema.define(version: 20140131103814) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -196,14 +196,12 @@ ActiveRecord::Schema.define(version: 20140131035253) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "allow_page_override"
-    t.boolean  "use_global_settings"
     t.integer  "scrape_frequency"
     t.boolean  "continous_scrape"
     t.datetime "next_scrape_date"
   end
 
   add_index "scrape_sessions", ["allow_page_override"], name: "index_scrape_sessions_on_allow_page_override"
-  add_index "scrape_sessions", ["use_global_settings"], name: "index_scrape_sessions_on_use_global_settings"
   add_index "scrape_sessions", ["user_id"], name: "index_scrape_sessions_on_user_id"
 
   create_table "users", force: true do |t|

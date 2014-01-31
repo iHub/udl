@@ -1,7 +1,7 @@
 class ScrapeSession < ActiveRecord::Base
 
 	attr_accessor :scrape_frequency_select
-	
+
 	# associations
 	belongs_to :user
 	has_many :scrape_pages, dependent: :destroy
@@ -33,7 +33,7 @@ class ScrapeSession < ActiveRecord::Base
 
 	def user_name
 		session_owner = User.find(self.user_id)
-		"#{session_owner.firstname} #{session_owner.lastname}"
+		"#{session_owner.firstname.capitalize} #{session_owner.lastname.capitalize}"
 	end
 
 	def total_pages

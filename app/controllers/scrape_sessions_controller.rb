@@ -29,7 +29,7 @@ class ScrapeSessionsController < ApplicationController
 
 		
     	scrape_session.allow_page_override  = params[:scrape_session][:allow_page_override]
-    	scrape_session.use_global_settings  = params[:scrape_session][:use_global_settings]
+    	# scrape_session.use_global_settings  = params[:scrape_session][:use_global_settings]
 
     	scrape_session.continous_scrape 	= params[:scrape_session][:continous_scrape]
     	
@@ -91,8 +91,8 @@ class ScrapeSessionsController < ApplicationController
 		def scrape_session_params
 			params.require(:scrape_session).permit(:name, 
 												   :description,
-												   :scrape_frequency_select,
-										      	   :override_session_settings,
+												   :allow_page_override,
+										      	   :scrape_frequency,
 										      	   :next_scrape_date,
 										      	   :continous_scrape )
 		end
