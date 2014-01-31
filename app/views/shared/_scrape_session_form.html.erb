@@ -14,5 +14,92 @@
 									placeholder: "Description" %>
 	</div>
 
+
+	<div class="whitespace"></div>
+	<div class="form-divider"></div>
+	<h3>Global Settings for Pages</h3>		
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<h4>Continous Collection:</h4>
+		<p>Would you like to Perform Continous collection on this session?</p>
+	</div>
+
+	<div class="form-group">
+		<div class="form-radio-group">
+		<%= f.radio_button :continous_scrape,  "true", class: "form-control form-radio"%>
+		<%= f.label	:continous_scrape, "True", :value => "true", class: "form-radio-label" %>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<div class="form-radio-group">
+		<%= f.radio_button :continous_scrape,  "false", class: "form-control form-radio" %>
+		<%= f.label	:continous_scrape, "False", :value => "false", class: "form-radio-label" %>
+		</div>
+		
+	</div>
+
+	<div class="clearfix"></div>
+
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<%= f.label	:scrape_frequency %>
+		
+		<%= f.select( :scrape_frequency_select,  options_for_select(@scrape_frequencies, selected: 1)) %>
+	</div>
+
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<p>Use these settings Globally instead of individual page settings </p>
+	</div>
+
+	<div class="form-group">
+		<div class="form-radio-group">
+		<%= f.radio_button :use_global_settings,  "true", class: "form-control form-radio"%>
+		<%= f.label	:use_global_settings, "True", :value => "true", class: "form-radio-label" %>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<div class="form-radio-group">
+		<%= f.radio_button :use_global_settings,  "false", class: "form-control form-radio" %>
+		<%= f.label	:use_global_settings, "False", :value => "false", class: "form-radio-label" %>
+		</div>
+		
+	</div>
+
+	<div class="whitespace"></div>
+	<div class="form-divider"></div>
+	<h4>Override Individual Page Settings</h4>		
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
+
+	<div class="form-group">
+		<p>Allow pages to override these settings?</p>
+	</div>
+
+	<div class="form-group">
+		<div class="form-radio-group">
+		<%= f.radio_button :allow_page_override,  "true", class: "form-control form-radio"%>
+		<%= f.label	:allow_page_override, "True", :value => "true", class: "form-radio-label" %>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<div class="form-radio-group">
+		<%= f.radio_button :allow_page_override,  "false", class: "form-control form-radio" %>
+		<%= f.label	:allow_page_override, "False", :value => "false", class: "form-radio-label" %>
+		</div>
+		
+	</div>
+
+	<div class="form-divider"></div>
+	<div class="whitespace"></div>
+
 	<%= f.submit "Create Session", class: "btn btn-large btn-primary" %>
 <% end %>

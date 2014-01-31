@@ -75,7 +75,7 @@ class ScrapePagesController < ApplicationController
 				flash[:danger] = @scrape_page.errors.inspect
 				render 'new'
 			end
-				
+
    #  		if valid_init_scrape == "true" || valid_init_scrape == "false"
 	  #   		logger.debug "is valid_page_url && is valid_init_scrape"
 
@@ -167,73 +167,73 @@ class ScrapePagesController < ApplicationController
 		end
 
 		# scrape page with given url
-		def	scrape_this_page(page_url, end_scrape_date)
+		# def	scrape_this_page(page_url, end_scrape_date)
 			
-			@get_next_page = false
-			@request_page_count = 0
+		# 	@get_next_page = false
+		# 	@request_page_count = 0
 
-			@page_feed = graph.get_connections(page_url, "feed")
+		# 	@page_feed = graph.get_connections(page_url, "feed")
 			
-			logger.debug "@get_next_page = #{@get_next_page}"
+		# 	logger.debug "@get_next_page = #{@get_next_page}"
 
-			get_facebook_posts @page_feed, end_scrape_date
+		# 	get_facebook_posts @page_feed, end_scrape_date
 
-			logger.debug "we are back in block scrape this page after first get_facebook_posts method run"
-			logger.debug "After first run: @get_next_page = #{@get_next_page}"
+		# 	logger.debug "we are back in block scrape this page after first get_facebook_posts method run"
+		# 	logger.debug "After first run: @get_next_page = #{@get_next_page}"
 
-			until @get_next_page == false
-				logger.debug  "@get_next_page block: and @get_next_page = #{@get_next_page}"
-				@request_page_count +=1
-				next_page_feed = @page_feed.next_page
-				get_facebook_posts next_page_feed, end_scrape_date
-			end
-		end
+		# 	until @get_next_page == false
+		# 		logger.debug  "@get_next_page block: and @get_next_page = #{@get_next_page}"
+		# 		@request_page_count +=1
+		# 		next_page_feed = @page_feed.next_page
+		# 		get_facebook_posts next_page_feed, end_scrape_date
+		# 	end
+		# end
 
-		def get_facebook_posts(current_page_feed, end_scrape_date)
-			logger.debug "running get_facebook_posts method"
-			current_page_feed.each do |message_object|
-				if !message_object["comments"].nil?
-					message_object["comments"]["data"].each do |comment|
-						# @init_scrape_post_count +=1 			
+		# def get_facebook_posts(current_page_feed, end_scrape_date)
+		# 	logger.debug "running get_facebook_posts method"
+		# 	current_page_feed.each do |message_object|
+		# 		if !message_object["comments"].nil?
+		# 			message_object["comments"]["data"].each do |comment|
+		# 				# @init_scrape_post_count +=1 			
 						
-						comment_created_at = comment["created_time"].to_datetime
+		# 				comment_created_at = comment["created_time"].to_datetime
 
-						end_scrape_date = 10.minutes.ago  # hard code limit for scrape page end date
+		# 				end_scrape_date = 10.minutes.ago  # hard code limit for scrape page end date
 
-						logger.debug "comment_created_at #{comment_created_at.strftime("%I:%M %p, %b %e %Y")}"
-						logger.debug "end_scrape_date #{end_scrape_date.strftime("%I:%M %p, %b %e %Y")}"
-						logger.debug "date compare: (comment_created_at > end_scrape_date) => #{(comment_created_at > end_scrape_date)}"
-						logger.debug "@scrape_page.id => #{@scrape_page.id}"
+		# 				logger.debug "comment_created_at #{comment_created_at.strftime("%I:%M %p, %b %e %Y")}"
+		# 				logger.debug "end_scrape_date #{end_scrape_date.strftime("%I:%M %p, %b %e %Y")}"
+		# 				logger.debug "date compare: (comment_created_at > end_scrape_date) => #{(comment_created_at > end_scrape_date)}"
+		# 				logger.debug "@scrape_page.id => #{@scrape_page.id}"
 
-						if (comment_created_at > end_scrape_date)
-							logger.debug "in the block if(comment_created_at < end_scrape_date)"
-							this_comment = {}
-							this_comment[:comment_id] 	 	 = comment["id"] 
-							this_comment[:from_user_id]  = comment["from"]["id"]
-							this_comment[:from_user_name] 	 = comment["from"]["name"]
-							this_comment[:message]  = comment["message"]
-							this_comment[:created_time]	 = comment_created_at
-							this_comment[:scrape_page_id]	 = @scrape_page.id
+		# 				if (comment_created_at > end_scrape_date)
+		# 					logger.debug "in the block if(comment_created_at < end_scrape_date)"
+		# 					this_comment = {}
+		# 					this_comment[:comment_id] 	 	 = comment["id"] 
+		# 					this_comment[:from_user_id]  = comment["from"]["id"]
+		# 					this_comment[:from_user_name] 	 = comment["from"]["name"]
+		# 					this_comment[:message]  = comment["message"]
+		# 					this_comment[:created_time]	 = comment_created_at
+		# 					this_comment[:scrape_page_id]	 = @scrape_page.id
 
-							@get_next_page = true
+		# 					@get_next_page = true
 
-							@facebook_post = @scrape_page.facebook_posts.build(this_comment)
+		# 					@facebook_post = @scrape_page.facebook_posts.build(this_comment)
 
-							if @facebook_post.save
-								@init_scrape_post_count +=1
-								logger.debug "SAVED. @init_scrape_post_count = #{@init_scrape_post_count}"
-							end
+		# 					if @facebook_post.save
+		# 						@init_scrape_post_count +=1
+		# 						logger.debug "SAVED. @init_scrape_post_count = #{@init_scrape_post_count}"
+		# 					end
 
-						else 
-							logger.debug "!(comment_created_at < end_scrape_date) so setting get_next_page to false"
-							@get_next_page = false
-						end
-					end # message_object each
-				end # if not nil
-			end # current page feed main block
-			logger.debug "@init_scrape_post_count: #{@init_scrape_post_count}"
-			logger.debug "@get_next_page : #{@get_next_page}"
-		end
+		# 				else 
+		# 					logger.debug "!(comment_created_at < end_scrape_date) so setting get_next_page to false"
+		# 					@get_next_page = false
+		# 				end
+		# 			end # message_object each
+		# 		end # if not nil
+		# 	end # current page feed main block
+		# 	logger.debug "@init_scrape_post_count: #{@init_scrape_post_count}"
+		# 	logger.debug "@get_next_page : #{@get_next_page}"
+		# end
 
 		def scrape_frequency_options
 			scrape_frequency_options    = []
@@ -254,8 +254,7 @@ class ScrapePagesController < ApplicationController
 	      params.require(:scrape_page).permit(:page_url, 
 									      	  # :scrape_frequency,
 									      	  :scrape_frequency_select,
-									      	  :initial_scrape_start,
-									      	  :initial_scrape_end,
+									      	  :override_session_settings,
 									      	  :next_scrape_date,
 									      	  :continous_scrape )
 	    end

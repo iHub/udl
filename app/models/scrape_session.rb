@@ -1,5 +1,7 @@
 class ScrapeSession < ActiveRecord::Base
 
+	attr_accessor :scrape_frequency_select
+	
 	# associations
 	belongs_to :user
 	has_many :scrape_pages, dependent: :destroy
@@ -16,15 +18,16 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :question_logs,	dependent: :destroy
 	has_many :answer_logs, 		dependent: :destroy
 
-	has_many :new_page_logs, 	 dependent: :destroy
-	has_many :deleted_page_logs, dependent: :destroy
+	# has_many :new_page_logs, 	 dependent: :destroy
+	# has_many :deleted_page_logs, dependent: :destroy
 
-	has_many :init_scrape_logs, 	dependent: :destroy
+	# has_many :init_scrape_logs, 	dependent: :destroy
 	has_many :regular_scrape_logs,  dependent: :destroy
 
 	###############################################
 
 	default_scope -> { order('created_at DESC') }
+
 	# validates :user_id, presence: true
 	validates :name, 	presence: true
 
