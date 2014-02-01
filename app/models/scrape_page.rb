@@ -6,7 +6,8 @@ class ScrapePage < ActiveRecord::Base
 	belongs_to  :scrape_session	
 	has_many    :fb_posts, 		dependent: :destroy
 	has_many	:fb_comments, :through => :fb_posts
-
+	
+	default_scope -> { order('created_at DESC') }
 	scope 	:continous, -> { where(continous_scrape: true) }
 
 	validates :page_url, presence: true
@@ -34,7 +35,7 @@ class ScrapePage < ActiveRecord::Base
 	def epoch_time(standard_date_time)
 		standard_date_time.to_time.utc.to_i
 	end
-	
+
 	def valid_page_url(fb_url, scrape_session_id)
 		
 		scrape_session = ScrapeSession.find(scrape_session_id)

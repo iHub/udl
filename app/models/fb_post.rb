@@ -4,6 +4,8 @@ class FbPost < ActiveRecord::Base
     belongs_to :scrape_page
     has_many   :fb_comments, dependent: :destroy
 
+    default_scope -> { order('created_at DESC') }
+    
     # validates_uniqueness_of :fb_post_id, scope: :scrape_page_id
     before_save :post_unique_to_this_page
 
