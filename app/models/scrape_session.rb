@@ -27,8 +27,8 @@ class ScrapeSession < ActiveRecord::Base
 	###############################################
 
 	default_scope -> { order('created_at DESC') }
-	scope 	:continous, -> { where(continous_scrape: true) }	# active collection
-	scope 	:dormant,   -> { where(continous_scrape: false) }	# active collection
+	scope 	:continous, -> { where(session_continuous_scrape: true) }	# active collection
+	scope 	:dormant,   -> { where(session_continuous_scrape: false) }	# active collection
 	scope 	:absolute, 	-> { where(allow_page_override: false) }
 	scope 	:overriden, -> { where(allow_page_override: true) }
 
