@@ -97,8 +97,8 @@ class ScrapePagesController < ApplicationController
 
 
 	def update    
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
-		if @scrape_page.update_attributes(question_params)
+		@scrape_page = ScrapePage.find(params[:id])
+		if @scrape_page.update_attributes(scrape_page_params)
 			flash[:success] = "Your Page has been updated."
 			redirect_to scrape_session_scrape_pages_path
 		else

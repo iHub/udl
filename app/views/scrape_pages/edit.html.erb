@@ -1,0 +1,83 @@
+<% provide(:page_title, "Edit Page") %>
+
+<div class="page-header">
+	<h2>Edit this page</h2>
+</div>
+
+<div class="col-md-8 panel panel-default signup">
+
+	<div class="panel-body">
+		
+		<%= form_for [@scrape_session, @scrape_page] do |f|%>
+	
+			<div class="form-group">
+				<h4>www.facebook.com/<%= @scrape_page.page_url %></h4>
+			</div>
+
+			<div class="form-divider"></div>
+
+			<div class="whitespace"></div>
+
+			<div class="form-group">
+				<h4>Continous Collection:</h4>
+				<p>Would you like to Perform Continous collection on this page?</p>
+			</div>
+
+			<div class="form-group">
+				<div class="form-radio-group">
+				<%= f.radio_button :continous_scrape,  "true", class: "form-control form-radio"%>
+				<%= f.label	:continous_scrape, "True", :value => "true", class: "form-radio-label" %>
+				</div>
+
+				<div class="clearfix"></div>
+
+				<div class="form-radio-group">
+				<%= f.radio_button :continous_scrape,  "false", class: "form-control form-radio" %>
+				<%= f.label	:continous_scrape, "False", :value => "false", class: "form-radio-label" %>
+				</div>
+				
+			</div>
+
+			<div class="clearfix"></div>
+
+			<div class="whitespace"></div>
+
+			<div class="form-group">
+				<%= f.label	:scrape_frequency %>
+				
+				<%= f.select( :scrape_frequency_select,  options_for_select(@scrape_frequencies, selected: 1)) %>
+				
+			</div>
+
+			<div class="whitespace"></div>
+			<div class="form-divider"></div>
+			<h4>Override Session Settings</h4>		
+			<div class="form-divider"></div>
+			<div class="whitespace"></div>
+
+			<div class="form-group">
+				<p>Use these settings for scrapes instead of the Session Settings</p>
+			</div>
+
+			<div class="form-group">
+				<div class="form-radio-group">
+				<%= f.radio_button :override_session_settings,  "true", class: "form-control form-radio"%>
+				<%= f.label	:override_session_settings, "True", :value => "true", class: "form-radio-label" %>
+				</div>
+
+				<div class="clearfix"></div>
+
+				<div class="form-radio-group">
+				<%= f.radio_button :override_session_settings,  "false", class: "form-control form-radio" %>
+				<%= f.label	:override_session_settings, "False", :value => "false", class: "form-radio-label" %>
+				</div>
+				
+			</div>
+
+			<div class="form-divider"></div>
+			<div class="whitespace"></div>
+
+			<%= f.submit "Update", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

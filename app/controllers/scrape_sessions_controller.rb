@@ -48,6 +48,16 @@ class ScrapeSessionsController < ApplicationController
 		@scrape_session = ScrapeSession.find(params[:id])
 	end
 
+	def update
+		@scrape_session = ScrapeSession.find(params[:id])
+		if @scrape_session.update_attributes(scrape_session_params)
+			flash[:success] = "Your Session has been updated."
+			redirect_to scrape_session_path
+		else
+			render 'edit'
+		end
+	end
+
 	def destroy
 		# scrape_session = ScrapeSession.find(params[:id]).destroy
 
