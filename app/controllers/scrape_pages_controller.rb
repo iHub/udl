@@ -96,7 +96,8 @@ class ScrapePagesController < ApplicationController
 	end
 
 
-	def update    
+	def update
+		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
 		@scrape_page = ScrapePage.find(params[:id])
 		if @scrape_page.update_attributes(scrape_page_params)
 			flash[:success] = "Your Page has been updated."
@@ -122,8 +123,6 @@ class ScrapePagesController < ApplicationController
     	@search.build_condition
     	
 	end
-
-
 
 	def destroy
 		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
