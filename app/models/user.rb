@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
 	
 	# associations
-	has_many :scrape_sessions, dependent: :destroy
+	has_many :scrape_sessions, 		dependent: :destroy
+	has_many :scrape_sessions_logs, dependent: :destroy
 	
 	# validations---------------
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i

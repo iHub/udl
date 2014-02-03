@@ -17,9 +17,7 @@ class ScrapeSession < ActiveRecord::Base
 	# log associations
 	has_many :question_logs,	dependent: :destroy
 	has_many :answer_logs, 		dependent: :destroy
-
-	# has_many :new_page_logs, 	 dependent: :destroy
-	# has_many :deleted_page_logs, dependent: :destroy
+	has_many :scrape_page_logs, dependent: :destroy
 
 	# has_many :init_scrape_logs, 	dependent: :destroy
 	has_many :regular_scrape_logs,  dependent: :destroy

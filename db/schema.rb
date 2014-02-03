@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203034439) do
+ActiveRecord::Schema.define(version: 20140203064444) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -167,6 +167,29 @@ ActiveRecord::Schema.define(version: 20140203034439) do
   add_index "regular_scrape_logs", ["scrape_page_id"], name: "index_regular_scrape_logs_on_scrape_page_id"
   add_index "regular_scrape_logs", ["scrape_session_id"], name: "index_regular_scrape_logs_on_scrape_session_id"
 
+  create_table "scrape_page_logs", force: true do |t|
+    t.integer  "user_id"
+    t.string   "username"
+    t.integer  "scrape_page_id"
+    t.string   "page_url"
+    t.integer  "scrape_session_id"
+    t.string   "fb_page_id"
+    t.integer  "scrape_frequency"
+    t.datetime "event_time"
+    t.string   "event_type"
+    t.datetime "next_scrape_date"
+    t.boolean  "continous_scrape"
+    t.boolean  "override_session_settings"
+    t.integer  "fb_posts_count"
+    t.integer  "fb_comments_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scrape_page_logs", ["scrape_page_id"], name: "index_scrape_page_logs_on_scrape_page_id"
+  add_index "scrape_page_logs", ["scrape_session_id"], name: "index_scrape_page_logs_on_scrape_session_id"
+  add_index "scrape_page_logs", ["user_id"], name: "index_scrape_page_logs_on_user_id"
+
   create_table "scrape_pages", force: true do |t|
     t.string   "page_url"
     t.integer  "scrape_frequency"
@@ -182,6 +205,27 @@ ActiveRecord::Schema.define(version: 20140203034439) do
   add_index "scrape_pages", ["fb_page_id"], name: "index_scrape_pages_on_fb_page_id"
   add_index "scrape_pages", ["scrape_session_id"], name: "index_scrape_pages_on_scrape_session_id"
 
+  create_table "scrape_session_logs", force: true do |t|
+    t.integer  "user_id"
+    t.string   "username"
+    t.integer  "scrape_session_name"
+    t.integer  "scrape_session_id"
+    t.datetime "event_time"
+    t.string   "event_type"
+    t.integer  "session_scrape_frequency"
+    t.datetime "session_next_scrape_date"
+    t.boolean  "session_continuous_scrape"
+    t.boolean  "allow_page_override"
+    t.integer  "scrape_page_count"
+    t.integer  "fb_posts_count"
+    t.integer  "fb_comments_count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scrape_session_logs", ["scrape_session_id"], name: "index_scrape_session_logs_on_scrape_session_id"
+  add_index "scrape_session_logs", ["user_id"], name: "index_scrape_session_logs_on_user_id"
+
   create_table "scrape_sessions", force: true do |t|
     t.integer  "user_id"
     t.string   "name"
@@ -196,6 +240,23 @@ ActiveRecord::Schema.define(version: 20140203034439) do
 
   add_index "scrape_sessions", ["allow_page_override"], name: "index_scrape_sessions_on_allow_page_override"
   add_index "scrape_sessions", ["user_id"], name: "index_scrape_sessions_on_user_id"
+
+  create_table "user_logs", force: true do |t|
+    t.integer  "user_id"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "email"
+    t.string   "role"
+    t.datetime "event_time"
+    t.string   "event_type"
+    t.integer  "signin_count"
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_logs", ["user_id"], name: "index_user_logs_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "firstname"
