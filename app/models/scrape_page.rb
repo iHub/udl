@@ -6,9 +6,11 @@ class ScrapePage < ActiveRecord::Base
 	belongs_to  :scrape_session	
 	has_many    :fb_posts, 		dependent: :destroy
 	has_many	:fb_comments, :through => :fb_posts
-	
+
 	default_scope -> { order('created_at DESC') }
-	scope 	:continous, -> { where(continous_scrape: true) }
+	scope 	:continuous, 	-> { where(continous_scrape: true) }
+	scope 	:has_override,  -> { where(override_session_settings: true) }
+	scope 	:no_override,   -> { where(override_session_settings: false) }
 
 	validates :page_url, presence: true
 	validates :fb_page_id, presence: true
@@ -70,11 +72,22 @@ class ScrapePage < ActiveRecord::Base
 
 	########################################################	
 
+	def session_control_get_posts
+		@saved_posts_count      = 0
+		@saved_comments_count   = 0
+		get_new_fb_posts current_scrape_page
+
+		get_new_fb_comments current_scrape_page.id
+	end
+
+
+	########################################################
+
 
 	def collect_comments
 		logger.debug ">>>>>>>>>>>>>>>>> collect_comments running >>>>>>>>>>>>>>>>>"
 
-		scraping_pages = ScrapePage.continous
+		scraping_pages = ScrapePage.continuous
 		logger.debug "Number of pages that have continous collection: #{scraping_pages.count}"
 
 		if scraping_pages.count > 0
