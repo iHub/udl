@@ -40,9 +40,17 @@ ULog::Application.routes.draw do
   
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  resources :app_settings
+  resources :app_settings, only: [:new, :edit]
   
   resources :scrape_sessions do
+
+    member do
+      get :import
+    end
+
+    member do
+      post :upload
+    end
 
     resources :scrape_pages do
       resources :fb_posts, only: [:index, :show, :search]

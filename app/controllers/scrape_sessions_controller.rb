@@ -48,6 +48,27 @@ class ScrapeSessionsController < ApplicationController
 		@scrape_session = ScrapeSession.find(params[:id])
 	end
 
+	def import
+		@scrape_session = ScrapeSession.find(params[:id])
+	end
+
+	def upload
+
+		redirect_to scrape_session_path
+	end
+
+	# def csv_import
+	# 	imported_csv_data = SmarterCSV.process(path_to_file, {:key_mapping => {:csv_table_id => :id}})  	
+
+	# 	@csvstuff = CSVmodel.new(imported_csv_data)
+
+	# 	if @csvstuff.save
+	# 		flash[:success] = "CSV file imported and successfully saved"
+	# 	else
+	# 		flash[:error] = "Unable to import CSV file"
+	# 	end
+	# end
+
 	def update
 		@scrape_session = ScrapeSession.find(params[:id])
 		if @scrape_session.update_attributes(scrape_session_params)

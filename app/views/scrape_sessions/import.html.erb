@@ -1,0 +1,24 @@
+<% provide(:page_title, "CSV Import") %>
+
+<div class="page-header">
+	<h2>Import pages into your Session</h2>
+</div>
+
+<p class="lead">Kindly ensure that your CSV is created using the Guidelines. For more Info, please see the <%= link_to "Help",  help_path %> section</p>
+
+<div class="col-md-4 panel panel-default signup">
+	<div class="panel-body">
+		<%= form_tag upload_scrape_session_path, multipart: true do %>
+			<div class="form-group">
+			  <label>Select a File to Upload</label>
+			  <%= file_field_tag :file, class: "btn btn-large btn-primary btn-sm btn-block" %>
+			</div>
+
+			<div class="form-group">
+			<%= submit_tag "Import", class: "btn btn-large btn-primary btn-block" %>
+			</div>
+		<% end %>
+
+
+	</div>
+</div>
