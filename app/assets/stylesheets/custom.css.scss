@@ -100,8 +100,8 @@ header.navbar-inverse{
         list-style: none;
         position: relative;
 
-        li a, 
-        li .nav-collapse{
+        li > a, 
+        li > .nav-collapse{
           line-height: normal;
           background-color: #111 ;
           padding: 10px 10px 10px 11px;
@@ -112,7 +112,7 @@ header.navbar-inverse{
           position: relative;
           border: 0;
           text-align: left;
-          border-bottom: 1px solid #222;
+          border-bottom: 1px solid #252525;
 
           font:{
             size: 14px;
@@ -121,18 +121,31 @@ header.navbar-inverse{
 
           &:hover{
             color: #fff;
-            background-color: #222;
+            background-color: #000;
           }
+
           .glyphicon{
             margin: 0 15px 0 5px;
           }
-          
         }
 
+
+
         /*nested nav*/
-        ul li a{
+        ul > li > a{
             padding-left: 40px;
+            background-color: #222  ;
+            font-size: 13px;
           }
+          .active{
+            color: $headerGreen;
+
+          }
+          &:hover{
+            color: #fff;
+            background-color: #2a2a2a;
+          }
+
       }
     }
 }
@@ -217,21 +230,21 @@ footer .navbar-nav > li > a{
   background-color: #efefef;
 }
 
+/*---------------------------------------*/
+
+.alert-container{
+  padding-top: 20px;
+}
+
 .alert-notice {
-  
-  /*background-color: #FCF8E3;
-  border-color: #FAEBCC;
-  color: #8A6D3B;*/
   @extend .alert-warning;
 }
 
 .alert-error {
-  
-  /*background-color: #F2DEDE;
-  border-color: #EBCCD1;
-  color: #A94442;*/
   @extend .alert-danger;
 }
+
+/*---------------------------------------*/
 
 .username{
   margin: 10px 0 30px;

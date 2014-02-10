@@ -88,22 +88,21 @@
                       <span class="glyphicon glyphicon-book"></span>Pages
                     </button>
 
-                    <!-- <a href="#" data-toggle="collapse" data-target="#pages-collapse"><span class="glyphicon glyphicon-search"></span>Pages</a> -->
                     <ul id="pages-collapse" class="collapse">
-                      <li><a href="#">All Pages</a></li>
+                      <li><%= link_to "All Pages", scrape_session_scrape_pages_path(@scrape_session) %></li>
                       <li><a href="#">Add New</a></li>                
                     </ul>
                   </li>
 
                   <li>
-                    <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#questions-collapse">
+                    <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "questions" %>" data-toggle="collapse" data-target="#questions-collapse">
                       <span class="glyphicon glyphicon-search"></span>Questions
                     </button>
 
-                    <!-- <a href="#" data-toggle="collapse" data-target="#questions-collapse"><span class="glyphicon glyphicon-search"></span>Questions</a> -->
-                    <ul id="questions-collapse" class="collapse">
-                      <li><a href="#">All Questions</a></li>
-                      <li><a href="#">Add New</a></li>                
+                    <ul id="questions-collapse" class="<%=  yield(:app_page) == "questions" ? "in" : "collapse" %>">
+
+                      <li><%= link_to "All Questions", scrape_session_questions_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
+                      <li><%= link_to "Add New", new_scrape_session_question_path(), class: "#{"active" if yield(:app_sub) == "questions_new"}" %></li>            
                     </ul>
                   </li>
 
@@ -112,7 +111,6 @@
                       <span class="glyphicon glyphicon-flash"></span>Answers
                     </button>
 
-                    <!-- <a href="#" data-toggle="collapse" data-target="#answers-collapse"><span class="glyphicon glyphicon-search"></span>Answers</a> -->
                     <ul id="answers-collapse" class="collapse">
                       <li><a href="#">All Answers</a></li>
                       <li><a href="#">Add New</a></li>                
@@ -124,9 +122,8 @@
                       <span class="glyphicon glyphicon-list-alt"></span>Posts
                     </button>
 
-                    <!-- <a href="#" data-toggle="collapse" data-target="#posts-collapse"><span class="glyphicon glyphicon-search"></span>Posts</a> -->
                     <ul id="posts-collapse" class="collapse">
-                      <li><a href="#">All Posts</a></li>
+                      <li><%= link_to "Posts", {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id} %></li>
                       <li><a href="#">Add New</a></li>                
                     </ul>
                   </li>
@@ -136,9 +133,8 @@
                       <span class="glyphicon glyphicon-comment"></span>Comments
                     </button>
 
-                    <!-- <a href="#" data-toggle="collapse" data-target="#comments-collapse"><span class="glyphicon glyphicon-search"></span>Comments</a> -->
                     <ul id="comments-collapse" class="collapse">
-                      <li><a href="#">All Pages</a></li>
+                      <li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id} %></li>
                       <li><a href="#">Add New</a></li>                
                     </ul>
                   </li>
@@ -148,7 +144,6 @@
                       <span class="glyphicon glyphicon-stats"></span>Logs
                     </button>
 
-                    <!-- <a href="#" data-toggle="collapse" data-target="#comments-collapse"><span class="glyphicon glyphicon-search"></span>Comments</a> -->
                     <ul id="logs-collapse" class="collapse">
                       <li><a href="#">Scrape Logs</a></li>
                       <li><a href="#">Question Logs</a></li>
