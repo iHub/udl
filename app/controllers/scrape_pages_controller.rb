@@ -6,24 +6,24 @@ class ScrapePagesController < ApplicationController
 	
 
 	def index
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
     	@scrape_pages = @scrape_session.scrape_pages
     	@page_number = params[:page]
 	end
 
 	def edit
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
     	@scrape_page = @scrape_session.scrape_pages.find(params[:id])
 	end
 
 	def new
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
     	@scrape_page = @scrape_session.scrape_pages.build
 	end
 
 	def create
 		logger.debug "params[:scrape_session_id] => #{params[:scrape_session_id]}"
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
     	@scrape_page = @scrape_session.scrape_pages.build(scrape_page_params)
 
     	@scrape_page.continous_scrape 			= params[:scrape_page][:continous_scrape]
@@ -97,7 +97,7 @@ class ScrapePagesController < ApplicationController
 
 
 	def update
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
 		@scrape_page = ScrapePage.find(params[:id])
 		if @scrape_page.update_attributes(scrape_page_params)
 			flash[:success] = "Your Page has been updated."
@@ -108,7 +108,7 @@ class ScrapePagesController < ApplicationController
 	end
 
 	def show
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
 		
 		@scrape_page = @scrape_session.scrape_pages.find(params[:id])
 
@@ -125,7 +125,7 @@ class ScrapePagesController < ApplicationController
 	end
 
 	def destroy
-		@scrape_session = ScrapeSession.find(params[:scrape_session_id])
+		@scrape_session = get_scrape_session(params[:scrape_session_id])
 		scrape_page = @scrape_session.scrape_pages.find(params[:id]).destroy 
 		flash[:success] = "Page Deleted!"
 		redirect_to scrape_session_scrape_pages_path
