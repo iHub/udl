@@ -44,7 +44,7 @@ class FbPostsController < ApplicationController
 
     def create
         @scrape_page    =  ScrapePage.find(params[:scrape_page_id])
-        @facebook_post  =  @scrape_page.fb_posts.build(facebook_post_params)
+        @facebook_post  =  @scrape_page.fb_posts.build(fb_post_params)
 
         if @facebook_post.save
             flash[:success] = "Post Added!" 
@@ -57,7 +57,7 @@ class FbPostsController < ApplicationController
     private
 
     # strong params
-        def facebook_post_params
+        def fb_post_params
         params.require(:fb_post).permit(:created_time,
                                           :fb_page_id,
                                           :fb_post_id,
