@@ -45,55 +45,54 @@ h4, h5{
   font-weight: normal;  
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  width: 100%;
-  display:table;
-  margin-bottom: -$footerHeight; /* Negative indent footer by its height */
-  padding: 0 0 $footerHeight; 	/* Pad bottom by footer height */
+/*---------------------------------------*/
+
+body {
+    padding-top: 50px;
+    overflow: hidden;
 }
 
-/* Set the fixed height of the footer here */
-footer {
-  height: $footerHeight;
+header.navbar-inverse{
+  padding-right: 20px;
 }
 
-header.navbar{
-  margin-bottom: 0;
-  padding: 0 20px 0 0;
-}
-#wrap  > #mainframe{
-  /*padding: 0px 15px 0;*/
-  margin-bottom: 30px;
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  width: 100%;
-  display:table;
- 
-  .row > #left-panel{
-    padding: 0;
-    padding-top: 80px;
-    z-index: 500;
-    background-color: #111 ;
-    min-width: 162px;
+#wrapper {
     min-height: 100%;
-    height: auto !important;
     height: 100%;
-    
-    -webkit-transition: left .1s ease-out;
-    transition: left .1s ease-out;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    display: inline-block;
+}
+#main-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    padding: 50px 0 0px 0;
+}
+#main {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 15px;
+}
+#sidebar-wrapper {
+    height: 100%;
+    padding: 50px 0 0px 0;
+    position: fixed;
+    border-right: 1px solid gray;
+    background-color: #111;
+}
+
+#sidebar {
+    position: relative;
+    height: 100%;
+    overflow:hidden;
 
     nav{
-     /* float: left;
-      width: 100%;*/
+     
       
       ul{
-        /*width: 100%;*/
-        /*padding: 40px 28px 25px 0;*/
         padding: 0;
         margin: 0;
         font-size: 13px;
@@ -136,38 +135,43 @@ header.navbar{
           }
       }
     }
-
-  }
-
-  .row > #main {
-    min-height: 100%;
-    height: 100%;
-    padding-top: 80px;
-
-    .container{
-      background-color: #fff;
+}
+#sidebar .list-group-item {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+}
+@media (max-width: 992px) {
+    body {
+        padding-top: 0px;
     }
+}
+@media (min-width: 992px) {
+    #main-wrapper {
+        float:right;
+    }
+}
+@media (max-width: 992px) {
+    #main-wrapper {
+        padding-top: 0px;
+    }
+}
+@media (max-width: 992px) {
+    #sidebar-wrapper {
+        position: static;
+        height:auto;
+        max-height: 300px;
+      border-right:0;
   }
-
 }
-.row
-{
-    height: 100%;
-    display: table-row;
-    margin: 0;
-
-    /*&:before, 
-    &:after {
-        content: none;
-    }*/
+.footer {
+    background-color:#ffffff;
+    bottom:0;
+    position:fixed;
+    padding:10px;
 }
 
-.col-md-2, 
-.col-md-10
-{
-    /*display: table-cell;*/
-    /*float: none; */
-}
 
 /*---------------------------------------*/
 
