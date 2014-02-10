@@ -76,6 +76,7 @@
     
 
     <div id="wrapper">
+       <% if @scrape_session %>
       <div id="sidebar-wrapper" class="col-md-2">
           <div id="sidebar">
             <nav>
@@ -153,6 +154,7 @@
               </nav>
           </div>
       </div>
+      <% end %>
 
       <div id="main-wrapper" class="col-md-10 pull-right">
           <div id="main" role="main">

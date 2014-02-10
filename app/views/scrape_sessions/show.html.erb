@@ -6,10 +6,7 @@
 	<ul class="nav nav-pills pull-right">
 		
 		<li class="active"><a href="#">Annotate</a></li>
-		<li><%= link_to "Questions", scrape_session_questions_path(@scrape_session) %></li>
-		<li><%= link_to "Pages", scrape_session_scrape_pages_path(@scrape_session) %></li>
-		<li><%= link_to "Posts", {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id} %></li>
-		<li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id} %></li>
+		
 		<li><%= link_to "Edit", edit_scrape_session_path(@scrape_session) %></li>
 		<li><%= link_to("Delete", @scrape_session, :method => :delete, data: { confirm: "Are you sure? You cannot undo this action"}, class: "delete-link") %>
 		</li>
@@ -38,7 +35,7 @@
 		<h3>Pages Scraped</h3>
 	</div>
 
-	<%= render 'shared/scrape_page_list' %>
+	<%= render 'shared/scrape_page_list', object: @scrape_pages %>
 
 	<!-- add pagination -->
 
@@ -57,7 +54,7 @@
 		<h3>Questions for this Session</h3>
 	</div>
 
-	<%= render 'shared/question_list' %>
+	<%= render 'shared/question_list', object: @questions %>
 
 	<!-- add pagination -->
 
@@ -68,10 +65,5 @@
 <% end %>
 
 <% content_for :debug_dump do %>
-	<h4>Scrape Session Info</h4>
-	<p>scrape_session <%= @scrape_session.inspect %></p>
-	<p>@questions nil?<%= @questions.nil? %></p>
-	<p>@scrape_pages nil?<%= @scrape_pages.empty? %></p>
-	  	
-	<br />
+
 <% end %>

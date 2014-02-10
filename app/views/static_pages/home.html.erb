@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="username">
-		<%= link_to "Create New Session", 'scrape_sessions/new', class: "btn btn-large btn-primary pull-right" %>
+		<%= link_to "Create New Session", new_scrape_session_path, class: "btn btn-large btn-primary pull-right" %>
 	</div>
 	
 	<div class="clearfix"></div>
@@ -19,8 +19,9 @@
 		<div class="well well-sm">
 			<h4><%= pluralize current_user.scrape_sessions.count, "Session"  %></h4>
 		</div>
-		<%= render 'shared/scrape_session_list' %>
+		<%= render 'shared/scrape_session_list', object: current_user.scrape_sessions %>
 
+		<%= will_paginate @scrape_sessions %>
 
 	<% else %>
 		<div class="well well-sm">
@@ -28,17 +29,13 @@
 		</div>
 	<% end %>
 
-	<%= will_paginate @scrape_sessions %>
+	
 
 <% else #user is not signed in %>
 
 	<% provide(:pagetitle, '') %>
 	<div class="jumbotron">
 	  <h1>Umati Data Logger</h1>
-
-	  <h2>
-	    
-	  </h2>
 
 	  <%= link_to "Create Account", signup_path, class: "btn btn-large btn-primary" %>
 	</div>
