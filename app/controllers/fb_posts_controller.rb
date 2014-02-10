@@ -22,9 +22,13 @@ class FbPostsController < ApplicationController
         @search = FbPost.search(params[:q])
         @search.build_condition
         @page_number = params[:page]
-        
-        @scrape_session = get_scrape_session(params[:scrape_session_id])
+
         @scrape_page = ScrapePage.find(params[:scrape_page_id])
+
+        scrape_session_id =  params[:scrape_session_id] || @scrape_page.scrape_session_id
+
+        @scrape_session = get_scrape_session(scrape_session_id)
+        
         @fb_post = FbPost.find(params[:id])
         @fb_comments = @fb_post.fb_comments.paginate(:page => params[:page])
     end

@@ -144,14 +144,8 @@
                   </li>
 
                   <li>
-                    <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#comments-collapse">
-                      <span class="glyphicon glyphicon-comment"></span>Comments
-                    </button>
-
-                    <ul id="comments-collapse" class="collapse">
-                      <li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id} %></li>
-                      <li><a href="#">Add New</a></li>                
-                    </ul>
+                    <%= link_to "<span class='glyphicon glyphicon-comment'></span>Comments".html_safe, {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id}, 
+                      class: " #{"active" if yield(:app_page) == "fb_comments"}"  %>
                   </li>
 
                   <li>

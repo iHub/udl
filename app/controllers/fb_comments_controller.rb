@@ -8,7 +8,7 @@ class FbCommentsController < ApplicationController
     @page_number = params[:page]
 
     if !params[:scrape_session_id].nil?    # scrapge session id not in params
-        @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+        @scrape_session = get_scrape_session(params[:scrape_session_id])
         @fb_comments = @scrape_session.fb_comments.paginate(:page => params[:page])
         @fb_comments_scope = "session"
     end

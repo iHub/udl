@@ -1,14 +1,8 @@
 <% provide(:page_title, "Comments") %>
+<% provide(:app_page, "fb_comments" ) %>
 
 <div class="page-header">
     <h2 class="pull-left">Comments Collected</h2>
-
-    <ul class="nav nav-pills pull-right">
-        <li><%= render 'shared/nav/back_to_session'  %></li>
-        <% if @fb_comments_scope == "page" %>
-            <li><%= render 'shared/nav/back_to_scrape_page'  %></li>
-        <% end %>
-    </ul>
     <div class="clearfix"></div>
 </div>
 
@@ -53,5 +47,5 @@
 <% end %>
 
 <% content_for :debug_dump do %>
- <p>is empty <%= @fb_comments.empty? %></p>
+
 <% end %>
