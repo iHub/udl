@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       		redirect_back_or user
 		else
 			flash.now[:danger] = 'Invalid email/password' # fix this
-			logger.debug "Change this method"
+			logger.debug "Change this ..."
 			render 'new'
 		end
 	end

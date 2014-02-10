@@ -1,25 +1,25 @@
 class AnswersController < ApplicationController
 
   def index
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
     @answers = @question.answers
   end
 
   def edit
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
   	@answer = @question.answers.find(params[:id])
   end
 
   def new
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
   	@answer = @question.answers.build
   end
 
   def create
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
   	@answer = @question.answers.build(answer_params)
   	if @answer.save
@@ -32,7 +32,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])    
+    @scrape_session = get_scrape_session(params[:scrape_session_id])    
     @question       = @scrape_session.questions.find(params[:question_id])
     @answer         = @question.answers.find(params[:id])
 
@@ -46,13 +46,13 @@ class AnswersController < ApplicationController
   end
 
   def show
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
   	@answer = @question.answers.find(params[:id])
   end
 
   def destroy
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     question = Question.find(params[:question_id])
   	answer = question.answers.find(params[:id]).destroy
     log_answer_event question, answer, "delete"

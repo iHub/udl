@@ -7,7 +7,7 @@ class FbPostsController < ApplicationController
         @page_number = params[:page]
 
         if !params[:scrape_session_id].nil?
-            @scrape_session = ScrapeSession.find(params[:scrape_session_id])            
+            @scrape_session = get_scrape_session(params[:scrape_session_id])            
             @fb_posts = @scrape_session.fb_posts.paginate(:page => params[:page])
             @fb_posts_scope = "session"
         elsif !params[:scrape_page_id].nil?
@@ -23,7 +23,7 @@ class FbPostsController < ApplicationController
         @search.build_condition
         @page_number = params[:page]
         
-        @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+        @scrape_session = get_scrape_session(params[:scrape_session_id])
         @scrape_page = ScrapePage.find(params[:scrape_page_id])
         @fb_post = FbPost.find(params[:id])
         @fb_comments = @fb_post.fb_comments.paginate(:page => params[:page])

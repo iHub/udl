@@ -1,22 +1,22 @@
 class QuestionsController < ApplicationController
 
   def index
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @questions = @scrape_session.questions
   end
 
   def edit
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
   	@question = @scrape_session.questions.find(params[:id])
   end
 
   def new
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
   	@question = @scrape_session.questions.build
   end
 
   def create
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
   	@question = @scrape_session.questions.build(question_params)
   	if @question.save
       log_question_event @question, "create"
@@ -28,7 +28,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:id])
     if @question.update_attributes(question_params)
       log_question_event @question, "edit"
@@ -40,13 +40,13 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
   	@question = @scrape_session.questions.find(params[:id])
     @answers = @question.answers
   end
 
   def destroy
-    @scrape_session = ScrapeSession.find(params[:scrape_session_id])
+    @scrape_session = get_scrape_session(params[:scrape_session_id])
   	question = @scrape_session.questions.find(params[:id]).destroy 
     log_question_event question, "delete"
     flash[:success] = "Question Deleted!"

@@ -13,11 +13,11 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	def edit
-		@scrape_session = ScrapeSession.find(params[:id])
+		@scrape_session = get_scrape_session(params[:id])
 	end
 
 	def show
-		@scrape_session = ScrapeSession.find(params[:id])
+		@scrape_session = get_scrape_session(params[:id])
 		@created_by 	= User.find(@scrape_session[:user_id]).username
 		@questions 		= @scrape_session.questions
 		@scrape_pages   = @scrape_session.scrape_pages
