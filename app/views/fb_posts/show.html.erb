@@ -1,17 +1,11 @@
 <% provide(:page_title, "Comments") %>
+<% provide(:app_page, "fb_comments" ) %>
 
 <div class="page-header">
     <h2 class="pull-left">Comments Collected</h2>
 
-    <ul class="nav nav-pills pull-right">
-        <li><%= render 'shared/nav/back_to_session'  %></li>
-        <li><%= render 'shared/nav/back_to_scrape_page'  %></li>
-        <li><%= render 'shared/nav/back_to_posts'  %></li>
-    </ul>
     <div class="clearfix"></div>
 </div>
-
-
 
 <div class="container">
 <% if @fb_comments.empty? %>
