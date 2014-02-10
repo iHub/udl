@@ -84,13 +84,16 @@
                     <a href="#" ><span class="glyphicon glyphicon-off"></span>Dashboard</a>
                   </li>
                   <li>
-                    <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#pages-collapse">
+                    <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_pages" %>" data-toggle="collapse" data-target="#pages-collapse">
                       <span class="glyphicon glyphicon-book"></span>Pages
                     </button>
 
-                    <ul id="pages-collapse" class="collapse">
-                      <li><%= link_to "All Pages", scrape_session_scrape_pages_path(@scrape_session) %></li>
-                      <li><a href="#">Add New</a></li>                
+                    <ul id="pages-collapse" class="<%=  yield(:app_page) == "scrape_pages" ? "in" : "collapse" %>">
+                      <li><%= link_to "All Pages", scrape_session_scrape_pages_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_pages_index"}" %></li>
+                      <li>
+                        <%= link_to "Add New", new_scrape_session_scrape_page_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_pages_new"}"
+                         %>
+                      </li>                
                     </ul>
                   </li>
 
@@ -102,7 +105,7 @@
                     <ul id="questions-collapse" class="<%=  yield(:app_page) == "questions" ? "in" : "collapse" %>">
 
                       <li><%= link_to "All Questions", scrape_session_questions_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
-                      <li><%= link_to "Add New", new_scrape_session_question_path(), class: "#{"active" if yield(:app_sub) == "questions_new"}" %></li>            
+                      <li><%= link_to "Add New", new_scrape_session_question_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "questions_new"}" %></li>            
                     </ul>
                   </li>
 
