@@ -26,7 +26,9 @@ body {
 
 body{
   color: #6d6e70;
-  font-family: 'Muli', sans-serif;
+  font-family: 'Lato', sans-serif;
+  background-color: #f9f9f9;
+  /*background: url(noisy_grid.png);*/
 }
 
 header{
@@ -49,6 +51,7 @@ h4, h5{
   height: auto !important;
   height: 100%;
   margin: 0 auto; 
+
   margin-bottom: -$footerHeight; /* Negative indent footer by its height */
   padding: 0 0 $footerHeight; 	/* Pad bottom by footer height */
 }
@@ -58,25 +61,50 @@ footer {
   height: $footerHeight;
 }
 
+header .navbar{
+  margin-bottom: 0;
+}
+
 #wrap > #main {
   padding: 0px 15px 0;
   margin-top: 80px;
   display: block;
   margin-left: 220px;
+  margin-bottom: 30px;
   /*min-height: 500px;*/
   min-height: 100%;
+
+  .container{
+    background-color: #fff;
+  }
+
 }
 
 #left-panel{
-  width: 220px;
+  
   position: absolute;
   top: 50px;
   left: 0px;
-  z-index: 1000;
+  z-index: 500;
   background-color: #111 ;
-  min-height: 100%;
+  width: 220px;
+  overflow: auto;
+/*  min-height: 100%;*/
+  /*height: auto !important;*/
+  /*height: 100%;*/
+
+/*  margin-bottom: -9999px;
+  padding-bottom: 9999px;*/
   -webkit-transition: left .1s ease-out;
   transition: left .1s ease-out;
+
+  &:after
+  {
+    content: '';
+    display: block;
+    float: left;
+    height: 100%;
+  }
 
   nav{
     display: block;
@@ -237,6 +265,7 @@ h3.panel-title{
     background-color: #bbb;
   }
 }
+
 .session-description{
 
   .comments-counter, .posts-counter{

@@ -2,16 +2,16 @@
 
 <div class="page-header">
 	<h2 class="pull-left">Sessions</h2>
-	<ul class="nav nav-pills pull-right">
+	<!-- <ul class="nav nav-pills pull-right">
 		<li><%= link_to "Logs", "#" %></li>
-	</ul>
+	</ul> -->
 	<div class="clearfix"></div>
 </div>
 
 <% if @scrape_sessions.any? %>
-	<div class="well well-sm">
+	<!-- <div class="well well-sm">
 		<h4><%= pluralize current_user.scrape_sessions.count, "Session"  %></h4>
-	</div>
+	</div> -->
 	<%= render 'shared/scrape_session_list' %>
 <% else %>
 	<div class="well well-sm">
