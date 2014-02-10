@@ -1,27 +1,62 @@
 <% if signed_in? %>
 	<% provide(:page_title, current_user.username ) %>
+	<% provide(:app_page, "dashboard" ) %>
 	
 	<div class="page-header">
-		<h2 class="app-title pull-left">Umati Data Logger</h2>
-		<h4 class="pull-right">
-			<%= current_user.username %>
-		</h4>
-		<div class="clearfix"></div>
-	</div>
-
-	<div class="username">
-		<%= link_to "Create New Session", new_scrape_session_path, class: "btn btn-large btn-primary pull-right" %>
+		<%= link_to "Create New Session", new_scrape_session_path, class: "btn btn-large btn-primary" %>
 	</div>
 	
 	<div class="clearfix"></div>
 
 	<% if current_user.scrape_sessions.any? %>
-		<div class="well well-sm">
-			<h4><%= pluralize current_user.scrape_sessions.count, "Session"  %></h4>
-		</div>
-		<%= render 'shared/scrape_session_list', object: current_user.scrape_sessions %>
 
-		<%= will_paginate @scrape_sessions %>
+		<div class="row dash-stats">
+
+		  <div class="col-sm-4 col-md-3">
+		    <div class="well session-stats">
+		    	<!-- <p><span class="glyphicon glyphicon-eye-open"></span></p> -->
+		    	<h3><%= current_user.scrape_sessions.count  %></h3>
+		    	<p class="stat-description"><span class="glyphicon glyphicon-eye-open"></span>Sessions</p>
+		    </div>
+		  </div>
+
+		  <div class="col-sm-4 col-md-3">
+		    <div class="well page-stats">
+		    	<!-- <p><span class="glyphicon glyphicon-book"></span></p> -->
+		    	<h3>400</h3>
+		    	<p class="stat-description"><span class="glyphicon glyphicon-book"></span>Pages</p>
+		    </div>
+		  </div>
+
+		  <div class="col-sm-4 col-md-3">
+		    <div class="well post-stats">
+		    	<!-- <p><span class='glyphicon glyphicon-list-alt'></span></p> -->
+		    	<h3>400</h3>
+		    	<p class="stat-description"><span class='glyphicon glyphicon-list-alt'></span>Posts</p>
+		    </div>
+		  </div>
+
+		  <div class="col-sm-4 col-md-3">
+		    <div class="well comment-stats">
+		    	<!-- <p><span class='glyphicon glyphicon-comment'></span></p> -->
+		    	<h3>600</h3>
+		    	<p class="stat-description"><span class='glyphicon glyphicon-comment'></span>Comments</p>
+		    </div>
+		  </div>
+
+		</div>
+
+		<hr />
+		<div class="whitespace"></div>
+
+		<div class="panel panel-default dash-stats-sessions">
+		  <div class="panel-heading">Recent Sessions</div>
+		  <div class="panel-body">
+		    <%= render 'shared/scrape_session_list', object: current_user.scrape_sessions %>
+		  </div>
+		</div>
+		
+
 
 	<% else %>
 		<div class="well well-sm">

@@ -54,8 +54,6 @@
                       <li class="divider"></li>
                     <% end %>
 
-                    
-
                     <li>
                       <%= link_to "Sign out", signout_path, method: "delete" %>
                     </li>
@@ -76,14 +74,15 @@
           <div id="sidebar">
             <nav>
               <ul class="nav list-group">
+                
                   <li>
-                    <a href="#" ><span class="glyphicon glyphicon-off"></span>Dashboard</a>
+                    <%= link_to "<span class='glyphicon glyphicon-off'></span>Dashboard".html_safe, root_path, class: " #{"active" if yield(:app_page) == "dashboard"}" %>
                   </li>
 
                   <% if current_user.isadmin? %>
                     <li><%= link_to "<span class='glyphicon glyphicon-user'></span>Users".html_safe, users_path, class: " #{"active" if yield(:app_page) == "users"}" %></li>
                   <% end %>
-                  
+
                   <li>
                     <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_sessions" %>" data-toggle="collapse" data-target="#sessions-collapse">
                       <span class="glyphicon glyphicon-eye-open"></span>Sessions
