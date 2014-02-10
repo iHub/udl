@@ -30,9 +30,9 @@ body{
 }
 
 header{
-  -moz-box-shadow:    0px 5px 5px #bbb;
+/*  -moz-box-shadow:    0px 5px 5px #bbb;
   -webkit-box-shadow: 0px 5px 5px #bbb;
-  box-shadow:         0px 5px 5px #bbb;
+  box-shadow:         0px 5px 5px #bbb;*/
 }
 h1, h2, h3, h4, h5{
   font-family: 'Lato', sans-serif;
@@ -58,13 +58,83 @@ footer {
   height: $footerHeight;
 }
 
-#wrap > .container {
-  padding: 80px 15px 0;
+#wrap > #main {
+  padding: 0px 15px 0;
+  margin-top: 80px;
+  display: block;
+  margin-left: 220px;
+  /*min-height: 500px;*/
+  min-height: 100%;
 }
+
+#left-panel{
+  width: 220px;
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  z-index: 1000;
+  background-color: #111 ;
+  min-height: 100%;
+  -webkit-transition: left .1s ease-out;
+  transition: left .1s ease-out;
+
+  nav{
+    display: block;
+    
+    ul{
+      width: 100%;
+      padding: 40px 28px 25px 0;
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+      line-height: .5em;
+      list-style: none;
+      position: relative;
+
+      li a, 
+      li .nav-collapse{
+        line-height: normal;
+        background-color: #111 ;
+        padding: 10px 10px 10px 11px;
+        color: #a8a8a8;
+        display: block;
+        width: 100%;
+        text-decoration: none!important;
+        position: relative;
+        border: 0;
+        text-align: left;
+        border-bottom: 1px solid #222;
+
+        font:{
+          size: 14px;
+          weight: 400;
+        }
+
+        &:hover{
+          color: #fff;
+          background-color: #222;
+        }
+        .glyphicon{
+          margin: 0 15px 0 5px;
+        }
+
+        
+      }
+
+      ul li a{
+          padding-left: 60px;
+        }
+    }
+  }
+}
+
 .container .credit {
   margin: 20px 0;
 }
 
+footer .footer{
+  z-index: 1500;
+}
 footer > .container {
   padding-left: 15px;
   padding-right: 15px;  

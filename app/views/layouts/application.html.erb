@@ -31,8 +31,92 @@
 
 	    <%= render 'layouts/header' %>
 
+      <aside id="left-panel">
+        <nav>
+          <ul>
+            <li>
+              <a href="#" ><span class="glyphicon glyphicon-off"></span>Dashboard</a>
+            </li>
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#pages-collapse">
+                <span class="glyphicon glyphicon-book"></span>Pages
+              </button>
+
+              <!-- <a href="#" data-toggle="collapse" data-target="#pages-collapse"><span class="glyphicon glyphicon-search"></span>Pages</a> -->
+              <ul id="pages-collapse" class="collapse">
+                <li><a href="#">All Pages</a></li>
+                <li><a href="#">Add New</a></li>                
+              </ul>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#questions-collapse">
+                <span class="glyphicon glyphicon-search"></span>Questions
+              </button>
+
+              <!-- <a href="#" data-toggle="collapse" data-target="#questions-collapse"><span class="glyphicon glyphicon-search"></span>Questions</a> -->
+              <ul id="questions-collapse" class="collapse">
+                <li><a href="#">All Questions</a></li>
+                <li><a href="#">Add New</a></li>                
+              </ul>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#answers-collapse">
+                <span class="glyphicon glyphicon-flash"></span>Answers
+              </button>
+
+              <!-- <a href="#" data-toggle="collapse" data-target="#answers-collapse"><span class="glyphicon glyphicon-search"></span>Answers</a> -->
+              <ul id="answers-collapse" class="collapse">
+                <li><a href="#">All Answers</a></li>
+                <li><a href="#">Add New</a></li>                
+              </ul>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#posts-collapse">
+                <span class="glyphicon glyphicon-list-alt"></span>Posts
+              </button>
+
+              <!-- <a href="#" data-toggle="collapse" data-target="#posts-collapse"><span class="glyphicon glyphicon-search"></span>Posts</a> -->
+              <ul id="posts-collapse" class="collapse">
+                <li><a href="#">All Posts</a></li>
+                <li><a href="#">Add New</a></li>                
+              </ul>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#comments-collapse">
+                <span class="glyphicon glyphicon-comment"></span>Comments
+              </button>
+
+              <!-- <a href="#" data-toggle="collapse" data-target="#comments-collapse"><span class="glyphicon glyphicon-search"></span>Comments</a> -->
+              <ul id="comments-collapse" class="collapse">
+                <li><a href="#">All Pages</a></li>
+                <li><a href="#">Add New</a></li>                
+              </ul>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#logs-collapse">
+                <span class="glyphicon glyphicon-stats"></span>Logs
+              </button>
+
+              <!-- <a href="#" data-toggle="collapse" data-target="#comments-collapse"><span class="glyphicon glyphicon-search"></span>Comments</a> -->
+              <ul id="logs-collapse" class="collapse">
+                <li><a href="#">Scrape Logs</a></li>
+                <li><a href="#">Question Logs</a></li>
+                <li><a href="#">Answer Logs</a></li>
+                <li><a href="#">User Logs</a></li>                
+              </ul>
+            </li>
+
+          </ul>
+        </nav>
+      </aside>
+    
 	    <!-- main content -->
-    	<div class="container">
+    	<div id="main" role="main">
         <!-- messages - errors, warnings, success -->
         <% flash.each do |key, value| %>
           <div class="alert alert-<%= key %>">
