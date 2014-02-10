@@ -50,8 +50,8 @@ h4, h5{
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto; 
-
+  width: 100%;
+  display:table;
   margin-bottom: -$footerHeight; /* Negative indent footer by its height */
   padding: 0 0 $footerHeight; 	/* Pad bottom by footer height */
 }
@@ -61,100 +61,115 @@ footer {
   height: $footerHeight;
 }
 
-header .navbar{
+header.navbar{
   margin-bottom: 0;
+  padding: 0 20px 0 0;
 }
-
-#wrap > #main {
-  padding: 0px 15px 0;
-  margin-top: 80px;
-  display: block;
-  margin-left: 220px;
+#wrap  > #mainframe{
+  /*padding: 0px 15px 0;*/
   margin-bottom: 30px;
-  /*min-height: 500px;*/
   min-height: 100%;
-
-  .container{
-    background-color: #fff;
-  }
-
-}
-
-#left-panel{
-  
-  position: absolute;
-  top: 50px;
-  left: 0px;
-  z-index: 500;
-  background-color: #111 ;
-  width: 220px;
-  overflow: auto;
-/*  min-height: 100%;*/
-  /*height: auto !important;*/
-  /*height: 100%;*/
-
-/*  margin-bottom: -9999px;
-  padding-bottom: 9999px;*/
-  -webkit-transition: left .1s ease-out;
-  transition: left .1s ease-out;
-
-  &:after
-  {
-    content: '';
-    display: block;
-    float: left;
+  height: auto !important;
+  height: 100%;
+  width: 100%;
+  display:table;
+ 
+  .row > #left-panel{
+    padding: 0;
+    padding-top: 80px;
+    z-index: 500;
+    background-color: #111 ;
+    min-width: 162px;
+    min-height: 100%;
+    height: auto !important;
     height: 100%;
+    
+    -webkit-transition: left .1s ease-out;
+    transition: left .1s ease-out;
+
+    nav{
+     /* float: left;
+      width: 100%;*/
+      
+      ul{
+        /*width: 100%;*/
+        /*padding: 40px 28px 25px 0;*/
+        padding: 0;
+        margin: 0;
+        font-size: 13px;
+        line-height: 0.5em;
+        list-style: none;
+        position: relative;
+
+        li a, 
+        li .nav-collapse{
+          line-height: normal;
+          background-color: #111 ;
+          padding: 10px 10px 10px 11px;
+          color: #a8a8a8;
+          display: block;
+          width: 100%;
+          text-decoration: none!important;
+          position: relative;
+          border: 0;
+          text-align: left;
+          border-bottom: 1px solid #222;
+
+          font:{
+            size: 14px;
+            weight: 400;
+          }
+
+          &:hover{
+            color: #fff;
+            background-color: #222;
+          }
+          .glyphicon{
+            margin: 0 15px 0 5px;
+          }
+          
+        }
+
+        /*nested nav*/
+        ul li a{
+            padding-left: 40px;
+          }
+      }
+    }
+
   }
 
-  nav{
-    display: block;
-    
-    ul{
-      width: 100%;
-      padding: 40px 28px 25px 0;
-      padding: 0;
-      margin: 0;
-      font-size: 13px;
-      line-height: .5em;
-      list-style: none;
-      position: relative;
+  .row > #main {
+    min-height: 100%;
+    height: 100%;
+    padding-top: 80px;
 
-      li a, 
-      li .nav-collapse{
-        line-height: normal;
-        background-color: #111 ;
-        padding: 10px 10px 10px 11px;
-        color: #a8a8a8;
-        display: block;
-        width: 100%;
-        text-decoration: none!important;
-        position: relative;
-        border: 0;
-        text-align: left;
-        border-bottom: 1px solid #222;
-
-        font:{
-          size: 14px;
-          weight: 400;
-        }
-
-        &:hover{
-          color: #fff;
-          background-color: #222;
-        }
-        .glyphicon{
-          margin: 0 15px 0 5px;
-        }
-
-        
-      }
-
-      ul li a{
-          padding-left: 60px;
-        }
+    .container{
+      background-color: #fff;
     }
   }
+
 }
+.row
+{
+    height: 100%;
+    display: table-row;
+    margin: 0;
+
+    /*&:before, 
+    &:after {
+        content: none;
+    }*/
+}
+
+.col-md-2, 
+.col-md-10
+{
+    /*display: table-cell;*/
+    /*float: none; */
+}
+
+/*---------------------------------------*/
 
 .container .credit {
   margin: 20px 0;
