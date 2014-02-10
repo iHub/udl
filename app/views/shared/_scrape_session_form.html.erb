@@ -28,15 +28,15 @@
 
 	<div class="form-group">
 		<div class="form-radio-group">
-		<%= f.radio_button :continous_scrape,  "true", class: "form-control form-radio"%>
-		<%= f.label	:continous_scrape, "True", :value => "true", class: "form-radio-label" %>
+		<%= f.radio_button :session_continuous_scrape,  "true", class: "form-control form-radio"%>
+		<%= f.label	:session_continuous_scrape, "True", :value => "true", class: "form-radio-label" %>
 		</div>
 
 		<div class="clearfix"></div>
 
 		<div class="form-radio-group">
-		<%= f.radio_button :continous_scrape,  "false", class: "form-control form-radio" %>
-		<%= f.label	:continous_scrape, "False", :value => "false", class: "form-radio-label" %>
+		<%= f.radio_button :session_continuous_scrape,  "false", class: "form-control form-radio" %>
+		<%= f.label	:session_continuous_scrape, "False", :value => "false", class: "form-radio-label" %>
 		</div>
 		
 	</div>
@@ -46,7 +46,7 @@
 	<div class="whitespace"></div>
 
 	<div class="form-group">
-		<%= f.label	:scrape_frequency %>
+		<%= f.label	:session_scrape_frequency %>
 		
 		<%= f.select( :scrape_frequency_select,  options_for_select(@scrape_frequencies, selected: 1)) %>
 	</div>
@@ -79,5 +79,5 @@
 	<div class="form-divider"></div>
 	<div class="whitespace"></div>
 
-	<%= f.submit "Create Session", class: "btn btn-large btn-primary" %>
+	<%= f.submit  class: "btn btn-large btn-primary" %>
 <% end %>

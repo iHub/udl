@@ -27,20 +27,17 @@ class ScrapeSessionsController < ApplicationController
 		scrape_session = ScrapeSession.new(scrape_session_params)
 		scrape_session.user_id = current_user.id
 
-		
     	scrape_session.allow_page_override  = params[:scrape_session][:allow_page_override]
-    	# scrape_session.use_global_settings  = params[:scrape_session][:use_global_settings]
 
-    	scrape_session.continous_scrape 	= params[:scrape_session][:continous_scrape]
-    	
-    	scrape_session.scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] if scrape_session.continous_scrape
-    	scrape_session.next_scrape_date 	= Time.now + scrape_session.scrape_frequency if scrape_session.continous_scrape
+    	scrape_session.session_continuous_scrape 	= params[:scrape_session][:session_continuous_scrape]
+    	scrape_session.session_scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] if scrape_session.session_continuous_scrape
+    	scrape_session.session_next_scrape_date		= Time.now + scrape_session.session_scrape_frequency if scrape_session.session_continuous_scrape
 
 		if scrape_session.save
 			flash[:success] = "Session created!"
 			redirect_to root_url
 		else
-			render 'scrape_sessions/new'
+			render 'new'
 		end
 	end
 
