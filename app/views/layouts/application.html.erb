@@ -76,7 +76,7 @@
     
 
     <div id="wrapper">
-       <% if @scrape_session_selected %>
+       
       <div id="sidebar-wrapper" class="col-md-2">
           <div id="sidebar">
             <nav>
@@ -84,6 +84,22 @@
                   <li>
                     <a href="#" ><span class="glyphicon glyphicon-off"></span>Dashboard</a>
                   </li>
+
+                  <li>
+                    <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_sessions" %>" data-toggle="collapse" data-target="#sessions-collapse">
+                      <span class="glyphicon glyphicon-eye-open"></span>Sessions
+                    </button>
+
+                    <ul id="sessions-collapse" class="<%=  yield(:app_page) == "scrape_sessions" ? "in" : "collapse" %>">
+                      <li><%= link_to "All sessions", scrape_sessions_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_index"}" %></li>
+                      <li>
+                        <%= link_to "Add New", new_scrape_session_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_new"}"
+                         %>
+                      </li>                
+                    </ul>
+                  </li>
+
+                  <% if @scrape_session_selected %>
                   <li>
                     <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_pages" %>" data-toggle="collapse" data-target="#pages-collapse">
                       <span class="glyphicon glyphicon-book"></span>Pages
@@ -150,11 +166,13 @@
                       <li><a href="#">User Logs</a></li>                
                     </ul>
                   </li>
+                   <% end %>
+
                 </ul>
               </nav>
           </div>
       </div>
-      <% end %>
+     
 
       <div id="main-wrapper" class="col-md-10 pull-right">
           <div id="main" role="main">

@@ -77,10 +77,7 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	def destroy
-		# scrape_session = ScrapeSession.find(params[:id]).destroy
-
 		scrape_session = ScrapeSession.find(params[:id]).destroy
-
 		flash[:danger] = "Session '#{scrape_session.name}' deleted"
 		redirect_to root_url
 	end
