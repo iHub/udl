@@ -121,14 +121,9 @@
                   </li>
 
                   <li>
-                    <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#posts-collapse">
-                      <span class="glyphicon glyphicon-list-alt"></span>Posts
-                    </button>
+                    <%= link_to "<span class='glyphicon glyphicon-list-alt'></span>Posts".html_safe, {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id}, 
+                      class: " #{"active" if yield(:app_page) == "fb_posts"}"  %>
 
-                    <ul id="posts-collapse" class="collapse">
-                      <li><%= link_to "Posts", {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id} %></li>
-                      <li><a href="#">Add New</a></li>                
-                    </ul>
                   </li>
 
                   <li>
