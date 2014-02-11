@@ -8,8 +8,14 @@
 </div>
 
 <% if !@questions.blank? %>
+   <div class="panel panel-default dash-stats-sessions">
+      <div class="panel-heading">All Questions</div>
+      <div class="panel-body">
+       <%= render 'shared/question_list', object: @questions %>
+      </div>
 
-	<%= render 'shared/question_list', object: @questions %>
+    </div>
+	
 
 	<!-- add pagination -->
 
