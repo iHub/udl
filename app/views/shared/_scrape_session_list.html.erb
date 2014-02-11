@@ -12,8 +12,8 @@
           <th>Description</th>
           <th style="width:19%">Created</th>
           <th style="width:8%">Pages</th>
+          <th style="width:8%">Posts</th>
           <th style="width:8%">Comments</th>
-          <th style="width:9%">Annotations</th>
           
         </tr>
       </thead>
@@ -30,8 +30,9 @@
             <td><%= scrape_session.description %></td>
             <td><%= scrape_session.created_at.strftime("%b %e, %Y") %></td> <!-- %I:%M %p,  -->
             <td><%= scrape_session.total_pages %></td>
+            <td><%= scrape_session.total_posts %></td>
             <td><%= scrape_session.total_comments %></td>
-            <td>##</td>
+            
 
           </tr>
         <% end %>
