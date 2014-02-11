@@ -14,7 +14,7 @@
 	<!-- <div class="well well-sm">
 		<h4><%= pluralize current_user.scrape_sessions.count, "Session"  %></h4>
 	</div> -->
-	<%= render 'shared/scrape_session_list' %>
+	<%= render 'shared/scrape_session_list', object: @scrape_sessions %>
 <% else %>
 	<div class="well well-sm">
 		<h4>You don't have any sessions</h4>
