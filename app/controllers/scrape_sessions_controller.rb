@@ -53,7 +53,7 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	def import
-		@scrape_session = ScrapeSession.find(params[:id])
+		@scrape_session = get_scrape_session(params[:id])
 	end
 
 	def upload
