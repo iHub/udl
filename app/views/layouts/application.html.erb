@@ -97,6 +97,7 @@
                     </ul>
                   </li>
 
+                  <!-- scrape_session_selected -->
                   <% if @scrape_session_selected %>
                   <li>
                     <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_pages" %>" data-toggle="collapse" data-target="#pages-collapse">
@@ -158,7 +159,7 @@
                       <li><a href="#">User Logs</a></li>                
                     </ul>
                   </li>
-                   <% end %>
+                   <% end %> <!-- /if scrape_session_selected -->
 
                 </ul>
               </nav>
@@ -184,6 +185,26 @@
 
         </div> <!-- /main-wrapper -->
           
+        <% else %>
+
+        <div id="main-wrapper" class="col-md-12">
+          <div id="main" role="main">
+
+            <!-- messages - errors, warnings, success -->
+            <div class="alert-container">
+              <% flash.each do |key, value| %>
+                  <div class="alert alert-<%= key %>">
+                    <%= value %>
+                  </div>
+                <% end %>
+            </div>
+
+            <%= yield %>
+
+          </div>
+
+        </div> <!-- /main-wrapper -->
+
         <% end %>
 
     </div> <!-- /wrapper -->

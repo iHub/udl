@@ -57,7 +57,7 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	def upload
-
+		ScrapeSession.import(params[:file])
 		redirect_to scrape_session_path
 	end
 
