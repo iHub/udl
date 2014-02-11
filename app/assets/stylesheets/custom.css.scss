@@ -160,29 +160,40 @@ header.navbar-inverse{
         border-right: 0;
         border-top: 0;
 }
+
+/*---------------------------------------*/
+/* media queries */
+/*---------------------------------------*/
+
 @media (max-width: 992px) {
     body {
         padding-top: 0px;
     }
-}
-@media (min-width: 992px) {
+
     #main-wrapper {
         float:right;
     }
 }
+
+
 @media (max-width: 992px) {
     #main-wrapper {
         padding-top: 0px;
+        float: left !important;
+        height:100%;
+        overflow: scroll;
     }
-}
-@media (max-width: 992px) {
+
     #sidebar-wrapper {
         position: static;
         height:auto;
-        max-height: 300px;
-      border-right:0;
+        /*max-height: 300px;*/
+        border-right:0;
   }
 }
+
+/*---------------------------------------*/
+
 .footer {
     background-color:#ffffff;
     bottom:0;
