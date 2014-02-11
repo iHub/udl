@@ -74,9 +74,18 @@ class ScrapeSession < ActiveRecord::Base
 		
 		logger.debug "params file => #{file.inspect}"
 
-		import_pages = SmarterCSV.process(file.original_filename)
+		import_pages = SmarterCSV.process(file.tempfile)
 
 		logger.debug "import_pages => #{import_pages.inspect}"
+
+		import_pages.each do |page|
+			# logger.debug "key, value => #{key.inspect} , #{value.inspect}"
+
+			file_pages << page[:page_url].gsub(/.*(facebook.com)[\/]/, '') 
+		end
+
+		logger.debug "file_pages => #{file_pages.inspect}"
+
 
 		# spreadsheet = open_spreadsheet(file)
 		# logger.debug "spreadsheet => #{spreadsheet.inspect}"
