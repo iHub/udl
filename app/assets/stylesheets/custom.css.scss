@@ -278,12 +278,21 @@ footer .navbar-nav > li > a{
 
 .dash-stats-sessions{
 
-  .panel-heading{
-    background-color: #222;
-    color: #ccc;
-    text-transform: uppercase;
-  }
+/*  .panel-heading{
+    @extend .panel-heading;
+  }*/
 
+}
+
+/*---------------------------------------*/
+
+.panel.panel-default{
+
+  .panel-heading{
+      background-color: #222;
+      color: #ccc;
+      text-transform: uppercase;
+    }
 }
 
 /*---------------------------------------*/
