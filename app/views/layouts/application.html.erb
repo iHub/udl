@@ -94,7 +94,8 @@
                       <li>
                         <%= link_to "Manage Session", scrape_session_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_sessions_show"}"
                          %>
-                      </li> 
+                      </li>
+                      <li><a href="#">Annotate</a></li>
                       <% end %>
 
                       <li><%= link_to "All sessions", scrape_sessions_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_index"}" %></li>
