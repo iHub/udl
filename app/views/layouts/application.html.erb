@@ -89,6 +89,14 @@
                     </button>
 
                     <ul id="sessions-collapse" class="<%=  yield(:app_page) == "scrape_sessions" ? "in" : "collapse" %>">
+
+                      <% if @scrape_session_selected %>
+                      <li>
+                        <%= link_to "Manage Session", scrape_session_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_sessions_show"}"
+                         %>
+                      </li> 
+                      <% end %>
+
                       <li><%= link_to "All sessions", scrape_sessions_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_index"}" %></li>
                       <li>
                         <%= link_to "Add New", new_scrape_session_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_new"}"

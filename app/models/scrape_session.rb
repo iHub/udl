@@ -70,7 +70,7 @@ class ScrapeSession < ActiveRecord::Base
 #-------------------------------------
 
 	def self.import(file)
-		file_pages = []
+		file_pages_url_strip = []
 		
 		logger.debug "params file => #{file.inspect}"
 
@@ -81,10 +81,10 @@ class ScrapeSession < ActiveRecord::Base
 		import_pages.each do |page|
 			# logger.debug "key, value => #{key.inspect} , #{value.inspect}"
 
-			file_pages << page[:page_url].gsub(/.*(facebook.com)[\/]/, '') 
+			file_pages_url_strip << page[:page_url].gsub(/.*(facebook.com)[\/]/, '') 
 		end
 
-		logger.debug "file_pages => #{file_pages.inspect}"
+		logger.debug "file_pages_url_strip => #{file_pages_url_strip.inspect}"
 
 
 		# spreadsheet = open_spreadsheet(file)
