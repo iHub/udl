@@ -6,11 +6,22 @@
 
 	<ul class="nav nav-pills pull-right">
 		
-		<li class="active"><a href="#">Annotate</a></li>
-		
-		<li><%= link_to "Edit", edit_scrape_session_path(@scrape_session) %></li>
-		<li><%= link_to("Delete", @scrape_session, :method => :delete, data: { confirm: "Are you sure? You cannot undo this action"}, class: "delete-link") %>
-		</li>
+		<!-- <li class="active"><a href="#">Annotate</a></li> -->
+
+		<div class="btn-group">
+		  <button type="button" class="btn btn-default dropdown-toggle session-manage" data-toggle="dropdown">
+		    Manage <span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" role="menu">
+		    <li><%= link_to "Import Pages", import_scrape_session_path(@scrape_session) %></li>
+		    <li><%= link_to "Edit Session", edit_scrape_session_path(@scrape_session) %></li>
+		    <li class="divider"></li>
+			<li>
+				<%= link_to("Delete Session", @scrape_session, :method => :delete, data: { confirm: "Are you sure? You cannot undo this action"}, class: "delete-link") %>
+			</li>
+
+		  </ul>
+		</div>
 	</ul>
 
 	<div class="clearfix"></div>

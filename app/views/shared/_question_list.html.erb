@@ -21,7 +21,7 @@
               <strong><%= link_to question.question,  scrape_session_question_path(@scrape_session.id, question) %><strong>
           </td>
           <td><%= question.description %></td>
-          <td><%= question.created_at.strftime("%I:%M %p, %b %e %Y") %></td>
+          <td><%= question.created_at.strftime("%b %e %Y") %></td>
           <td>Annotations</td>
 
         </tr>
