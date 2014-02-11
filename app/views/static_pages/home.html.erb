@@ -8,7 +8,7 @@
 	
 	<div class="clearfix"></div>
 
-	<% if current_user.scrape_sessions.any? %>
+	<% if @scrape_sessions.any? %>
 
 		<div class="row dash-stats">
 
@@ -23,7 +23,7 @@
 		  <div class="col-sm-4 col-md-3">
 		    <div class="well page-stats">
 		    	<!-- <p><span class="glyphicon glyphicon-book"></span></p> -->
-		    	<h3>400</h3>
+		    	<h3><%= @all_pages_count %></h3>
 		    	<p class="stat-description"><span class="glyphicon glyphicon-book"></span>Pages</p>
 		    </div>
 		  </div>
@@ -31,7 +31,7 @@
 		  <div class="col-sm-4 col-md-3">
 		    <div class="well post-stats">
 		    	<!-- <p><span class='glyphicon glyphicon-list-alt'></span></p> -->
-		    	<h3>400</h3>
+		    	<h3><%= @all_posts_count %></h3>
 		    	<p class="stat-description"><span class='glyphicon glyphicon-list-alt'></span>Posts</p>
 		    </div>
 		  </div>
@@ -39,7 +39,7 @@
 		  <div class="col-sm-4 col-md-3">
 		    <div class="well comment-stats">
 		    	<!-- <p><span class='glyphicon glyphicon-comment'></span></p> -->
-		    	<h3>600</h3>
+		    	<h3><%= @all_comments_count %></h3>
 		    	<p class="stat-description"><span class='glyphicon glyphicon-comment'></span>Comments</p>
 		    </div>
 		  </div>
@@ -52,8 +52,14 @@
 		<div class="panel panel-default dash-stats-sessions">
 		  <div class="panel-heading">Recent Sessions</div>
 		  <div class="panel-body">
-		    <%= render 'shared/scrape_session_list', object: current_user.scrape_sessions %>
+		    <%= render 'shared/scrape_session_list', object: @scrape_sessions %>
 		  </div>
+		  
+		  <% if @has_more_sessions %>
+			  <div class="panel-footer">
+			  	<%= link_to "View All Sessions", scrape_sessions_path, class: "" %>
+			  </div>
+		  <% end %>
 		</div>
 		
 

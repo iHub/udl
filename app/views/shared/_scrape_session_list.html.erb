@@ -22,7 +22,7 @@
 
       <tbody>
         <% counter = 0 %>
-        <% current_user.scrape_sessions.each.with_index do |scrape_session, index| %>
+        <% object.each.with_index do |scrape_session, index| %>
           <% counter +=1 %>
           <tr>
             <td><%= index+1 %></td>
