@@ -51,7 +51,7 @@ class ScrapeSession < ActiveRecord::Base
 	end
 
 #-------------------------------------
-# refactor out to another class
+# refactor to module
 #-------------------------------------
 
 	def has_app_access_token?
@@ -65,6 +65,15 @@ class ScrapeSession < ActiveRecord::Base
 		standard_date_time.to_time.utc.to_i
 	end
 
+#-------------------------------------
+# Import methods
+#-------------------------------------
+
+
+
+
+#-------------------------------------
+# Scraper methods
 #-------------------------------------
 
 	def parse_all_sessions

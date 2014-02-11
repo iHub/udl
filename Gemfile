@@ -20,6 +20,7 @@ gem 'ransack',        '~> 1.1.0'
 gem 'rake',           '~> 10.1.1'
 gem 'delayed_job_web', '1.2.2'
 gem 'delayed_job_active_record', '4.0.0'
+gem 'roo',            '~> 1.13.2'
 
 gem 'whenever', :require => false
 
