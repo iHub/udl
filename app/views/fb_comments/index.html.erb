@@ -37,7 +37,12 @@
     <div class="clearfix"></div>
     <hr />
 
-    <%= render 'shared/fb_comment_list'  %>
+    <div class="panel panel-default">
+      <div class="panel-heading">All Comments</div>
+      <div class="panel-body">
+       <%= render 'shared/fb_comment_list', object: @fb_comments %>
+      </div>
+    </div>
 
     <!--  pagination -->
     <div class="center-block">
