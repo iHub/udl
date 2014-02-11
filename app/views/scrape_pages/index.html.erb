@@ -8,11 +8,15 @@
 </div>
 
 <% if !@scrape_pages.blank? %>
-	<div>
-		<h3>Pages in this Session</h3>
-	</div>
 
-	<%= render 'shared/scrape_page_list' %>
+
+    <div class="panel panel-default dash-stats-sessions">
+      <div class="panel-heading">All Pages</div>
+      <div class="panel-body">
+       <%= render 'shared/scrape_page_list', object: @scrape_pages %>
+      </div>
+
+    </div>
 
 	<!-- add pagination -->
 
