@@ -11,10 +11,16 @@
 </div>
 
 <% if @scrape_sessions.any? %>
-	<!-- <div class="well well-sm">
-		<h4><%= pluralize current_user.scrape_sessions.count, "Session"  %></h4>
-	</div> -->
-	<%= render 'shared/scrape_session_list', object: @scrape_sessions %>
+
+	<div class="panel panel-default dash-stats-sessions">
+	  <div class="panel-heading">&nbsp;</div>
+	  <div class="panel-body">
+	   <%= render 'shared/scrape_session_list', object: @scrape_sessions %>
+	  </div>
+
+	</div>
+	
+
 <% else %>
 	<div class="well well-sm">
 		<h4>You don't have any sessions</h4>

@@ -1,4 +1,5 @@
 <% provide(:page_title, "Show Session") %>
+<% provide(:app_page, "scrape_sessions" ) %>
 
 <div class="page-header">
 	<h2 class="pull-left">Manage</h2>
@@ -31,11 +32,20 @@
 <div class="whitespace"></div>
 
 <% if !@scrape_pages.empty? %>
-	<div>
-		<h3>Pages Scraped</h3>
-	</div>
 
-	<%= render 'shared/scrape_page_list', object: @scrape_pages %>
+	<div class="panel panel-default dash-stats-sessions">
+	  <div class="panel-heading">Recent Pages</div>
+	  <div class="panel-body">
+	   <%= render 'shared/scrape_page_list', object: @scrape_pages %>
+	  </div>
+
+	  <% if @has_more_pages %>
+		  <div class="panel-footer">
+		  	<%= link_to "View All Pages", scrape_session_scrape_pages_path(@scrape_session), class: "" %>
+		  </div>
+	  <% end %>
+
+	</div>
 
 	<!-- add pagination -->
 
@@ -50,11 +60,21 @@
 
 
 <% if !@questions.empty? %>
-	<div>
-		<h3>Questions for this Session</h3>
-	</div>
 
-	<%= render 'shared/question_list', object: @questions %>
+
+	<div class="panel panel-default dash-stats-sessions">
+	  <div class="panel-heading">Recent Questions</div>
+	  <div class="panel-body">
+	   <%= render 'shared/question_list', object: @questions %>
+	  </div>
+
+	  <% if @has_more_questions %>
+		  <div class="panel-footer">
+		  	<%= link_to "View All Questions", scrape_session_questions_path(@scrape_session), class: "" %>
+		  </div>
+	  <% end %>
+
+	</div>
 
 	<!-- add pagination -->
 

@@ -19,8 +19,15 @@ class ScrapeSessionsController < ApplicationController
 	def show
 		@scrape_session = get_scrape_session(params[:id])
 		@created_by 	= User.find(@scrape_session[:user_id]).username
-		@questions 		= @scrape_session.questions
-		@scrape_pages   = @scrape_session.scrape_pages
+		
+		all_questions = @scrape_session.questions
+		all_pages 	  = @scrape_session.scrape_pages
+
+		@has_more_questions = true if all_questions.count > 5
+		@has_more_pages	    = true if all_pages.count > 5
+
+		@questions 		= all_questions.limit(5)
+		@scrape_pages   = all_pages.limit(5)
 	end
 
 	def create
