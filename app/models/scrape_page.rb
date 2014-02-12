@@ -109,7 +109,7 @@ class ScrapePage < ActiveRecord::Base
 		if self.next_scrape_date?
 			self.next_scrape_date = Time.now - 1.day 
 		end
-		get_fb_posts epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
+		get_fb_posts epoch_time(self.next_scrape_date) , epoch_time(Time.now)
 	end
 
 	def get_new_fb_comments
