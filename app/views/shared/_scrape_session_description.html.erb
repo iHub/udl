@@ -1,5 +1,67 @@
-<div class="session-description">
-    <h4>Session:    <%= @scrape_session.name.capitalize %></h4>
-    <h5>Created by: <%= @scrape_session.user_name %></h5>
-    <h5 class="posts-counter">Pages:  <strong><%= @scrape_session.total_pages %></strong>&nbsp;|&nbsp;Posts:  <strong><%= @scrape_session.total_posts %></strong>&nbsp;|&nbsp;Comments:  <strong><%= @scrape_session.total_comments %></strong></h5>
+    <div class="col-md-9 pull-left">
+    <div class="table-responsive session-description">
+        <table class="table table-bordered table-condensed">
+
+          <tbody>
+
+              <tr class="session-description-name">
+                <td class="session-description-label">Name</td>
+                <td class="session-name"><%= object.name.capitalize %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Description</td>
+                <td><%= object.description %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Created On</td>
+                <td><%= object.created_at.strftime("%b %e, %Y") %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Created By</td>
+                <td><%= object.user_name %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Continous</td>
+                <td><%= object.session_continuous_scrape %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Frequency</td>
+                <td><%= distance_of_time_in_words(object.session_scrape_frequency) %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Allow Overrides</td>
+                <td><%= object.allow_page_override %></td>
+              </tr>
+
+          </tbody>
+        </table>
+    </div>
 </div>
+<div class="col-md-3 pull-left session-description-stats">
+
+    <div class="well well-sm page-count">
+        <p class="stat-label"> <span class="glyphicon glyphicon-book"></span>pages</p>
+        <p class="stat-value"><%= object.total_pages %></p>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="well well-sm post-count">
+        <p class="stat-label"><span class='glyphicon glyphicon-list-alt'></span>posts</p>
+        <p class="stat-value"><%= object.total_posts %></p>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="well well-sm comment-count">
+        <p class="stat-label"><span class='glyphicon glyphicon-comment'></span>comments</p>
+        <p class="stat-value"><%= object.total_comments %></p>
+        <div class="clearfix"></div>
+    </div>
+
+</div>
+<div class="clearfix"></div>

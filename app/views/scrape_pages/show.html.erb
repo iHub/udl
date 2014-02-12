@@ -5,14 +5,26 @@
 <div class="page-header">
 	<h2 class="pull-left">Manage</h2>
 
-	<ul class="nav nav-pills pull-right">
-		<li><%= render 'shared/nav/back_to_session'  %></li>
-	  	<li><%= render 'shared/nav/back_to_scrape_page'  %></li>
-	  	<li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id, scrape_page_id: @scrape_page.id} %></li>
-	  	<li><%= link_to "Edit Page", edit_scrape_session_scrape_page_path(@scrape_session, @scrape_page) %></li>
-		<li><%= link_to("Delete Page", scrape_session_scrape_page_path(@scrape_session, @scrape_page), :method => :delete, class: "delete-link", :data => {:confirm => "Are you sure?"}) %>
-		</li>
-	</ul>
+	<div class="nav nav-pills pull-right">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default dropdown-toggle session-manage" data-toggle="dropdown">
+		    	Manage <span class="caret"></span>
+		  	</button>
+		  	<ul class="dropdown-menu" role="menu">
+		  		<li><%= link_to "Posts", {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id, scrape_page_id: @scrape_page.id} %></li>
+			  	<li><%= link_to "Comments", {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id, scrape_page_id: @scrape_page.id} %></li>
+			  	<li class="divider"></li>
+			  	<li>
+			  		<%= link_to "Edit Page", edit_scrape_session_scrape_page_path(@scrape_session, @scrape_page) %>
+			  	</li>
+			  	<li class="divider"></li>
+				<li>
+					<%= link_to("Delete Page", scrape_session_scrape_page_path(@scrape_session, @scrape_page), :method => :delete, class: "delete-link", data: {:confirm => "Are you sure?"}) %>
+				</li>
+			</ul>
+		</div>
+	</div>
+
 	<div class="clearfix"></div>
 </div>
 

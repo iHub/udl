@@ -10,6 +10,7 @@ $headerGreen: #f7941e; /*#92AF7B;*/
 $well_question: #555; 
 $navHoverRed: rgb(158, 34, 34);
 $helpPageHeader: #68828F;
+$pageStats: #60A124;
 
 /*mixin*/
 @mixin box_sizing {
@@ -288,7 +289,7 @@ footer .navbar-nav > li > a{
     background-color: $darkBlue;
   }
   .page-stats{
-    background-color: #60A124;
+    background-color: $pageStats;
   }
   .post-stats{
     background-color: $headerGreen;
@@ -298,12 +299,85 @@ footer .navbar-nav > li > a{
   }
 }
 
-.dash-stats-sessions{
+.dash-stats-sessions.panel.panel-default{
 
-/*  .panel-heading{
-    @extend .panel-heading;
-  }*/
+    .panel-heading{
+     
+    }
 
+    .panel-heading.pages{
+      background-color: #4B6434;
+    }
+
+    .panel-heading.questions{
+      background-color: #603C86;
+    }
+
+}
+
+
+/*---------------------------------------*/
+// session description
+/*---------------------------------------*/
+
+.session-description-name{
+  font-size: 1.3em;
+  font-weight: bold;
+
+  .session-name{
+    color: #60A124;
+  }
+}
+
+.session-description-label{
+  text-align:right;
+  width: 25%;
+  font-weight: bold;
+  background-color: #EAEFF5;
+  padding-right: 1em !important;
+}
+
+.session-description-stats{
+
+  color: #fff;
+
+  .well{
+    height: 60px;
+  }
+  .question-stats{
+    background-color: $darkBlue;
+  }
+  .page-count{
+    background-color: #60A124;
+  }
+  .post-count{
+    background-color: $headerGreen;
+  }
+  .comment-count{
+    background-color: $navHoverRed;
+  }
+
+  .stat-label{
+    width: 43%;
+    text-transform: capitalize;
+    margin: 0  1.5em 0 1em;
+    padding-top: 0.8em;
+    @extend .pull-left;
+
+    .glyphicon{
+      margin-right: 10px;
+    }
+  }
+
+  .stat-value{
+    font-weight: bold;
+    font-size: 1.7em;
+    @extend .pull-left;
+
+    &:after{
+      clear: both;
+    }
+  }
 }
 
 /*---------------------------------------*/
@@ -395,13 +469,8 @@ h3.panel-title{
     background-color: #eee;
     border: 1px solid #ccc;
     color: #555;
+
     strong{
-/*      width:30px;
-      height: 30px;
-      padding: 5px;
-      display: block;
-      float: right;
-      background-color: #555;*/
       color: #3e6d88;
     }
   }
@@ -409,6 +478,7 @@ h3.panel-title{
 }
 .description-search{
   width: 15em;  
+  width: 100%;
 }
 
 .page-header{
