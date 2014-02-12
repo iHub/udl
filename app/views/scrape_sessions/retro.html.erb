@@ -1,0 +1,91 @@
+<% provide(:page_title, "Retro Scrape") %>
+<% provide(:app_page, "scrape_sessions" ) %>
+
+<div class="page-header">
+    <h2>Batch Scrape comments from an earlier date</h2>
+</div>
+
+<%= form_tag batch_retro_scrape_session_path do %>
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Set start and end dates</div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <p>All Comments from the Start date to the End date you specify will be added to the session.</p>
+                    <p>As this process could take a while depending on the interval between the start and end, it will be carried out in the background.</p>
+                </div>
+
+                <div class="whitespace"></div>
+
+                <div class="form-group">
+                    <div class="pull-left">
+                        <%= text_field_tag 'batch_retro_scrape_start', nil, 
+                                class: "form-control date-field",  placeholder: "Start Date" %>
+                    </div>
+
+                    <div class="form-date-divider pull-left">
+                        <h4>to</h4>
+                    </div>
+
+                    <div class="pull-left">
+                        <%= text_field_tag 'batch_retro_scrape_end', nil, 
+                                class: "form-control date-field",   placeholder: "End Date" %>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Select pages</div>
+            <div class="panel-body">
+
+                 <div class="table-responsive checklist-form">
+                      <table class="table table-striped table-bordered table-hover table-condensed">
+                        <thead>
+                          <tr>
+                            <th style="width:5%"><input type="checkbox" id="multiple-select" /></th>
+                            <th>Page</th>
+                            <th>Added By</th>
+                            <th>Created</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <% counter = 0 %>
+                          <% @scrape_pages.each.with_index do |scrape_page, index| %>
+                            <% counter +=1 %>
+                            <tr>
+                                <td><%= check_box_tag scrape_page.id, nil, false, class: 'page-checkbox' %></td>
+                                  <td><strong><%= scrape_page.page_url %></strong></td>
+                                  <td>User Name</td>
+                                  <td><%= time_ago_in_words(scrape_page.created_at)%> ago</td>
+                            </tr>
+                          <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            
+            <div class="panel-body">
+                <%= submit_tag "Process", class: "btn btn-large btn-primary btn-block" %>
+            </div>
+        </div>
+    </div>
+
+<% end %>

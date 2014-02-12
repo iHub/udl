@@ -46,10 +46,12 @@ ULog::Application.routes.draw do
 
     member do
       get :import
+      get :retro
     end
 
     member do
       post :upload
+      post :batch_retro
     end
 
     resources :scrape_pages do

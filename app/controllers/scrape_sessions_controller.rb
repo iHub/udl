@@ -61,6 +61,15 @@ class ScrapeSessionsController < ApplicationController
 		redirect_to scrape_session_path
 	end
 
+	def retro
+		@scrape_session = get_scrape_session(params[:id])
+		@scrape_pages 	  = @scrape_session.scrape_pages
+	end
+
+	def batch_retro
+		render 'retro'
+	end
+
 	# def csv_import
 	# 	imported_csv_data = SmarterCSV.process(path_to_file, {:key_mapping => {:csv_table_id => :id}})  	
 

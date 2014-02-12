@@ -204,6 +204,17 @@ header.navbar-inverse{
 
 /*---------------------------------------*/
 
+
+.checklist-form{
+  input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    margin-left: 0.8em;
+  }
+}
+
+/*---------------------------------------*/
+
 .container .credit {
   margin: 20px 0;
 }
