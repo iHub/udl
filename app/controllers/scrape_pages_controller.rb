@@ -1,9 +1,6 @@
 class ScrapePagesController < ApplicationController
 
-	before_action :graph, only: [:show, :create]
 	before_action :scrape_frequency_options, except: [:index, :show]
-	
-	
 
 	def index
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
@@ -113,21 +110,6 @@ class ScrapePagesController < ApplicationController
 	############################################################
 	
 	private
-
-		def access_token			
-			"CAAI9jQBuPWwBAFQTU7KZATPhEEjMi0RjZBI7ZBXH5J8QtRSnqBxjMZCAl8DyiHbQd4jNrV6TMJgKDbUIiA8XzsCaomrubFxpOqRpNnirwIAZATYHW69ZCvOT33oegkPcUjDsbqoXxrCg2A254owUBS2UDPBo6bL9wTWK0glXvjUM6Kw5YRRIK3CQUDJX4sTwALHEh21C5lNwZDZD"
-		end
-
-		def has_app_access_token?
-			has_settings = AppSetting.last
-			if !has_settings.nil?
-				return true if !has_settings.fb_app_access_token.nil? 		
-			end
-		end
-
-		def graph
-			graph ||= Koala::Facebook::API.new(access_token)
-		end
 
 		def frequency_minutes(scrape_frequency_select)
 			frequency = case scrape_frequency_select
