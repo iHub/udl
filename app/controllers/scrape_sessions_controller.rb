@@ -80,7 +80,6 @@ class ScrapeSessionsController < ApplicationController
 		# end
 
 		logger.debug "selected_pages => #{selected_pages.inspect}"
-		
 		logger.debug "retro-params => #{params.inspect}"
 
 		redirect_to scrape_session_path
