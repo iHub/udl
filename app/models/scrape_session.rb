@@ -159,34 +159,13 @@ class ScrapeSession < ActiveRecord::Base
 
 		end_date = epoch_time Time.now 
 
-
 		if next_date < epoch_time(Time.now)
-			# logger.debug "next_scrape_date < Time.now ||| #{current_scrape_page.next_scrape_date} vs #{Time.now}"
-			# logger.debug "get_new_fb_posts called"
-
-			# @saved_posts_count      = 0
-			# @saved_comments_count   = 0
-			# get_new_fb_posts current_page
-
-			# logger.debug "calling get_new_fb_comments"
-			# get_new_fb_comments current_scrape_page.id
-
 			get_fb_posts current_page, next_date, end_date
-
-			get_fb_comments current_page.id
-
-			# current_page.session_control_get_posts 
-
-			# set date for next scrape & save to db
-			# next_date = Time.now + frequency
-			# current_page.update(next_scrape_date: next_date)
-			# current_page.scrape_session.update(session_next_scrape_date: next_date)
+			get_fb_comments current_page
 		end
 	end
 
-
 #---------------------------------------------------
-
 
 	# extract to class and reuse in scrape page class
 	# handle fb posts > get and save

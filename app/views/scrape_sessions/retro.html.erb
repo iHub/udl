@@ -5,7 +5,7 @@
     <h2>Batch Scrape comments from an earlier date</h2>
 </div>
 
-<%= form_tag batch_retro_scrape_session_path do %>
+<%= form_tag batch_retro_scrape_session_path, id: "batch-retro-scrape-form" do %>
 
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <div class="pull-left">
                         <%= text_field_tag 'batch_retro_scrape_start', nil, 
-                                class: "form-control date-field",  placeholder: "Start Date" %>
+                                class: "form-control date-field",  placeholder: "Start Date", required: "required" %>
                     </div>
 
                     <div class="form-date-divider pull-left">
@@ -31,7 +31,7 @@
 
                     <div class="pull-left">
                         <%= text_field_tag 'batch_retro_scrape_end', nil, 
-                                class: "form-control date-field",   placeholder: "End Date" %>
+                                class: "form-control date-field",   placeholder: "End Date", required: "required" %>
                     </div>
 
                     <div class="clearfix"></div>
@@ -63,7 +63,7 @@
                           <% @scrape_pages.each.with_index do |scrape_page, index| %>
                             <% counter +=1 %>
                             <tr>
-                                <td><%= check_box_tag scrape_page.id, nil, false, class: 'page-checkbox' %></td>
+                                <td><%= check_box_tag "scrape_page_ids[]", scrape_page.id, false, class: 'page-checkbox' %></td>
                                   <td><strong><%= scrape_page.page_url %></strong></td>
                                   <td>User Name</td>
                                   <td><%= time_ago_in_words(scrape_page.created_at)%> ago</td>

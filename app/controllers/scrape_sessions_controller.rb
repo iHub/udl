@@ -63,11 +63,18 @@ class ScrapeSessionsController < ApplicationController
 
 	def retro
 		@scrape_session = get_scrape_session(params[:id])
-		@scrape_pages 	  = @scrape_session.scrape_pages
+		@scrape_pages 	= @scrape_session.scrape_pages
 	end
 
 	def batch_retro
-		render 'retro'
+		@scrape_session = get_scrape_session(params[:id])
+		start_date = params[:batch_retro_scrape_start]
+		end_date   = params[:batch_retro_scrape_end]
+		selected_pages = ScrapePage.where(params[:scrape_page_ids])
+		logger.debug "selected_pages => #{selected_pages.inspect}"
+		
+		logger.debug "retro-params => #{params.inspect}"
+		redirect_to scrape_session_path
 	end
 
 	# def csv_import
