@@ -53,16 +53,10 @@ class ScrapeSessionsController < ApplicationController
 	def update
 		@scrape_session = ScrapeSession.find(params[:id])
 
-		# refactor this ish - first extract the frequency select
-
-		@scrape_session.name 						= params[:name]
-		@scrape_session.description					= params[:description]
-		@scrape_session.allow_page_override  		= params[:scrape_session][:allow_page_override]
-    	@scrape_session.session_continuous_scrape 	= params[:scrape_session][:session_continuous_scrape]
     	@scrape_session.session_scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] || DEFAULT_SCRAPE_FREQUENCY
     	@scrape_session.session_next_scrape_date	= Time.now + @scrape_session.session_scrape_frequency
 
-		if @scrape_session.save
+		if @scrape_session.update_attributes(scrape_session_params)
 			log_scrape_session_event @scrape_session, "edit"
 			flash[:success] = "Your Session has been updated."
 			redirect_to scrape_session_path

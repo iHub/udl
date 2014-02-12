@@ -77,10 +77,11 @@ class ScrapePagesController < ApplicationController
 		@scrape_page = ScrapePage.find(params[:id])
 
 		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
+		@scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
 
 		if @scrape_page.update_attributes(scrape_page_params)
 			flash[:success] = "Your Page has been updated."
-			redirect_to scrape_session_scrape_pages_path
+			redirect_to scrape_session_scrape_page_path
 		else
 			render edit_scrape_session_scrap_page_path(@scrape_page)
 		end
