@@ -34,6 +34,7 @@ class FbPostsController < ApplicationController
     end
 
     def search
+        @scrape_session = get_scrape_session(params[:q][:scrape_session_id])
         @selected_posts = {}
         @search = FbPost.search(params[:q])
         @search_params = params[:q]
