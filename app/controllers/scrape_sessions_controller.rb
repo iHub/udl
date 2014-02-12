@@ -55,8 +55,8 @@ class ScrapeSessionsController < ApplicationController
 
 		# refactor this ish - first extract the frequency select
 
-		@scrape_session.name 						= params[:name]
-		@scrape_session.description					= params[:description]
+		@scrape_session.name 						= params[:scrape_session][:name]
+		@scrape_session.description					= params[:scrape_session][:description]
 		@scrape_session.allow_page_override  		= params[:scrape_session][:allow_page_override]
     	@scrape_session.session_continuous_scrape 	= params[:scrape_session][:session_continuous_scrape]
     	@scrape_session.session_scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] || DEFAULT_SCRAPE_FREQUENCY
