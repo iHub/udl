@@ -29,13 +29,13 @@ class ScrapePagesController < ApplicationController
     	logger.debug "params[:scrape_page][:continous_scrape] => #{params[:scrape_page][:continous_scrape]}"
     	logger.debug "@scrape_page.continous_scrape => #{@scrape_page.continous_scrape}"
 
-    	if has_app_access_token?
-    		valid_url = @scrape_page.valid_page_url(@scrape_page.page_url, @scrape_session.id)
-		else
-			flash.now[:danger] = "Please initialize the application to continue"			
-			redirect_to new_app_setting_path and return
-		end
+    	# if has_app_access_token?
 
+    	valid_url = @scrape_page.valid_page_url(@scrape_page.page_url, @scrape_session.id)
+		
+		# flash.now[:danger] = "Please initialize the application to continue"			
+		# redirect_to new_app_setting_path and return
+		
     	# valid_init_scrape = @scrape_page.valid_init_scrape_date(@scrape_page.initial_scrape_start, @scrape_page.initial_scrape_end)
 
     	if valid_url == "valid"		# valid_page_url
@@ -75,6 +75,9 @@ class ScrapePagesController < ApplicationController
 	def update
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
 		@scrape_page = ScrapePage.find(params[:id])
+
+		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
+
 		if @scrape_page.update_attributes(scrape_page_params)
 			flash[:success] = "Your Page has been updated."
 			redirect_to scrape_session_scrape_pages_path
