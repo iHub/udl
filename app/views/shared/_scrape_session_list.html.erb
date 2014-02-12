@@ -10,10 +10,13 @@
           <th>#</th>
           <th>Session Name</th>
           <th>Description</th>
-          <th style="width:19%">Created</th>
-          <th style="width:8%">Pages</th>
-          <th style="width:8%">Posts</th>
-          <th style="width:8%">Comments</th>
+          <th style="width:10%">Created</th>
+          <th style="width:8%">Scrape</th>
+          <th style="width:8%">Frequency</th>
+          <th style="width:8%">Overrides</th>
+          <th style="width:7%">Pages</th>
+          <th style="width:7%">Posts</th>
+          <th style="width:7%">Comments</th>
           
         </tr>
       </thead>
@@ -29,6 +32,9 @@
             </td>
             <td><%= scrape_session.description %></td>
             <td><%= scrape_session.created_at.strftime("%b %e, %Y") %></td> <!-- %I:%M %p,  -->
+            <td><%= scrape_session.session_continuous_scrape %></td>
+            <td><%= distance_of_time_in_words(scrape_session.session_scrape_frequency) %></td>
+            <td><%= scrape_session.allow_page_override %></td>
             <td><%= scrape_session.total_pages %></td>
             <td><%= scrape_session.total_posts %></td>
             <td><%= scrape_session.total_comments %></td>
