@@ -58,18 +58,6 @@ class ScrapePage < ActiveRecord::Base
 
 	end
 
-	def valid_init_scrape_date(start_date, end_date)
-
-		if start_date.nil? && end_date.nil?
-			return "false"
-		elsif !start_date.nil? && !end_date.nil?
-			return "true"
-		elsif ( !start_date.nil? && end_date.nil? ) || ( start_date.nil? && !end_date.nil?)
-			return "Please enter both dates for the Initial collection"
-		end
-	end
-
-
 	########################################################	
 
 	def session_control_get_posts
@@ -116,66 +104,67 @@ class ScrapePage < ActiveRecord::Base
 	end
 	# handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
 
-	def get_new_fb_posts(scrape_page)		
+	def get_new_fb_posts
 		logger.debug "SCRAPER : get_fb_posts >>>"
-		if scrape_page.next_scrape_date?
-			scrape_page.next_scrape_date = Time.now - 1.day 
+		if self.next_scrape_date?
+			self.next_scrape_date = Time.now - 1.day 
 		end
 		get_fb_posts scrape_page, epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
 	end
 
-	def get_new_fb_comments(scrape_page_id)
+	def get_new_fb_comments
 		logger.debug "SCRAPER : get_new_fb_comments >>>"
-		get_fb_comments scrape_page_id
+		get_fb_comments
 	end
 
 
-	def retro_scrape
+	def retro_scrape(start_date, end_date)
 
-		start_date   = epoch_time self.initial_scrape_start        # convert date to unix epoch time
-		end_date     = epoch_time self.initial_scrape_end
+		# start_date   = epoch_time self.initial_scrape_start        # convert date to unix epoch time
+		# end_date     = epoch_time self.initial_scrape_end
 
 		@saved_posts_count      = 0
 		@saved_comments_count   = 0
-		retro_scrape_start_time = Time.now
+		retro_scrape_start_time = Time.now			# for the logs
 		@last_result_created_time = end_date
 
 		logger.debug ">>>>>>>>>>> Running Init Scrape Start (via Controller) <<<<<<<<<<<<"
 
-		get_fb_posts self, start_date, end_date
+		get_fb_posts start_date, end_date
 		logger.debug "get_fb_posts complete =>> get_fb_comments"
 
-		get_fb_comments self.id
+		get_fb_comments
+
 		logger.debug "get_fb_comments complete"
-		retro_scrape_end_time = Time.now
+		retro_scrape_end_time = Time.now			# for the logs
 	end
 	handle_asynchronously :retro_scrape, priority: 20, queue: "retro_scrape"
 
 
-	def init_scrape_start
+	# def init_scrape_start
 
-		start_date   = self.initial_scrape_start.to_time.utc.to_i         # convert date to unix epoch time
-		end_date     = self.initial_scrape_end.to_time.utc.to_i
+	# 	start_date   = self.initial_scrape_start.to_time.utc.to_i         # convert date to unix epoch time
+	# 	end_date     = self.initial_scrape_end.to_time.utc.to_i
 
-		@saved_posts_count      = 0
-		@saved_comments_count   = 0
-		@last_result_created_time = end_date
-		logger.debug ">>>>>>>>>>> Running Init Scrape Start (via Controller) <<<<<<<<<<<<"
+	# 	@saved_posts_count      = 0
+	# 	@saved_comments_count   = 0
+	# 	@last_result_created_time = end_date
+	# 	logger.debug ">>>>>>>>>>> Running Init Scrape Start (via Controller) <<<<<<<<<<<<"
 
-		get_fb_posts self, start_date, end_date
-		logger.debug "get_fb_posts complete =>> get_fb_comments"
+	# 	get_fb_posts start_date, end_date
+	# 	logger.debug "get_fb_posts complete =>> get_fb_comments"
 
-		get_fb_comments self.id
-		logger.debug "get_fb_comments complete"
-	end
-	handle_asynchronously :init_scrape_start, priority: 20, queue: "initscrape"
+	# 	get_fb_comments self.id
+	# 	logger.debug "get_fb_comments complete"
+	# end
+	# handle_asynchronously :init_scrape_start, priority: 20, queue: "initscrape"
 
 
 	#---------------------------------------------------
 
 	# handle fb posts > get and save
 
-	def get_fb_posts(scrape_page, start_date, end_date)
+	def get_fb_posts(start_date, end_date)
 
 		logger.debug "============ Running get_fb_posts ==============="
 
@@ -190,7 +179,7 @@ class ScrapePage < ActiveRecord::Base
 		    logger.debug "----- Before Save ----------"
 		    logger.debug "fb_posts.inspect => #{fb_posts.inspect}"
 
-		    save_fb_posts scrape_page, fb_posts
+		    save_fb_posts fb_posts
 
 		    logger.debug "@last_result_created_time => #{@last_result_created_time}"
 		    logger.debug "start_date => #{start_date}"
@@ -199,15 +188,17 @@ class ScrapePage < ActiveRecord::Base
 		    if @last_result_created_time > start_date
 		        logger.debug "@last_result_created_time < start_date => true"
 		        logger.debug "@last_result_created_time => #{@last_result_created_time} vs start_date => #{start_date}"
-		        get_fb_posts scrape_page, start_date, @last_result_created_time
+		        get_fb_posts start_date, @last_result_created_time
 		    end
 
 		elsif fb_posts.empty?
 		    logger.debug "###################### fb_posts is Empty!"
 		end
 	end
+	handle_asynchronously :get_fb_posts, priority: 20, queue: "get_fb_posts"
 
-	def save_fb_posts(scrape_page, fb_posts)
+
+	def save_fb_posts(fb_posts)
 		logger.debug "_________________ save_fb_posts ____________________"
 		logger.debug "fb_posts.nil? => #{fb_posts.nil?}"
 
@@ -217,8 +208,8 @@ class ScrapePage < ActiveRecord::Base
 		    this_post[:fb_post_id] 	    = fb_post["post_id"]
 		    this_post[:created_time] 	= Time.at(fb_post["created_time"]).utc
 		    this_post[:message] 		= fb_post["message"]
-		    this_post[:fb_page_id] 		= scrape_page.fb_page_id
-		    this_post[:scrape_page_id]  = scrape_page.id
+		    this_post[:fb_page_id] 		= self.fb_page_id
+		    this_post[:scrape_page_id]  = self.id
 		    
 		    current_post = FbPost.new(this_post)
 
@@ -247,11 +238,11 @@ class ScrapePage < ActiveRecord::Base
 
 	# handle fb comments > get and save
 
-	def get_fb_comments(scrape_page_id)
+	def get_fb_comments
 		logger.debug "<<<<<<<<<<<< Running get_fb_comments  >>>>>>>>>>>"
 
-		this_page = ScrapePage.find(scrape_page_id)
-		all_posts = this_page.fb_posts
+		# this_page = ScrapePage.find(scrape_page_id)
+		all_posts = self.fb_posts
 
 		logger.debug "all_posts.count => #{all_posts.count}"
 		return false if all_posts.count == 0
@@ -337,7 +328,7 @@ class ScrapePage < ActiveRecord::Base
             end
 
         end
-        logger.debug "fb_post_graph_object processing complete"
+        logger.debug "save_fb_comments >>> fb_post_graph_object processing complete"
 	end
 
 	#---------------------------------------------------

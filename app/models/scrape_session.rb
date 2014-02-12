@@ -55,7 +55,7 @@ class ScrapeSession < ActiveRecord::Base
 #-------------------------------------
 
 	def has_app_access_token?
-		has_settings = AppSetting.last
+		has_settings ||= AppSetting.last
 		if !has_settings.nil?
 			return true if !has_settings.fb_app_access_token.nil? 		
 		end
@@ -160,8 +160,8 @@ class ScrapeSession < ActiveRecord::Base
 		end_date = epoch_time Time.now 
 
 		if next_date < epoch_time(Time.now)
-			get_fb_posts current_page, next_date, end_date
-			get_fb_comments current_page
+			current_page.get_fb_posts next_date, end_date
+			current_page.get_fb_comments
 		end
 	end
 
@@ -170,170 +170,170 @@ class ScrapeSession < ActiveRecord::Base
 	# extract to class and reuse in scrape page class
 	# handle fb posts > get and save
 
-	def get_fb_posts(scrape_page, start_date, end_date)
+	# def get_fb_posts(scrape_page, start_date, end_date)
 
-		logger.debug "============ Running get_fb_posts ==============="
+	# 	logger.debug "============ Running get_fb_posts ==============="
 
-		query_limit  = 500
-		posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{scrape_page.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
-		logger.debug "posts_fql_query => #{posts_fql_query}"
+	# 	query_limit  = 500
+	# 	posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{scrape_page.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
+	# 	logger.debug "posts_fql_query => #{posts_fql_query}"
 
-		fb_posts = fb_graph.fql_query(posts_fql_query)
+	# 	fb_posts = fb_graph.fql_query(posts_fql_query)
 
-		if !fb_posts.empty?
+	# 	if !fb_posts.empty?
 		    
-		    logger.debug "----- Before Save ----------"
-		    logger.debug "fb_posts.inspect => #{fb_posts.inspect}"
+	# 	    logger.debug "----- Before Save ----------"
+	# 	    logger.debug "fb_posts.inspect => #{fb_posts.inspect}"
 
-		    save_fb_posts scrape_page, fb_posts
+	# 	    save_fb_posts scrape_page, fb_posts
 
-		    logger.debug "@last_result_created_time => #{@last_result_created_time}"
-		    logger.debug "start_date => #{start_date}"
-		    logger.debug "end_date => #{end_date}"
+	# 	    logger.debug "@last_result_created_time => #{@last_result_created_time}"
+	# 	    logger.debug "start_date => #{start_date}"
+	# 	    logger.debug "end_date => #{end_date}"
 
-		    if @last_result_created_time > start_date
-		        logger.debug "@last_result_created_time < start_date => true"
-		        logger.debug "@last_result_created_time => #{@last_result_created_time} vs start_date => #{start_date}"
-		        get_fb_posts scrape_page, start_date, @last_result_created_time
-		    end
+	# 	    if @last_result_created_time > start_date
+	# 	        logger.debug "@last_result_created_time < start_date => true"
+	# 	        logger.debug "@last_result_created_time => #{@last_result_created_time} vs start_date => #{start_date}"
+	# 	        get_fb_posts scrape_page, start_date, @last_result_created_time
+	# 	    end
 
-		elsif fb_posts.empty?
-		    logger.debug "###################### fb_posts is Empty!"
-		end
-	end
+	# 	elsif fb_posts.empty?
+	# 	    logger.debug "###################### fb_posts is Empty!"
+	# 	end
+	# end
 
-	def save_fb_posts(scrape_page, fb_posts)
-		logger.debug "_________________ save_fb_posts ____________________"
-		logger.debug "fb_posts.nil? => #{fb_posts.nil?}"
+	# def save_fb_posts(scrape_page, fb_posts)
+	# 	logger.debug "_________________ save_fb_posts ____________________"
+	# 	logger.debug "fb_posts.nil? => #{fb_posts.nil?}"
 
 
-		fb_posts.each do |fb_post|
-		    this_post = {}
-		    this_post[:fb_post_id] 	    = fb_post["post_id"]
-		    this_post[:created_time] 	= Time.at(fb_post["created_time"]).utc
-		    this_post[:message] 		= fb_post["message"]
-		    this_post[:fb_page_id] 		= scrape_page.fb_page_id
-		    this_post[:scrape_page_id]  = scrape_page.id
+	# 	fb_posts.each do |fb_post|
+	# 	    this_post = {}
+	# 	    this_post[:fb_post_id] 	    = fb_post["post_id"]
+	# 	    this_post[:created_time] 	= Time.at(fb_post["created_time"]).utc
+	# 	    this_post[:message] 		= fb_post["message"]
+	# 	    this_post[:fb_page_id] 		= scrape_page.fb_page_id
+	# 	    this_post[:scrape_page_id]  = scrape_page.id
 		    
-		    current_post = FbPost.new(this_post)
+	# 	    current_post = FbPost.new(this_post)
 
-		    this_post_created_at = (current_post.created_time).to_time.utc.to_i
+	# 	    this_post_created_at = (current_post.created_time).to_time.utc.to_i
 
-		    @last_result_created_time = this_post_created_at
+	# 	    @last_result_created_time = this_post_created_at
 
-		    logger.debug "@last_result_created_time => #{@last_result_created_time}"
+	# 	    logger.debug "@last_result_created_time => #{@last_result_created_time}"
 
-		    # if @last_result_created_time <  this_post_created_at
-		    #     @last_result_created_time = this_post_created_at
-		    # end
+	# 	    # if @last_result_created_time <  this_post_created_at
+	# 	    #     @last_result_created_time = this_post_created_at
+	# 	    # end
 
-		    if current_post.save
-		        logger.debug "!!!!!!!!!!!!!!!!!! Record Saved !!!!!!!!!!!!!!!!!!"
-		    else
-		    	logger.debug "--------------- Record NOT Saved | possible duplicate -----------------"
-		    end
-		end
+	# 	    if current_post.save
+	# 	        logger.debug "!!!!!!!!!!!!!!!!!! Record Saved !!!!!!!!!!!!!!!!!!"
+	# 	    else
+	# 	    	logger.debug "--------------- Record NOT Saved | possible duplicate -----------------"
+	# 	    end
+	# 	end
 
-		logger.debug "**************** save_fb_posts complete ****************"
+	# 	logger.debug "**************** save_fb_posts complete ****************"
 
-	end
+	# end
 
 	#---------------------------------------------------
 
 	# handle fb comments > get and save
 
-	def get_fb_comments(scrape_page_id)
-		logger.debug "<<<<<<<<<<<< Running get_fb_comments  >>>>>>>>>>>"
+	# def get_fb_comments(scrape_page_id)
+	# 	logger.debug "<<<<<<<<<<<< Running get_fb_comments  >>>>>>>>>>>"
 
-		this_page = ScrapePage.find(scrape_page_id)
-		all_posts = this_page.fb_posts
+	# 	this_page = ScrapePage.find(scrape_page_id)
+	# 	all_posts = this_page.fb_posts
 
-		logger.debug "all_posts.count => #{all_posts.count}"
-		return false if all_posts.count == 0
+	# 	logger.debug "all_posts.count => #{all_posts.count}"
+	# 	return false if all_posts.count == 0
 
-		@comment_list = []
-		@comment_count = 0
+	# 	@comment_list = []
+	# 	@comment_count = 0
 
-		@comment_count  = 0 
-		@saved_comments 	 = 0
+	# 	@comment_count  = 0 
+	# 	@saved_comments 	 = 0
 
-		all_posts.each do |current_fb_post|
+	# 	all_posts.each do |current_fb_post|
 
-			logger.debug "going through each post from all_post collection object"
+	# 		logger.debug "going through each post from all_post collection object"
 
-			logger.debug "perform graph search on current_fb_post from all_posts"
+	# 		logger.debug "perform graph search on current_fb_post from all_posts"
 
-			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
+	# 		fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
 			
-			logger.debug "graph complete on current_fb_post"
-			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspect}"
-			logger.debug "pass graph query result to save_fb_comments"
+	# 		logger.debug "graph complete on current_fb_post"
+	# 		logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspect}"
+	# 		logger.debug "pass graph query result to save_fb_comments"
 
-			if !fb_post_graph_object["comments"].nil?
-		    	save_fb_comments current_fb_post, fb_post_graph_object
-		    else
-		    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "
-			end
-		end
-	end
+	# 		if !fb_post_graph_object["comments"].nil?
+	# 	    	save_fb_comments current_fb_post, fb_post_graph_object
+	# 	    else
+	# 	    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "
+	# 		end
+	# 	end
+	# end
 
-	def save_fb_comments(fb_post, fb_post_graph_object)
+	# def save_fb_comments(fb_post, fb_post_graph_object)
 
-        fb_post_graph_object["comments"]["data"].each do |comment|
-            this_comment = {}
-            this_comment[:comment_id]      = comment["id"]
-            this_comment[:message]         = comment["message"]
-            this_comment[:from_user_id]    = comment["from"]["id"]
-            this_comment[:from_user_name]  = comment["from"]["name"]
-            this_comment[:created_time]    = comment["created_time"]
-            this_comment[:fb_post_id]      = fb_post.id
-            this_comment[:parent_id]       =  "0"
+ #        fb_post_graph_object["comments"]["data"].each do |comment|
+ #            this_comment = {}
+ #            this_comment[:comment_id]      = comment["id"]
+ #            this_comment[:message]         = comment["message"]
+ #            this_comment[:from_user_id]    = comment["from"]["id"]
+ #            this_comment[:from_user_name]  = comment["from"]["name"]
+ #            this_comment[:created_time]    = comment["created_time"]
+ #            this_comment[:fb_post_id]      = fb_post.id
+ #            this_comment[:parent_id]       =  "0"
 
-            # @get_next_page = true
+ #            # @get_next_page = true
 
-            fb_comment = fb_post.fb_comments.build(this_comment)
+ #            fb_comment = fb_post.fb_comments.build(this_comment)
 
-            @comment_list << this_comment
+ #            @comment_list << this_comment
 
-            @comment_count +=1  
+ #            @comment_count +=1  
 
-            if fb_comment.save
-              @saved_comments +=1
-              logger.debug "SAVED. @saved_comments = #{@saved_comments}"
-            else
-              logger.debug "<><><><><><> NOT SAVED.possible duplicate <><><><><><>"
-            end
+ #            if fb_comment.save
+ #              @saved_comments +=1
+ #              logger.debug "SAVED. @saved_comments = #{@saved_comments}"
+ #            else
+ #              logger.debug "<><><><><><> NOT SAVED.possible duplicate <><><><><><>"
+ #            end
 
-            # grab nested comments
-            if !comment["comments"].nil? 
-				comment["comments"]["data"].each do |comment_reply|
-					nested_comment = {}
-					nested_comment[:comment_id]      = comment_reply["id"]
-					nested_comment[:message]         = comment_reply["message"]
-					nested_comment[:from_user_id]    = comment_reply["from"]["id"]
-					nested_comment[:from_user_name]  = comment_reply["from"]["name"]
-					nested_comment[:created_time]    = comment_reply["created_time"]
-					nested_comment[:fb_post_id]      = fb_post.id
-					nested_comment[:parent_id]       = this_comment[:comment_id]
+ #            # grab nested comments
+ #            if !comment["comments"].nil? 
+	# 			comment["comments"]["data"].each do |comment_reply|
+	# 				nested_comment = {}
+	# 				nested_comment[:comment_id]      = comment_reply["id"]
+	# 				nested_comment[:message]         = comment_reply["message"]
+	# 				nested_comment[:from_user_id]    = comment_reply["from"]["id"]
+	# 				nested_comment[:from_user_name]  = comment_reply["from"]["name"]
+	# 				nested_comment[:created_time]    = comment_reply["created_time"]
+	# 				nested_comment[:fb_post_id]      = fb_post.id
+	# 				nested_comment[:parent_id]       = this_comment[:comment_id]
 
-					@comment_list << nested_comment
+	# 				@comment_list << nested_comment
 
-					fb_comment = fb_post.fb_comments.build(nested_comment)
+	# 				fb_comment = fb_post.fb_comments.build(nested_comment)
 
-					@comment_count +=1
+	# 				@comment_count +=1
 
-					if fb_comment.save
-						@saved_comments +=1
-						logger.debug "SAVED -- Nested comment. @saved_comments = #{@saved_comments}"
-					else
-						logger.debug "<><><><><><> Nested Comment not SAVED. Possible Duplicate <><><><><><>"
-					end
-				end
-            end
+	# 				if fb_comment.save
+	# 					@saved_comments +=1
+	# 					logger.debug "SAVED -- Nested comment. @saved_comments = #{@saved_comments}"
+	# 				else
+	# 					logger.debug "<><><><><><> Nested Comment not SAVED. Possible Duplicate <><><><><><>"
+	# 				end
+	# 			end
+ #            end
 
-        end
-        logger.debug "fb_post_graph_object processing complete"
-	end
+ #        end
+ #        logger.debug "fb_post_graph_object processing complete"
+	# end
 
 	#---------------------------------------------------
 
