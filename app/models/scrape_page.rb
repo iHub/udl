@@ -86,11 +86,11 @@ class ScrapePage < ActiveRecord::Base
 
 					@saved_posts_count      = 0
 					@saved_comments_count   = 0
-					get_new_fb_posts current_scrape_page
+					get_new_fb_posts
 
 					logger.debug "calling get_new_fb_comments"
 
-					get_new_fb_comments current_scrape_page.id
+					get_new_fb_comments
 
 					# set date for next scrape & save to db
 					next_scrape_date = Time.now + current_scrape_page.scrape_frequency
@@ -109,7 +109,7 @@ class ScrapePage < ActiveRecord::Base
 		if self.next_scrape_date?
 			self.next_scrape_date = Time.now - 1.day 
 		end
-		get_fb_posts scrape_page, epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
+		get_fb_posts epoch_time(scrape_page.next_scrape_date) , epoch_time(Time.now)
 	end
 
 	def get_new_fb_comments
@@ -341,8 +341,8 @@ class ScrapePage < ActiveRecord::Base
 		end
 
 		def fb_app_access_token
-			if has_app_access_token?
+			# if has_app_access_token?
 				fb_app_access_token ||= AppSetting.last.fb_app_access_token
-			end 
+			# end 
 		end
 end

@@ -68,12 +68,21 @@ class ScrapeSessionsController < ApplicationController
 
 	def batch_retro
 		@scrape_session = get_scrape_session(params[:id])
+
 		start_date = params[:batch_retro_scrape_start]
 		end_date   = params[:batch_retro_scrape_end]
-		selected_pages = ScrapePage.where(params[:scrape_page_ids])
+
+		selected_pages = ScrapePage.where(id: params[:scrape_page_ids])
+
+		# selected_pages.each do |this_page|
+		# 	this_page.get_fb_posts next_date, end_date
+		# 	this_page.get_fb_comments
+		# end
+
 		logger.debug "selected_pages => #{selected_pages.inspect}"
 		
 		logger.debug "retro-params => #{params.inspect}"
+
 		redirect_to scrape_session_path
 	end
 
