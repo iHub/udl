@@ -476,9 +476,30 @@ h3.panel-title{
   }
 
 }
+
 .description-search{
   width: 15em;  
   width: 100%;
+}
+
+.default-instructions{
+  background-color: $darkBlue;
+  color: #fff;
+  padding-left: 20px;
+
+  h4 {
+    margin-left: 10px;
+  }
+
+  ul > li{
+    font-size: 1em;
+    margin-bottom: 5px;
+    list-style-type: circle;
+    span{
+      font-weight: bold;
+      color: $headerGreen;
+    }
+  }
 }
 
 .page-header{
