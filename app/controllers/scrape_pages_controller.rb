@@ -16,6 +16,7 @@ class ScrapePagesController < ApplicationController
 	def new
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
     	@scrape_page = @scrape_session.scrape_pages.build
+    	@provide_default_instructions = true
 	end
 
 	def create
@@ -42,7 +43,7 @@ class ScrapePagesController < ApplicationController
 
     		logger.debug "valid page url"
     		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
-    		@scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
+    		# @scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
 
     		# logger.debug "------------------------------------------------"
     		# logger.debug "@scrape_page.next_scrape_date => #{@scrape_page.next_scrape_date}"
@@ -77,7 +78,7 @@ class ScrapePagesController < ApplicationController
 		@scrape_page = ScrapePage.find(params[:id])
 
 		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
-		@scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
+		# @scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
 
 		if @scrape_page.update_attributes(scrape_page_params)
 			flash[:success] = "Your Page has been updated."

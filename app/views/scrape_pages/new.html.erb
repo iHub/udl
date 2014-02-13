@@ -6,7 +6,19 @@
 	<h2>Add a Page to this Session</h2>
 </div>
 
-<div class="col-md-8 panel panel-default signup">
+<% if @provide_default_instructions %>
+<div class="well well-sm col-md-8 default-instructions">
+    <h4>The following default values will be used if you don't set them.</h4>
+    <ul>
+        <li>Scrape Frequency : <span>10 Minutes</span></li> 
+        <li>Continous Scrape : <span>False</span></li>
+        <li>Override Session Settings : <span>False</span></li>
+    </ul>
+</div>
+
+<% end %>
+
+<div class="col-md-8 panel panel-default">
 
 	<div class="panel-body">
 		
@@ -15,10 +27,5 @@
 </div>
 
 <% content_for :debug_dump do %>
-	<h4>Object value</h4>
-	<p>Inspect <%= @question.inspect %></p>
-  	<p>Class <%= @question.class %></p>
-  	<p>nil <%= @question.nil? %></p>
 
-	<br />
 <% end %>
