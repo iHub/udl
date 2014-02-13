@@ -11,6 +11,7 @@ class ScrapeSessionsController < ApplicationController
 
 	def new
 		@scrape_session = ScrapeSession.new
+		@provide_default_instructions = true
 	end
 
 	def edit
