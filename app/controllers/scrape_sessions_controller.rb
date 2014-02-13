@@ -34,12 +34,11 @@ class ScrapeSessionsController < ApplicationController
 	def create
 		scrape_session = ScrapeSession.new(scrape_session_params)
 		scrape_session.user_id = current_user.id
-
     	scrape_session.allow_page_override  = params[:scrape_session][:allow_page_override]
 
     	scrape_session.session_continuous_scrape 	= params[:scrape_session][:session_continuous_scrape]
     	scrape_session.session_scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] if scrape_session.session_continuous_scrape
-    	scrape_session.session_next_scrape_date		= Time.now + scrape_session.session_scrape_frequency if scrape_session.session_continuous_scrape
+    	# scrape_session.session_next_scrape_date		= Time.now + scrape_session.session_scrape_frequency if scrape_session.session_continuous_scrape
 
 		if scrape_session.save
 			log_scrape_session_event scrape_session, "create"
@@ -52,9 +51,8 @@ class ScrapeSessionsController < ApplicationController
 
 	def update
 		@scrape_session = ScrapeSession.find(params[:id])
-
     	@scrape_session.session_scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] || DEFAULT_SCRAPE_FREQUENCY
-    	@scrape_session.session_next_scrape_date	= Time.now + @scrape_session.session_scrape_frequency
+    	# @scrape_session.session_next_scrape_date	= Time.now + @scrape_session.session_scrape_frequency
 
 		if @scrape_session.update_attributes(scrape_session_params)
 			log_scrape_session_event @scrape_session, "edit"

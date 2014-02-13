@@ -33,6 +33,27 @@ class ScrapeSession < ActiveRecord::Base
 	# validates :user_id, presence: true
 	validates :name, 	presence: true
 
+	SCRAPE_FREQUENCY_DEFAULT    = 600
+	CONTINUOUS_SCRAPE_DEFAULT   = false
+	ALLOW_PAGE_OVERRIDE_DEFAULT = false
+
+	before_create :set_defaults
+	before_save   :set_next_scrape_date
+
+	def set_defaults
+		self.session_scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if session_scrape_frequency == nil
+		self.session_continuous_scrape = CONTINUOUS_SCRAPE_DEFAULT if session_continuous_scrape == nil
+		self.allow_page_override       = ALLOW_PAGE_OVERRIDE_DEFAULT if allow_page_override      == nil
+		self.session_next_scrape_date  = Time.now + session_scrape_frequency
+		logger.debug "BEFORE create >> session_scrape_frequency => #{session_scrape_frequency}"
+	end
+
+	def set_next_scrape_date
+		self.session_scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if session_scrape_frequency == nil		
+		self.session_next_scrape_date  = Time.now + session_scrape_frequency
+		logger.debug "BEFORE save >> session_scrape_frequency => #{session_scrape_frequency}"
+	end
+
 	def user_name
 		session_owner = User.find(self.user_id)
 		"#{session_owner.firstname.capitalize} #{session_owner.lastname.capitalize}"
