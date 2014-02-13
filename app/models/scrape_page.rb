@@ -25,20 +25,6 @@ class ScrapePage < ActiveRecord::Base
 	before_create :set_defaults
 	before_save   :set_next_scrape_date
 
-	def set_defaults
-		self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT  if scrape_frequency == nil
-		self.continous_scrape  = CONTINUOUS_SCRAPE_DEFAULT if continous_scrape == nil
-		self.override_session_settings = OVERRIDE_SESSION_DEFAULT if override_session_settings == nil
-		self.next_scrape_date  = Time.now + scrape_frequency
-		logger.debug "BEFORE create >> scrape_frequency => #{scrape_frequency}"
-	end
-
-	def set_next_scrape_date
-		self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if scrape_frequency == nil		
-		self.next_scrape_date  = Time.now + scrape_frequency
-		logger.debug "BEFORE save >> scrape_frequency => #{scrape_frequency}"
-	end
-
 
 	def total_posts
 		self.fb_posts.count
@@ -365,5 +351,19 @@ class ScrapePage < ActiveRecord::Base
 			# if has_app_access_token?
 				fb_app_access_token ||= AppSetting.last.fb_app_access_token
 			# end 
+		end
+
+		def set_defaults
+			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT  if scrape_frequency == nil
+			self.continous_scrape  = CONTINUOUS_SCRAPE_DEFAULT if continous_scrape == nil
+			self.override_session_settings = OVERRIDE_SESSION_DEFAULT if override_session_settings == nil
+			self.next_scrape_date  = Time.now + scrape_frequency
+			logger.debug "BEFORE create >> scrape_frequency => #{scrape_frequency}"
+		end
+
+		def set_next_scrape_date
+			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if scrape_frequency == nil		
+			self.next_scrape_date  = Time.now + scrape_frequency
+			logger.debug "BEFORE save >> scrape_frequency => #{scrape_frequency}"
 		end
 end
