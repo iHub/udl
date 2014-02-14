@@ -6,6 +6,7 @@
 	<h2>Add a Page to this Session</h2>
 </div>
 
+
 <% if @provide_default_instructions %>
 <div class="well well-sm col-md-8 default-instructions">
     <h4>The following default values will be used if you don't set them.</h4>
@@ -22,7 +23,7 @@
 
 	<div class="panel-body">
 		
-		<%= render 'shared/scrape_page_form' %>
+		<%= render 'shared/scrape_page_form', object: @scrape_page %>
 	</div>
 </div>
 

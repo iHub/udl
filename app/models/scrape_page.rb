@@ -12,18 +12,32 @@ class ScrapePage < ActiveRecord::Base
 	scope 	:has_override,  -> { where(override_session_settings: true) }
 	scope 	:no_override,   -> { where(override_session_settings: false) }
 
-	validates :page_url, presence: true
-	validates :fb_page_id, presence: true
 
-	validates :scrape_frequency, presence: true, if: :continous_scrape?
-	validates :scrape_frequency,  :numericality => {:only_integer => true}
+	# validate :get_fb_page_id
+	#---------------------------
 
 	SCRAPE_FREQUENCY_DEFAULT  = 600
 	CONTINUOUS_SCRAPE_DEFAULT = false
 	OVERRIDE_SESSION_DEFAULT  = false
 
-	before_create :set_defaults
-	before_save   :set_next_scrape_date
+	before_validation :clean_page_url, :set_page_type
+	before_validation :get_fb_page_id, on: :create
+
+	before_create   :set_defaults
+	before_save     :set_next_scrape_date
+
+	#---------------------------
+
+	validates :page_url, 	presence: true
+	validates_uniqueness_of	:page_url,   scope: :scrape_session_id, message: "This page exists in this sesssion!!"
+
+	validates_presence_of   :fb_page_id, message: "Invalid URL"
+	validates_uniqueness_of	:fb_page_id, scope: :scrape_session_id
+
+	validates :page_type,  presence: true
+	validates :scrape_frequency, 	presence: true, if: :continous_scrape?, 
+									numericality:  {only_integer: true}
+
 
 
 	def total_posts
@@ -45,25 +59,52 @@ class ScrapePage < ActiveRecord::Base
 		standard_date_time.to_time.utc.to_i
 	end
 
-	def valid_page_url(fb_url, scrape_session_id)
-		
-		scrape_session = ScrapeSession.find(scrape_session_id)
-		scrape_page = scrape_session.scrape_pages.find_by_page_url(fb_url)
+	def get_fb_page_id
+		logger.debug "inside get_fb_page_id"
 
-		return "duplicate" if scrape_page
+		if page_type == "page" 
 
-		begin
-			graph 		  = Koala::Facebook::API.new(fb_app_access_token)
-			page_profile  = graph.get_object(fb_url)
-			self.fb_page_id = page_profile["id"]
-			logger.debug "inside valid_page_url method | fb_page_id => #{page_profile["id"]}"
-			return "valid"
-		rescue Exception => e 				# swap Koala::Facebook::APIError
-			# flash.now[:danger] = e
-			return e.message
+			begin
+				# graph 		    = Koala::Facebook::API.new(fb_app_access_token)
+				logger.debug "graph check next"
+				@page_profile    = fb_graph.get_object(page_url)
+			rescue Exception => e 				# swap Koala::Facebook::APIError
+				self.errors.add(:page_url, e )
+			end
+
+			logger.debug "graph called  ::  @page_profile => #{@page_profile.inspect}"
+
+			if @page_profile.nil? 
+				logger.debug "it's nil @page_profile => #{@page_profile.inspect}"
+				self.errors.add(:page_url, "Invalid URL!!" )
+			else
+				self.fb_page_id = @page_profile["id"]
+				logger.debug "graph called  ::  fb_page_id => #{fb_page_id.inspect}"
+			end
+			
+
+		elsif self.page_type == "group"
+			crawl_and_get_id page_url
 		end
+		logger.debug "get_fb_page_id complete fb_page_id => #{fb_page_id.inspect}"
 
+		self.fb_page_id
 	end
+
+	def crawl_and_get_id(fb_url_stub)
+		
+	end
+
+	def clean_page_url
+		self.page_url = page_url.gsub(/.*(facebook.com)[\/]/, '')
+		logger.debug "clean_page_url called:: page_url => #{page_url}"
+	end
+
+	def set_page_type
+		self.page_type =  page_url =~ /(groups)\// ? "group" : "page"
+		logger.debug "set_page_type called :: page_type => #{page_type}"
+	end
+
 
 	########################################################	
 
@@ -344,26 +385,23 @@ class ScrapePage < ActiveRecord::Base
 	private
 
 		def fb_graph
+			logger.debug "inside fb_graph fb_app_access_token => #{fb_app_access_token}"
 			fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
 		end
 
 		def fb_app_access_token
-			# if has_app_access_token?
-				fb_app_access_token ||= AppSetting.last.fb_app_access_token
-			# end 
+			logger.debug "getting the access token"
+			fb_app_access_token ||= AppSetting.last.fb_app_access_token
 		end
 
 		def set_defaults
 			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT  if scrape_frequency == nil
 			self.continous_scrape  = CONTINUOUS_SCRAPE_DEFAULT if continous_scrape == nil
 			self.override_session_settings = OVERRIDE_SESSION_DEFAULT if override_session_settings == nil
-			self.next_scrape_date  = Time.now + scrape_frequency
-			logger.debug "BEFORE create >> scrape_frequency => #{scrape_frequency}"
+			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if scrape_frequency == nil	
 		end
 
-		def set_next_scrape_date
-			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if scrape_frequency == nil		
+		def set_next_scrape_date	
 			self.next_scrape_date  = Time.now + scrape_frequency
-			logger.debug "BEFORE save >> scrape_frequency => #{scrape_frequency}"
 		end
 end

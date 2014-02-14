@@ -20,63 +20,27 @@ class ScrapePagesController < ApplicationController
 	end
 
 	def create
-		logger.debug "params[:scrape_session_id] => #{params[:scrape_session_id]}"
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
     	@scrape_page = @scrape_session.scrape_pages.build(scrape_page_params)
 
     	@scrape_page.continous_scrape 			= params[:scrape_page][:continous_scrape]
     	@scrape_page.override_session_settings  = params[:scrape_page][:override_session_settings]
-
-    	logger.debug "params[:scrape_page][:continous_scrape] => #{params[:scrape_page][:continous_scrape]}"
-    	logger.debug "@scrape_page.continous_scrape => #{@scrape_page.continous_scrape}"
-
-    	# if has_app_access_token?
-
-    	valid_url = @scrape_page.valid_page_url(@scrape_page.page_url, @scrape_session.id)
+    	@scrape_page.scrape_frequency 			= frequency_minutes params[:scrape_page][:scrape_frequency_select]
 		
-		# flash.now[:danger] = "Please initialize the application to continue"			
-		# redirect_to new_app_setting_path and return
-		
-    	# valid_init_scrape = @scrape_page.valid_init_scrape_date(@scrape_page.initial_scrape_start, @scrape_page.initial_scrape_end)
-
-    	if valid_url == "valid"		# valid_page_url
-
-    		logger.debug "valid page url"
-    		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
-    		# @scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
-
-    		# logger.debug "------------------------------------------------"
-    		# logger.debug "@scrape_page.next_scrape_date => #{@scrape_page.next_scrape_date}"
-
-
-			if @scrape_page.save 		# has been saved?
-				logger.debug "page saved;"
-
-				success_message = "Your page has been added to the Session!"
-				flash[:success] = success_message
-				redirect_to scrape_session_scrape_pages_path
-
-			else  # i didnt save, render form and try again
-				flash[:danger] = @scrape_page.errors.inspect
-				render 'new'
-			end
-
-    	elsif valid_url == "duplicate"		# invalid page because of duplication
-    		logger.debug "duplicate page"
-    		flash.now[:danger] =  "DUPLICATE: The page \" #{@scrape_page.page_url}\" already exists in this Session."
+    	if @scrape_page.save 		# has been saved?
+			success_message = "Your page has been added to the Session!"
+			flash[:success] = success_message
+			redirect_to scrape_session_scrape_pages_path
+		else 
 			render 'new'
-		else								# invalid page - doesn't exist or koala error
-			logger.debug "invalid url"
-			flash.now[:danger] =  valid_url
-			render 'new'
-		end # @valid_page_url
+		end
 	end
-
 
 	def update
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
 		@scrape_page = ScrapePage.find(params[:id])
-
+		@scrape_page.continous_scrape = params[:scrape_page][:continous_scrape]
+		@scrape_page.override_session_settings  = params[:scrape_page][:override_session_settings]
 		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
 		# @scrape_page.next_scrape_date = Time.now + @scrape_page.scrape_frequency
 
@@ -134,15 +98,15 @@ class ScrapePagesController < ApplicationController
 		
 		def scrape_frequency_options
 			scrape_frequency_options    = []
-			scrape_frequency_options[1] = "10 Minutes"
-			scrape_frequency_options[2] = "30 Minutes"
-			scrape_frequency_options[3] = "1 Hour"
-			scrape_frequency_options[4] = "3 Hours"
-			scrape_frequency_options[5] = "6 Hours"
-			scrape_frequency_options[6] = "12 Hours"
-			scrape_frequency_options[7] = "Daily"
-			scrape_frequency_options[8] = "Every 3 Days"
-			scrape_frequency_options[9] = "Weekly"
+			scrape_frequency_options[0] = "10 Minutes"
+			scrape_frequency_options[1] = "30 Minutes"
+			scrape_frequency_options[2] = "1 Hour"
+			scrape_frequency_options[3] = "3 Hours"
+			scrape_frequency_options[4] = "6 Hours"
+			scrape_frequency_options[5] = "12 Hours"
+			scrape_frequency_options[6] = "Daily"
+			scrape_frequency_options[7] = "Every 3 Days"
+			scrape_frequency_options[8] = "Weekly"
 			@scrape_frequencies = scrape_frequency_options
 		end
 

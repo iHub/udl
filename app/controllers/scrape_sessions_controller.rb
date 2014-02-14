@@ -128,15 +128,15 @@ class ScrapeSessionsController < ApplicationController
 
 		def scrape_frequency_options
 			scrape_frequency_options    = []
-			scrape_frequency_options[1] = "10 Minutes"
-			scrape_frequency_options[2] = "30 Minutes"
-			scrape_frequency_options[3] = "1 Hour"
-			scrape_frequency_options[4] = "3 Hours"
-			scrape_frequency_options[5] = "6 Hours"
-			scrape_frequency_options[6] = "12 Hours"
-			scrape_frequency_options[7] = "Daily"
-			scrape_frequency_options[8] = "Every 3 Days"
-			scrape_frequency_options[9] = "Weekly"
+			scrape_frequency_options[0] = "10 Minutes"
+			scrape_frequency_options[1] = "30 Minutes"
+			scrape_frequency_options[2] = "1 Hour"
+			scrape_frequency_options[3] = "3 Hours"
+			scrape_frequency_options[4] = "6 Hours"
+			scrape_frequency_options[5] = "12 Hours"
+			scrape_frequency_options[6] = "Daily"
+			scrape_frequency_options[7] = "Every 3 Days"
+			scrape_frequency_options[8] = "Weekly"
 			@scrape_frequencies = scrape_frequency_options
 		end
 

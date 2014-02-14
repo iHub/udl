@@ -1,5 +1,7 @@
 <%= form_for [@scrape_session, @scrape_page] do |f|%>
 	
+	<%= render 'shared/error_messages', object: f.object %>
+	
 	<div class="form-group">
 		<h4>Facebook Page URL</h4>
 	</div>
