@@ -91,14 +91,13 @@ class ScrapeSessionsController < ApplicationController
 
 		selected_pages = ScrapePage.where(id: params[:scrape_page_ids])
 
-		# selected_pages.each do |this_page|
-		# 	this_page.get_fb_posts next_date, end_date
-		# 	this_page.get_fb_comments
-		# end
+		selected_pages.each do |this_page|
+			this_page.retro_scrape start_date, end_date
+		end
 
 		logger.debug "selected_pages => #{selected_pages.inspect}"
 		logger.debug "retro-params => #{params.inspect}"
-
+		flash[:success] = "Batch Retro scrape in progress"
 		redirect_to scrape_session_path
 	end
 

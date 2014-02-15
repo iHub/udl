@@ -114,10 +114,14 @@ class ScrapeSession < ActiveRecord::Base
 #-------------------------------------
 
 	def parse_all_sessions
-
+		logger.debug "Starting parse_all_sessions"
 		session_controlled_scrape_pages = ScrapePage.where(scrape_session_id: ScrapeSession.absolute.continuous.select(:id))
 		session_controlled_page_delegated_scrape_pages  = ScrapePage.where(scrape_session_id: ScrapeSession.overridden.continuous.select(:id)).no_override
 		page_controlled_scrape_pages    = ScrapePage.where(scrape_session_id: ScrapeSession.overridden.select(:id)).has_override.continuous
+
+		logger.debug "COUNTS:: session_controlled_scrape_pages => #{session_controlled_scrape_pages.count}"
+		logger.debug "COUNTS:: session_controlled_page_delegated_scrape_pages => #{session_controlled_page_delegated_scrape_pages.count}"
+		logger.debug "COUNTS:: page_controlled_scrape_pages => #{page_controlled_scrape_pages.count}"
 
 		session_controlled_scrape_pages.each 			    { |this_page| collect_page_comments this_page, "session"}
 		session_controlled_page_delegated_scrape_pages.each { |this_page| collect_page_comments this_page, "session"}
@@ -127,9 +131,11 @@ class ScrapeSession < ActiveRecord::Base
 
 	def collect_page_comments(current_page, setting_source)
 		if setting_source == "session"
+			logger.debug "Collecting via session settings"
 			frequency = current_page.scrape_session.session_scrape_frequency
 			next_date = epoch_time current_page.scrape_session.session_next_scrape_date
 		elsif setting_source == "page"
+			logger.debug "Collecting via scrape page settings"
 			frequency = current_page.scrape_frequency
 			next_date = epoch_time current_page.next_scrape_date
 		end
