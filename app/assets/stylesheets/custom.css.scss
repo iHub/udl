@@ -10,7 +10,10 @@ $headerGreen: #f7941e; /*#92AF7B;*/
 $well_question: #555; 
 $navHoverRed: rgb(158, 34, 34);
 $helpPageHeader: #68828F;
-$pageStats: #60A124;
+$pageDescriptionBg: #60A124;
+$pageStats: $pageDescriptionBg;
+
+ 
 
 /*mixin*/
 @mixin box_sizing {
@@ -317,6 +320,29 @@ footer .navbar-nav > li > a{
 
 
 /*---------------------------------------*/
+// session description for inside pages header
+/*---------------------------------------*/
+
+.session-child-summary{
+  margin-bottom: 0 !important;
+  background-color: #4B6434;
+  color: #eee;
+  p{
+    margin-left: 30px;
+    margin-bottom: 0;
+    display: inline-block;
+    float: right;
+
+    span{
+      font-weight: bold;
+      padding: 0 5px;
+    }
+  }
+}
+
+
+
+/*---------------------------------------*/
 // session description
 /*---------------------------------------*/
 
@@ -325,7 +351,7 @@ footer .navbar-nav > li > a{
   font-weight: bold;
 
   .session-name{
-    color: #60A124;
+    color: $pageDescriptionBg;
   }
 }
 
@@ -348,7 +374,7 @@ footer .navbar-nav > li > a{
     background-color: $darkBlue;
   }
   .page-count{
-    background-color: #60A124;
+    background-color: $pageDescriptionBg;
   }
   .post-count{
     background-color: $headerGreen;

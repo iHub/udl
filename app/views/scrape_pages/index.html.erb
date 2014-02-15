@@ -4,6 +4,15 @@
 
 <div class="page-header">
 	<h2 class="pull-left">Pages</h2>
+  <div class="pull-right">
+    <div class="well well-sm session-child-summary">
+      <p>Allow Page override: <span><%= @scrape_session.allow_page_override.to_s.upcase %></span></p>
+      <p>Session Continous: <span><%= @scrape_session.session_continuous_scrape.to_s.upcase %></span></p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
 	<div class="clearfix"></div>
 </div>
 
