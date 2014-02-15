@@ -12,16 +12,17 @@ class ScrapePage < ActiveRecord::Base
 	scope 	:has_override,  -> { where(override_session_settings: true) }
 	scope 	:no_override,   -> { where(override_session_settings: false) }
 
-
-	# validate :get_fb_page_id
 	#---------------------------
 
 	SCRAPE_FREQUENCY_DEFAULT  = 600
 	CONTINUOUS_SCRAPE_DEFAULT = false
 	OVERRIDE_SESSION_DEFAULT  = false
 
-	before_validation :clean_page_url, :set_page_type
-	before_validation :get_fb_page_id, on: :create
+	#---------------------------
+
+	before_validation :clean_page_url, :set_page_type, :get_fb_page_id, on: :create
+	# before_validation 
+	# before_create	  :get_fb_page_id
 
 	before_create   :set_defaults
 	before_save     :set_next_scrape_date
@@ -31,7 +32,7 @@ class ScrapePage < ActiveRecord::Base
 	validates :page_url, 	presence: true
 	validates_uniqueness_of	:page_url,   scope: :scrape_session_id, message: "This page exists in this sesssion!!"
 
-	validates_presence_of   :fb_page_id, message: "Invalid URL"
+	validates_presence_of   :fb_page_id, message: "Invalid URL!"
 	validates_uniqueness_of	:fb_page_id, scope: :scrape_session_id
 
 	validates :page_type,  presence: true
@@ -69,7 +70,10 @@ class ScrapePage < ActiveRecord::Base
 				logger.debug "graph check next"
 				@page_profile    = fb_graph.get_object(page_url)
 			rescue Exception => e 				# swap Koala::Facebook::APIError
-				self.errors.add(:page_url, e )
+				logger.debug "e.inspect => #{e.inspect}"
+				logger.debug "e.class => #{e.class}"
+				logger.debug "e => #{e}"
+				self.errors.add(:page_url, "#{e.message}")
 			end
 
 			logger.debug "graph called  ::  @page_profile => #{@page_profile.inspect}"
