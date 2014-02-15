@@ -28,6 +28,18 @@
 	<div class="clearfix"></div>
 </div>
 
+
+<div class="panel panel-default session-summary">
+  <div class="panel-heading">Session Summary</div>
+  <div class="panel-body">
+   		<%= render 'shared/scrape_page_description', object: @scrape_page %>
+	</div>
+</div>
+
+
+<div class="whitespace"></div>
+
+
 <% if @fb_posts.empty? %>
 	<div class="well well-sm">
 		<p>This Page doesn't have any posts.</p>
