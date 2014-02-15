@@ -350,6 +350,13 @@ footer .navbar-nav > li > a{
   .search-form{
     width: 90%;
   }
+
+  .panel-footer{
+    .pagination{
+      margin:0;
+      ul.pagination{margin:0;}
+    }
+  }
 }
 
 /*---------------------------------------*/

@@ -62,13 +62,14 @@
 	<div class="clearfix"></div>
 	<hr />
 
-	<div class="page-header">
-		<h3>Posts Collected</h3>
-	</div>
-	<%= render 'shared/fb_post_list', object: @fb_posts  %>
-	<div class="center-block">
-		<%= will_paginate @fb_posts %>
-	</div>
+	<div class="panel panel-default dash-stats-sessions">
+      <div class="panel-heading">All Posts</div>
+      <div class="panel-body">
+       <%= render 'shared/fb_post_list', object: @fb_posts  %>
+      </div>
+      <div class="panel-footer"><%= will_paginate @fb_posts %></div>
+    </div>
+
 <% end %>
 
 <% content_for :debug_dump do %>

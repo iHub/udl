@@ -49,10 +49,15 @@
     <div class="clearfix"></div>
     <hr />
 
-    <%= render 'shared/fb_comment_list', object: @fb_comments  %>
-    <div class="center-block">
-        <%= will_paginate @fb_comments %>
+
+    <div class="panel panel-default dash-stats-sessions">
+      <div class="panel-heading">All Posts</div>
+      <div class="panel-body">
+       <%= render 'shared/fb_comment_list', object: @fb_comments  %>
+      </div>
+      <div class="panel-footer"><%= will_paginate @fb_comments %></div>
     </div>
+
 <% end %>
 
 

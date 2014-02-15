@@ -26,9 +26,7 @@
       </div>
 
     </div>
-
-	<!-- add pagination -->
-
+  <div class="whitespace"></div>
 <% else %>
 	<div class="well well-sm">
 		<h4>You haven't added any pages to this session</h4>
@@ -37,11 +35,5 @@
 
 
 <% content_for :debug_dump do %>
-  <p>inspect <%= @scrape_pages.inspect %></p>
-  <p>Class <%= @scrape_pages.class %></p>
-  <p>Nil <%= @scrape_pages.nil? %></p>
-  <p>Blank <%= @scrape_pages.blank? %></p>
-  <hr />
-  <p>inspect @scrape_session <%= @scrape_session.inspect %></p>
 
 <% end %>
