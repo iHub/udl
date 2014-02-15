@@ -17,7 +17,7 @@
 	  <div class="panel-body">
 	   <%= render 'shared/scrape_session_list', object: @scrape_sessions %>
 	  </div>
-
+	  <div class="panel-footer"><%= will_paginate @scrape_sessions %></div>
 	</div>
 	
 
@@ -28,7 +28,5 @@
 <% end %>
 
 <% content_for :debug_dump do %>
-	<h4>Scrape Session Info</h4>
-	<p>Any? <%= @scrape_sessions.inspect %></p>
-	<br />
+
 <% end %>
