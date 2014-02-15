@@ -96,7 +96,13 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	def crawl_and_get_id(fb_url_stub)
-		
+		group_id_reg_ex = /^(groups)\/((\d+)\/?\s*)(\/.*)?\s*$/
+		group_id_match  = fb_url_stub.match group_id_reg_ex
+		if group_id_match
+			self.fb_page_id = group_id_match[3]
+		else
+			# do a nokogiri scrape
+		end
 	end
 
 	def clean_page_url
