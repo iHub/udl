@@ -86,10 +86,12 @@ class ScrapeSessionsController < ApplicationController
 	def batch_retro
 		@scrape_session = get_scrape_session(params[:id])
 
-		start_date = params[:batch_retro_scrape_start]
-		end_date   = params[:batch_retro_scrape_end]
+		start_date =  params[:batch_retro_scrape_start].to_time.utc.to_i
+		end_date   =  params[:batch_retro_scrape_end].to_time.utc.to_i
 
 		selected_pages = ScrapePage.where(id: params[:scrape_page_ids])
+
+		logger.debug "Selected pages => #{params[:scrape_page_ids].length}"
 
 		selected_pages.each do |this_page|
 			this_page.retro_scrape start_date, end_date

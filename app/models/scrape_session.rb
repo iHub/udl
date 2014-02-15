@@ -143,8 +143,9 @@ class ScrapeSession < ActiveRecord::Base
 		end_date = epoch_time Time.now 
 
 		if next_date < epoch_time(Time.now)
-			current_page.get_fb_posts next_date, end_date
-			current_page.get_fb_comments
+			current_page.retro_scrape next_date, end_date
+			# current_page.get_fb_posts next_date, end_date
+			# current_page.get_fb_comments
 		end
 	end
 

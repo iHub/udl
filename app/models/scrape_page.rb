@@ -40,6 +40,10 @@ class ScrapePage < ActiveRecord::Base
 									numericality:  {only_integer: true}
 
 
+	def initialize
+	    @@fb_app_access_token ||= AppSetting.last.fb_app_access_token
+	    @@fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
+	end
 
 	def total_posts
 		self.fb_posts.count
@@ -49,12 +53,12 @@ class ScrapePage < ActiveRecord::Base
 		self.fb_comments.count
 	end
 
-	def has_app_access_token?
-		has_settings = AppSetting.last
-		if !has_settings.nil?
-			return true if !has_settings.fb_app_access_token.nil? 		
-		end
-	end
+	# def has_app_access_token?
+	# 	has_settings = AppSetting.last
+	# 	if !has_settings.nil?
+	# 		return true if !has_settings.fb_app_access_token.nil? 		
+	# 	end
+	# end
 	
 	def epoch_time(standard_date_time)
 		standard_date_time.to_time.utc.to_i
@@ -150,8 +154,10 @@ class ScrapePage < ActiveRecord::Base
 
 		logger.debug "============ Running get_fb_posts ==============="
 
+		logger.debug "start_date #{start_date} "
+		logger.debug "end_date #{end_date} "
 		query_limit  = 500
-		posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{scrape_page.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
+		posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{self.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
 		logger.debug "posts_fql_query => #{posts_fql_query}"
 
 		fb_posts = fb_graph.fql_query(posts_fql_query)
@@ -177,7 +183,7 @@ class ScrapePage < ActiveRecord::Base
 		    logger.debug "###################### fb_posts is Empty!"
 		end
 	end
-	handle_asynchronously :get_fb_posts, priority: 20, queue: "get_fb_posts"
+	# handle_asynchronously :get_fb_posts, priority: 20, queue: "get_fb_posts"
 
 
 	def save_fb_posts(fb_posts)
@@ -387,7 +393,7 @@ class ScrapePage < ActiveRecord::Base
 	private
 
 		def fb_graph
-			logger.debug "inside fb_graph fb_app_access_token => #{fb_app_access_token}"
+			logger.debug "inside fb_graph"
 			fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
 		end
 
