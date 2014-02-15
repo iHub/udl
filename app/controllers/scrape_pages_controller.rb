@@ -48,7 +48,7 @@ class ScrapePagesController < ApplicationController
 			flash[:success] = "Your Page has been updated."
 			redirect_to scrape_session_scrape_page_path
 		else
-			render edit_scrape_session_scrap_page_path(@scrape_page)
+			render 'edit'
 		end
 	end
 
