@@ -13,7 +13,7 @@
               </tr>
 
               <tr class="session-description-name">
-                <td class="session-description-label">URL</td>
+                <td class="session-description-label">Facebook URL</td>
                 <td class="session-name">www.facebook.com/<%= object.page_url %></td>
               </tr>
 
@@ -29,7 +29,7 @@
 
               <tr>
                 <td class="session-description-label">Continous</td>
-                <td><%= object.continous_scrape %></td>
+                <td><%= object.continous_scrape.to_s.upcase %></td>
               </tr>
 
               <tr>
@@ -39,7 +39,7 @@
 
               <tr>
                 <td class="session-description-label">Override Session Settings</td>
-                <td><%= object.override_session_settings %></td>
+                <td><%= object.override_session_settings.to_s.upcase %></td>
               </tr>
 
           </tbody>
