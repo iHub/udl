@@ -3,7 +3,7 @@ class ScrapePage < ActiveRecord::Base
 	attr_accessor :scrape_frequency_select
 
 	#associations
-	belongs_to  :scrape_session	
+	belongs_to  :scrape_session, counter_cache: true	
 	has_many    :fb_posts, 		dependent: :destroy
 	has_many	:fb_comments, :through => :fb_posts
 
