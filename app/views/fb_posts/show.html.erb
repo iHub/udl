@@ -3,11 +3,19 @@
 
 <div class="page-header">
     <h2 class="pull-left">Comments Collected</h2>
-
     <div class="clearfix"></div>
 </div>
 
-<div class="container">
+<div class="panel panel-default session-summary">
+  <div class="panel-heading">Post Summary</div>
+  <div class="panel-body">
+        <%= render 'shared/fb_post_description', object: @fb_post, page: @scrape_page, session: @scrape_session %>
+    </div>
+</div>
+
+<div class="whitespace"></div>
+
+
 <% if @fb_comments.empty? %>
     <div class="post-content">
         <h4>Source: <strong><%= @scrape_page.page_url %></strong></h4>
@@ -25,31 +33,28 @@
     </div>
 
 <% else %>
-    <div class="row">
-        <div class="col-md-8">
-            <%= render 'shared/scrape_page_description' %>
-        </div>
-        
-        <div class="col-md-4 pull-right">
-            <%= search_form_for(@search, url: fb_comments_search_path , method: :post,  class: "navbar-form navbar-left pull-right", role: "search")  do |f| %>
-                <div class="form-group description-search">
-                    <%= f.text_field :message_cont, class: "form-control", 
-                                            placeholder: "Search Comments..." %>
-                </div>
-                <%= f.submit "Search", class: "btn btn-large btn-primary" %>
-            <% end %>
-        </div>
+    <div class="panel panel-default">
+        <%= search_form_for(@search, url: fb_comments_search_path , method: :post,  class: "", role: "search")  do |f| %>
+            <div class="panel-body">
+                <%= f.text_field :message_cont, class: "form-control col-md-8 pull-left search-form", 
+                                        placeholder: "Search Comments..." %>
+           
+            <%= f.submit "Search", class: "btn btn-large btn-primary pull-right" %>
+             <div class="clearfix"></div>
+         </div>
+        <% end %>
     </div>
+
     
     <div class="clearfix"></div>
     <hr />
 
-    <%= render 'shared/fb_comment_list'  %>
+    <%= render 'shared/fb_comment_list', object: @fb_comments  %>
     <div class="center-block">
         <%= will_paginate @fb_comments %>
     </div>
 <% end %>
-</div>
+
 
 <% content_for :debug_dump do %>
  <p>is empty <%= @fb_comments.empty? %></p>

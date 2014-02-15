@@ -19,7 +19,7 @@ class FbPost < ActiveRecord::Base
 
     def total_comments
         all_comments = FbComment.where(fb_post_id: self.id)    
-        all_comments.count
+        all_comments.size
     end
 
     def offset(page)
@@ -38,8 +38,8 @@ class FbPost < ActiveRecord::Base
             logger.debug "self.scrape_page_id => #{self.scrape_page_id}"
             logger.debug "---------------------------------------------"
             same_post = FbPost.where(fb_post_id: self.fb_post_id, scrape_page_id: self.scrape_page_id)
-            logger.debug "same_post.count => #{same_post.count}"
-            return false if same_post.count > 0
+            logger.debug "same_post.size => #{same_post.size}"
+            return false if same_post.size > 0
         end
 
 end

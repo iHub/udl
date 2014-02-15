@@ -1,6 +1,38 @@
-<div class="session-description">
-    <h4>Session:    <%= @scrape_session.name.capitalize %></h4>
-    <h5>Created by: <%= @scrape_session.user_name %></h5>
-    <h5>www.facebook.com/<strong><%= @scrape_page.page_url %></strong></h5>
-    <h5 class="posts-counter">Posts:  <strong><%= @scrape_page.total_posts %></strong>&nbsp;|&nbsp;Comments:  <strong><%= @scrape_page.total_comments %></strong></h5>
+<div class="col-md-12">
+    <div class="table-responsive session-description">
+        <table class="table table-bordered table-condensed">
+
+          <tbody>
+
+              <tr class="session-description-name">
+                <td class="session-description-label">Session Name</td>
+                <td class="session-name"><%= session.name.capitalize %></td>
+              </tr>
+
+              <tr class="session-description-name">
+                <td class="session-description-label">Facebook URL</td>
+                <td class="session-name">www.facebook.com/<%= page.page_url %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Added On</td>
+                <td><%= object.created_at.strftime("%b %e, %Y") %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Total Comments</td>
+                <td><%= object.total_comments %></td>
+              </tr>
+
+              <tr>
+                <td class="session-description-label">Message</td>
+                <td><%= object.message %></td>
+              </tr>
+
+          </tbody>
+        </table>
+    </div>
 </div>
+
+
+<div class="clearfix"></div>
