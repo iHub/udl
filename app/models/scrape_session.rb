@@ -63,13 +63,6 @@ class ScrapeSession < ActiveRecord::Base
 # refactor to module
 #-------------------------------------
 
-	def has_app_access_token?
-		has_settings ||= AppSetting.last
-		if !has_settings.nil?
-			return true if !has_settings.fb_app_access_token.nil? 		
-		end
-	end
-
 	def epoch_time(standard_date_time)
 		standard_date_time.to_time.utc.to_i
 	end
@@ -115,54 +108,52 @@ class ScrapeSession < ActiveRecord::Base
 
 	def parse_all_sessions
 		logger.debug "Starting parse_all_sessions"
-		session_controlled_scrape_pages = ScrapePage.where(scrape_session_id: ScrapeSession.absolute.continuous.select(:id))
-		session_controlled_page_delegated_scrape_pages  = ScrapePage.where(scrape_session_id: ScrapeSession.overridden.continuous.select(:id)).no_override
-		page_controlled_scrape_pages    = ScrapePage.where(scrape_session_id: ScrapeSession.overridden.select(:id)).has_override.continuous
-
-		logger.debug "COUNTS:: session_controlled_scrape_pages => #{session_controlled_scrape_pages.count}"
-		logger.debug "COUNTS:: session_controlled_page_delegated_scrape_pages => #{session_controlled_page_delegated_scrape_pages.count}"
-		logger.debug "COUNTS:: page_controlled_scrape_pages => #{page_controlled_scrape_pages.count}"
-
-		session_controlled_scrape_pages.each 			    { |this_page| collect_page_comments this_page, "session"}
-		session_controlled_page_delegated_scrape_pages.each { |this_page| collect_page_comments this_page, "session"}
-		page_controlled_scrape_pages.each   				{ |this_page| collect_page_comments this_page, "page" if this_page.next_scrape_date < Time.now }
-
-	end
-
-	def collect_page_comments(current_page, setting_source)
-		if setting_source == "session"
-			logger.debug "Collecting via session settings"
-			frequency = current_page.scrape_session.session_scrape_frequency
-			next_date = epoch_time current_page.scrape_session.session_next_scrape_date
-		elsif setting_source == "page"
-			logger.debug "Collecting via scrape page settings"
-			frequency = current_page.scrape_frequency
-			next_date = epoch_time current_page.next_scrape_date
-		end
+		session_controlled_scrape_pages =  ScrapePage.where(scrape_session_id: ScrapeSession.absolute.continuous.select(:id))
+		session_controlled_scrape_pages += ScrapePage.where(scrape_session_id: ScrapeSession.overridden.continuous.select(:id)).no_override
+		page_controlled_scrape_pages    =  ScrapePage.where(scrape_session_id: ScrapeSession.overridden.select(:id)).has_override.continuous
 
 		end_date = epoch_time Time.now 
 
-		if next_date < epoch_time(Time.now)
-			current_page.retro_scrape next_date, end_date
-			# current_page.get_fb_posts next_date, end_date
-			# current_page.get_fb_comments
-		end
+		session_controlled_scrape_pages.each 	do |this_page|
+			next_date = epoch_time current_page.scrape_session.session_next_scrape_date
+			this_page.retro_scrape next_date, end_date if this_page.scrape_session.session_next_scrape_date < Time.now
+			next_scrape_date = Time.now + this_page.scrape_session.session_scrape_frequency
+			this_page.scrape_session.update_attributes(session_next_scrape_date: next_scrape_date)
+		end		    
+
+		page_controlled_scrape_pages.each do |this_page|
+			next_date = epoch_time current_page.scrape_session.session_next_scrape_date
+			this_page.retro_scrape next_date, end_date if this_page.next_scrape_date < Time.now
+			next_scrape_date = Time.now + this_page.scrape_frequency
+			this_page.update_attributes(next_scrape_date: next_scrape_date)
+		end			
+
 	end
+
+	# def collect_page_comments(current_page, setting_source)
+	# 	if setting_source == "session"
+	# 		logger.debug "Collecting via session settings"
+	# 		frequency = current_page.scrape_session.session_scrape_frequency
+			
+	# 	elsif setting_source == "page"
+	# 		logger.debug "Collecting via scrape page settings"
+	# 		frequency = current_page.scrape_frequency
+	# 		next_date = epoch_time current_page.next_scrape_date
+	# 	end
+
+	# 	end_date = epoch_time Time.now 
+
+	# 	if next_date < epoch_time(Time.now)
+	# 		current_page.retro_scrape next_date, end_date
+	# 		# current_page.get_fb_posts next_date, end_date
+	# 		# current_page.get_fb_comments
+	# 	end
+	# end
 
 	#---------------------------------------------------
 
 
 	private
-
-		def fb_graph
-			fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
-		end
-
-		def fb_app_access_token
-			if has_app_access_token?
-				fb_app_access_token ||= AppSetting.last.fb_app_access_token
-			end 
-		end
 
 		def set_defaults
 			self.session_scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if session_scrape_frequency == nil
