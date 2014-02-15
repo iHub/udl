@@ -46,35 +46,31 @@
 	</div>
 
 <% else %>
-	<div class="row">
-		<div class="col-md-8">
-			<%= render 'shared/scrape_page_description' %>
-		</div>
-		
-		<div class="col-md-4 pull-right">
-			<%= search_form_for(@search, url: fb_posts_search_path , method: :post,  class: "navbar-form navbar-left pull-right", role: "search" )  do |f| %>
-				<div class="form-group description-search">
-					<%= f.text_field :message_cont, class: "form-control ", 
+
+	<div class="panel panel-default">
+	  <%= search_form_for(@search, url: fb_posts_search_path , method: :post,  class: " ", role: "search" )  do |f| %>
+	  	<div class="panel-body">
+	  		<%= f.hidden_field :scrape_session_id, :value => "#{@scrape_session.id}" %>
+	   		<%= f.text_field :message_cont, class: "form-control  col-md-8 pull-left search-form", 
 											placeholder: "Search Posts..." %>
-				</div>
-				<%= f.submit "Search", class: "btn btn-large btn-primary" %>
-			<% end %>
-			
+			<%= f.submit "Search", class: "btn btn-large btn-primary pull-right" %>
+			<div class="clearfix"></div>
 		</div>
+	  <% end %>
 	</div>
+
 	<div class="clearfix"></div>
 	<hr />
+
 	<div class="page-header">
 		<h3>Posts Collected</h3>
 	</div>
-	<%= render 'shared/fb_post_list'  %>
+	<%= render 'shared/fb_post_list', object: @fb_posts  %>
 	<div class="center-block">
 		<%= will_paginate @fb_posts %>
 	</div>
 <% end %>
 
 <% content_for :debug_dump do %>
- <p>is empty <%= @fb_posts.empty? %></p>
- <p>test feed</p>
- <p><%= @flat_feed.inspect %></p>
+
 <% end %>

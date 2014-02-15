@@ -25,8 +25,8 @@ class ScrapeSessionsController < ApplicationController
 		all_questions = @scrape_session.questions
 		all_pages 	  = @scrape_session.scrape_pages
 
-		@has_more_questions = true if all_questions.count > 5
-		@has_more_pages	    = true if all_pages.count > 5
+		@has_more_questions = true if all_questions.size > 5
+		@has_more_pages	    = true if all_pages.size > 5
 
 		@questions 		= all_questions.limit(5)
 		@scrape_pages   = all_pages.limit(5)

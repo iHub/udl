@@ -46,19 +46,12 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	def total_posts
-		self.fb_posts.count
+		self.fb_posts.size
 	end
 
 	def total_comments
-		self.fb_comments.count
+		self.fb_comments.size
 	end
-
-	# def has_app_access_token?
-	# 	has_settings = AppSetting.last
-	# 	if !has_settings.nil?
-	# 		return true if !has_settings.fb_app_access_token.nil? 		
-	# 	end
-	# end
 	
 	def epoch_time(standard_date_time)
 		standard_date_time.to_time.utc.to_i
@@ -232,8 +225,8 @@ class ScrapePage < ActiveRecord::Base
 		# this_page = ScrapePage.find(scrape_page_id)
 		all_posts = self.fb_posts
 
-		logger.debug "Page => #{page_url} >>> all_posts.count => #{all_posts.count}"
-		return false if all_posts.count == 0
+		logger.debug "Page => #{page_url} >>> all_posts.size => #{all_posts.size}"
+		return false if all_posts.size == 0
 
 		@comment_list    = []
 		@comment_count   = 0

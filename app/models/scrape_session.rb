@@ -48,15 +48,15 @@ class ScrapeSession < ActiveRecord::Base
 	end
 
 	def total_pages
-		self.scrape_pages.count
+		self.scrape_pages.size
 	end
 
 	def total_posts
-		self.fb_posts.count
+		self.fb_posts.size
 	end
 
 	def total_comments
-		self.fb_comments.count
+		self.fb_comments.size
 	end
 
 #-------------------------------------
