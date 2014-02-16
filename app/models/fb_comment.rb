@@ -1,6 +1,6 @@
 class FbComment < ActiveRecord::Base
 
-    belongs_to :fb_post
+    belongs_to :fb_post, counter_cache: true  
 
     before_save :comment_unique_to_this_post
 
