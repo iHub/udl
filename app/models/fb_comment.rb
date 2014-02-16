@@ -1,9 +1,10 @@
 class FbComment < ActiveRecord::Base
 
     belongs_to :fb_post, counter_cache: true  
-    before_save :comment_unique_to_this_post
+    # before_save :comment_unique_to_this_post
 
     # default_scope -> { order('created_at DESC') }
+    validates_uniqueness_of :fb_comment_id, scope: :fb_post_id
 
     WILL_PAGINATE_COMMENTS_PER_PAGE = 50
     self.per_page = WILL_PAGINATE_COMMENTS_PER_PAGE
@@ -30,8 +31,8 @@ class FbComment < ActiveRecord::Base
 
     private
 
-        def comment_unique_to_this_post
-            same_comment =  FbComment.where(comment_id: self.comment_id, fb_post_id: self.fb_post_id)
-            return false if same_comment.count > 0
-        end
+        # def comment_unique_to_this_post
+        #     same_comment =  FbComment.where(comment_id: self.comment_id, fb_post_id: self.fb_post_id)
+        #     return false if same_comment.count > 0
+        # end
 end
