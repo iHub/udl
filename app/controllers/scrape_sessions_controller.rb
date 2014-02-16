@@ -72,8 +72,14 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	def upload
-		ScrapeSession.import(params[:file])
-		redirect_to scrape_session_path
+		@scrape_session = get_scrape_session(params[:id])
+		if !params[:file].nil?
+			ScrapeSession.import(params[:file])
+			redirect_to scrape_session_path
+		else
+			flash.now[:danger] = "Please submit a valid file."
+			render 'import'
+		end
 	end
 
 	def retro
