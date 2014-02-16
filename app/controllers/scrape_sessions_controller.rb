@@ -82,11 +82,6 @@ class ScrapeSessionsController < ApplicationController
 		end
 	end
 
-	def retro
-		@scrape_session = get_scrape_session(params[:id])
-		@scrape_pages 	= @scrape_session.scrape_pages
-	end
-
 	def batch_retro
 		@scrape_session = get_scrape_session(params[:id])
 
