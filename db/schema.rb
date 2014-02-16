@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140216055504) do
+ActiveRecord::Schema.define(version: 20140216075335) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -213,7 +213,7 @@ ActiveRecord::Schema.define(version: 20140216055504) do
   create_table "scrape_session_logs", force: true do |t|
     t.integer  "user_id"
     t.string   "username"
-    t.integer  "scrape_session_name"
+    t.string   "scrape_session_name"
     t.integer  "scrape_session_id"
     t.datetime "event_time"
     t.string   "event_type"
