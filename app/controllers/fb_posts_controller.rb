@@ -30,7 +30,7 @@ class FbPostsController < ApplicationController
         @scrape_session = get_scrape_session(scrape_session_id)
         
         @fb_post = FbPost.find(params[:id])
-        @fb_comments = @fb_post.fb_comments.paginate(:page => params[:page])
+        @fb_comments = @fb_post.fb_comments.paginate(:page => params[:page]).includes(:fb_post)
     end
 
     def search

@@ -17,20 +17,11 @@
 
 
 <% if @fb_comments.empty? %>
-    <div class="post-content">
-        <h4>Source: <strong><%= @scrape_page.page_url %></strong></h4>
-        <h5>Created <%= @fb_post.created_time.strftime("%I:%M %p, %b %e %Y") %> Ago<span><%= pluralize(@fb_comments.count, "Comment")  %></span></h5>
-        <div class="whitespace"></div>
-        <div class="well well-sm">
-            <p><%= @fb_post.message %></p>
-        </div>
-    </div>
+    <hr>
 
-    <hr />
-
-    <div class="well well-sm">
+      <div class="well well-sm">
         <p>This post doesn't have any comments.</p>
-    </div>
+      </div>
 
 <% else %>
     <div class="panel panel-default">
@@ -45,10 +36,8 @@
         <% end %>
     </div>
 
-    
     <div class="clearfix"></div>
     <hr />
-
 
     <div class="panel panel-default dash-stats-sessions">
       <div class="panel-heading">All Posts</div>
@@ -62,5 +51,5 @@
 
 
 <% content_for :debug_dump do %>
- <p>is empty <%= @fb_comments.empty? %></p>
+
 <% end %>
