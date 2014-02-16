@@ -3,7 +3,7 @@ class ScrapeSession < ActiveRecord::Base
 	attr_accessor :scrape_frequency_select
 
 	# associations
-	belongs_to :user
+	belongs_to :user, counter_cache: true	
 	has_many :scrape_pages, dependent: :destroy
 
 	# data from outside
