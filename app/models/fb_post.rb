@@ -13,13 +13,7 @@ class FbPost < ActiveRecord::Base
     self.per_page = WILL_PAGINATE_POSTS_PER_PAGE
 
     def page_url
-        this_page = ScrapePage.find(self.scrape_page_id)
-        this_page.page_url
-    end
-
-    def total_comments
-        all_comments = FbComment.where(fb_post_id: self.id)    
-        all_comments.size
+        self.scrape_page.page_url  
     end
 
     def offset(page)
