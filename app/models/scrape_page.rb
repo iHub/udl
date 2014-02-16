@@ -40,11 +40,6 @@ class ScrapePage < ActiveRecord::Base
 									numericality:  {only_integer: true}
 
 
-	def initialize
-	    @@fb_app_access_token ||= AppSetting.last.fb_app_access_token
-	    @@fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
-	end
-
 	def total_posts
 		self.fb_posts.size
 	end
@@ -403,6 +398,7 @@ class ScrapePage < ActiveRecord::Base
 		end
 
 		def set_next_scrape_date	
+			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if scrape_frequency == nil
 			self.next_scrape_date  = Time.now + scrape_frequency
 		end
 end

@@ -74,7 +74,7 @@ class ScrapeSessionsController < ApplicationController
 	def upload
 		@scrape_session = get_scrape_session(params[:id])
 		if !params[:file].nil?
-			ScrapeSession.import(params[:file])
+			@scrape_session.csv_import(params[:file])
 			redirect_to scrape_session_path
 		else
 			flash.now[:danger] = "Please submit a valid file."
