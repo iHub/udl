@@ -1,22 +1,18 @@
 <% provide(:page_title, "New Answer") %>
+<% provide(:app_page, "answers" ) %>
+<% provide(:app_sub, "answers_new" ) %>
 
 <div class="page-header">
 	<h2>Add an Answer</h2>
 </div>
 
-<div class="col-md-8 panel panel-default signup">
+<div class="col-md-8 panel panel-default">
 
 	<div class="panel-body">
-		
-		<%= render 'shared/answer_form' %>
+		<%= render 'shared/answer_form', scrape_session: @scrape_session, question: @question, answer: @answer %>
 	</div>
 </div>
 
 <% content_for :debug_dump do %>
-	<h4>Object value</h4>
-	<p>Inspect <%= @answer.inspect %></p>
-  	<p>Class <%= @answer.class %></p>
-  	<p>nil <%= @answer.nil? %></p>
 
-	<br />
 <% end %>

@@ -15,6 +15,15 @@ class AnswersController < ApplicationController
     end
   end
 
+  def show
+    
+    @question = Question.find(params[:question_id])
+    scrape_session_id =  params[:scrape_session_id] || @question.scrape_session_id
+    @scrape_session = get_scrape_session(scrape_session_id)
+    
+    @answer = @question.answers.find(params[:id])
+  end
+
   def edit
     @scrape_session = get_scrape_session(params[:scrape_session_id])
     @question = Question.find(params[:question_id])
@@ -52,12 +61,6 @@ class AnswersController < ApplicationController
     else
       render edit_scrape_session_question_answer_path(@answer)
     end
-  end
-
-  def show
-    @scrape_session = get_scrape_session(params[:scrape_session_id])
-    @question = Question.find(params[:question_id])
-  	@answer = @question.answers.find(params[:id])
   end
 
   def destroy

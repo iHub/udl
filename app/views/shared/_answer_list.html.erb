@@ -17,7 +17,7 @@
         <tr>
           <td><%= index+1 %></td>
           <td>
-              <strong><%= link_to answer.answer, scrape_session_question_answer_path(@scrape_session.id, @question, answer) %><strong>
+              <strong><%= link_to answer.answer, {controller: "answers", action: :show, question_id: answer.question_id, id: answer.id} %><strong>
           </td>
           <td><%= answer.description %></td>
           <td><%= answer.created_at.strftime("%I:%M %p, %b %e %Y") %></td>
