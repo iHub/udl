@@ -26,7 +26,7 @@ class ScrapePagesController < ApplicationController
     	@scrape_page.continous_scrape 			= params[:scrape_page][:continous_scrape]
     	@scrape_page.override_session_settings  = params[:scrape_page][:override_session_settings]
     	@scrape_page.scrape_frequency 			= frequency_minutes params[:scrape_page][:scrape_frequency_select]
-		
+		@scrape_page.user_id					= current_user.id
     	if @scrape_page.save 		# has been saved?
 			success_message = "Your page has been added to the Session!"
 			flash[:success] = success_message
