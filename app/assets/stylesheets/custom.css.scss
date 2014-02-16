@@ -13,7 +13,12 @@ $helpPageHeader: #68828F;
 $pageDescriptionBg: #60A124;
 $pageStats: $pageDescriptionBg;
 
- 
+$sessionStatBg  : #405952;
+$pageStatBg     : #9c9b7a;
+$postStatBg     : #5c877f;
+$CommentStatBg  : #d17d43;
+$questionStatBg : #938269;
+$answerStatBg   : #677e52;
 
 /*mixin*/
 @mixin box_sizing {
@@ -289,31 +294,31 @@ footer .navbar-nav > li > a{
   }
 
   .session-stats{
-    background-color: $darkBlue;
+    background-color: $sessionStatBg;
   }
   .page-stats{
-    background-color: $pageStats;
+    background-color: $pageStatBg;
   }
   .post-stats{
-    background-color: $headerGreen;
+    background-color: $postStatBg;
   }
   .comment-stats{
-    background-color: $navHoverRed;
+    background-color: $CommentStatBg;
   }
 }
 
 .dash-stats-sessions.panel.panel-default{
 
-    .panel-heading{
-     
+    .panel-heading.sessions{
+     background-color: $sessionStatBg;
     }
 
     .panel-heading.pages{
-      background-color: #4B6434;
+      background-color: $pageStatBg;
     }
 
     .panel-heading.questions{
-      background-color: #603C86;
+      background-color: $questionStatBg;
     }
 
 }
@@ -388,16 +393,16 @@ footer .navbar-nav > li > a{
     height: 60px;
   }
   .question-stats{
-    background-color: $darkBlue;
+    background-color: $questionStatBg;
   }
   .page-count{
-    background-color: $pageDescriptionBg;
+    background-color: $pageStatBg;
   }
   .post-count{
-    background-color: $headerGreen;
+    background-color: $postStatBg;
   }
   .comment-count{
-    background-color: $navHoverRed;
+    background-color: $CommentStatBg;
   }
 
   .stat-label{
@@ -429,7 +434,7 @@ footer .navbar-nav > li > a{
 
   .panel-heading{
       background-color: #222;
-      color: #ccc;
+      color: #eee;
       text-transform: uppercase;
     }
 }
