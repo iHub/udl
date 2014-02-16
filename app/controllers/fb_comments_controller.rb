@@ -1,5 +1,7 @@
 class FbCommentsController < ApplicationController
 
+  before_action :signed_in_user
+  
   def index
     
     @search = FbComment.search(params[:q])

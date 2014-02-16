@@ -1,5 +1,7 @@
 class FbPostsController < ApplicationController
 
+    before_action :signed_in_user
+    
     def index
         
         @search = FbPost.search(params[:q])

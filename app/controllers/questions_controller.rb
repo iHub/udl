@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
 
+  before_action :signed_in_user
+  
   def index
     @scrape_session = get_scrape_session(params[:scrape_session_id])
     @questions = @scrape_session.questions

@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
 
+  before_action :signed_in_user
+  
   def index
     
     @page_number = params[:page]
