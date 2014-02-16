@@ -1,8 +1,6 @@
 class ScrapeSessionsController < ApplicationController
 
 	#before_action :signed_in_user
-	before_action :scrape_frequency_options, except: [:index, :show]
-	DEFAULT_SCRAPE_FREQUENCY = 600
 
 	def index
 		@scrape_sessions = current_user.scrape_sessions.paginate(page: params[:page])
@@ -110,35 +108,6 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	private
-
-		def frequency_minutes(scrape_frequency_select)
-			frequency = case scrape_frequency_select
-				when "10 Minutes"	then 10.minutes.to_i
-				when "30 Minutes"	then 30.minutes.to_i
-				when "1 Hour"		then 1.hour.to_i
-				when "3 Hours"		then 3.hours.to_i
-				when "6 Hours"		then 6.hours.to_i
-				when "12 Hours"		then 12.hours.to_i
-				when "Daily"		then 1.day.to_i
-				when "Every 3 Days"	then 3.days.to_i
-				when "Weekly"		then 1.week.to_i
-				else  10.minutes.to_i
-			end
-		end
-
-		def scrape_frequency_options
-			scrape_frequency_options    = []
-			scrape_frequency_options[0] = "10 Minutes"
-			scrape_frequency_options[1] = "30 Minutes"
-			scrape_frequency_options[2] = "1 Hour"
-			scrape_frequency_options[3] = "3 Hours"
-			scrape_frequency_options[4] = "6 Hours"
-			scrape_frequency_options[5] = "12 Hours"
-			scrape_frequency_options[6] = "Daily"
-			scrape_frequency_options[7] = "Every 3 Days"
-			scrape_frequency_options[8] = "Weekly"
-			@scrape_frequencies = scrape_frequency_options
-		end
 
 		def scrape_session_params
 			params.require(:scrape_session).permit(:name, 

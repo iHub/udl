@@ -46,7 +46,7 @@
 			<div class="form-group">
 				<%= f.label	:scrape_frequency %>
 				
-				<%= f.select( :scrape_frequency_select,  options_for_select(@scrape_frequencies, selected: 1)) %>
+				<%= f.select( :scrape_frequency_select,  options_for_select(scrape_frequency)) %>
 				
 			</div>
 

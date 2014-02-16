@@ -35,10 +35,11 @@ class User < ActiveRecord::Base
 	def username
 		"#{self.firstname.capitalize} #{self.lastname.capitalize}"
 	end
+	
 	#app specific
 	def isadmin?
   		self.role == "admin"
-  end
+  	end
 
 	def ismanager?
 		ismanageronly? || self.role == "admin"
