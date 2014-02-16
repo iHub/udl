@@ -74,7 +74,7 @@ class ScrapePage < ActiveRecord::Base
 				logger.debug "it's nil @page_profile => #{@page_profile.inspect}"
 				self.errors.add(:page_url, "Invalid URL!!" )
 			else
-				self.fb_page_id = @page_profile["id"]
+				self.fb_page_id = @page_profile["id"].to_s
 				logger.debug "graph called  ::  fb_page_id => #{fb_page_id.inspect}"
 			end
 			
@@ -91,7 +91,7 @@ class ScrapePage < ActiveRecord::Base
 		group_id_reg_ex = /^(groups)\/((\d+)\/?\s*)(\/.*)?\s*$/
 		group_id_match  = fb_url_stub.match group_id_reg_ex
 		if group_id_match
-			self.fb_page_id = group_id_match[3]
+			self.fb_page_id = group_id_match[3].to_s
 		else
 			# do a nokogiri scrape
 		end
@@ -115,19 +115,21 @@ class ScrapePage < ActiveRecord::Base
 
 		# start_date   = epoch_time self.initial_scrape_start        # convert date to unix epoch time
 		# end_date     = epoch_time self.initial_scrape_end
+		logger.debug ">>>>>>>>>>> Running retro scrape <<<<<<<<<<<<"
+		
+		@saved_posts  	 = []
+		@comment_count   = 0
+		@saved_comments  = []
 
-		@saved_posts_count      = 0
-		@saved_comments_count   = 0
 		retro_scrape_start_time = Time.now			# for the logs
 		@last_result_created_time = end_date
 
-		logger.debug ">>>>>>>>>>> Running retro scrape <<<<<<<<<<<<"
-
+		
 		get_fb_posts start_date, end_date
 
 		logger.debug "get_fb_posts complete =>> get_fb_comments"
 
-		get_fb_comments
+		get_fb_comments @saved_posts
 
 		logger.debug "get_fb_comments complete"
 		retro_scrape_end_time = Time.now			# for the logs
@@ -200,6 +202,7 @@ class ScrapePage < ActiveRecord::Base
 		    # end
 
 		    if current_post.save
+		    	@saved_posts << current_post
 		        logger.debug "!!!!!!!!!!!!!!!!!! Record Saved !!!!!!!!!!!!!!!!!!"
 		    else
 		    	logger.debug "--------------- Record NOT Saved | possible duplicate -----------------"
@@ -211,27 +214,22 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	#---------------------------------------------------
-
 	# handle fb comments > get and save
+	#---------------------------------------------------
 
-	def get_fb_comments
+	def get_fb_comments(selected_posts)
 		logger.debug "<<<<<<<<<<<< Running get_fb_comments  >>>>>>>>>>>"
 
-		# this_page = ScrapePage.find(scrape_page_id)
-		all_posts = self.fb_posts
+		logger.debug "Page => #{page_url} >>> selected_posts.size => #{selected_posts.size}"
+		return false if selected_posts.size == 0
 
-		logger.debug "Page => #{page_url} >>> all_posts.size => #{all_posts.size}"
-		return false if all_posts.size == 0
+		
 
-		@comment_list    = []
-		@comment_count   = 0
-		@saved_comments  = 0
+		selected_posts.each do |current_fb_post|
 
-		all_posts.each do |current_fb_post|
+			logger.debug "going through each post from selected_posts"
 
-			logger.debug "going through each post from all_post collection object"
-
-			logger.debug "perform graph search on current_fb_post from all_posts"
+			logger.debug "perform graph search on current_fb_post from selected_posts"
 
 			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
 			
@@ -246,7 +244,7 @@ class ScrapePage < ActiveRecord::Base
 			end
 		end
 		logger.debug "comment count => #{@comment_count}"
-		logger.debug "saved_comments => #{@saved_comments}"
+		logger.debug "saved_comments => #{@saved_comments.length}"
 	end
 
 	def save_fb_comments(fb_post, fb_post_graph_object)
@@ -261,17 +259,13 @@ class ScrapePage < ActiveRecord::Base
             this_comment[:fb_post_id]      = fb_post.id
             this_comment[:parent_id]       =  "0"
 
-            # @get_next_page = true
-
             fb_comment = fb_post.fb_comments.build(this_comment)
-
-            # @comment_list << this_comment
 
             @comment_count +=1  
 
             if fb_comment.save
-              @saved_comments +=1
-              logger.debug "SAVED. @saved_comments = #{@saved_comments}"
+              @saved_comments << fb_comment
+              logger.debug "SAVED.-"
             else
               logger.debug "<><><><><><> NOT SAVED.possible duplicate <><><><><><>"
             end
@@ -288,15 +282,13 @@ class ScrapePage < ActiveRecord::Base
 					nested_comment[:fb_post_id]      = fb_post.id
 					nested_comment[:parent_id]       = this_comment[:comment_id]
 
-					# @comment_list << nested_comment
-
-					fb_comment = fb_post.fb_comments.build(nested_comment)
+					fb_nested_comment = fb_post.fb_comments.build(nested_comment)
 
 					@comment_count +=1
 
-					if fb_comment.save
-						@saved_comments +=1
-						logger.debug "SAVED -- Nested comment. @saved_comments = #{@saved_comments}"
+					if fb_nested_comment.save
+						 @saved_comments << fb_nested_comment
+						logger.debug "SAVED--"
 					else
 						logger.debug "<><><><><><> Nested Comment not SAVED. Possible Duplicate <><><><><><>"
 					end
@@ -308,75 +300,6 @@ class ScrapePage < ActiveRecord::Base
 	end
 
 	#---------------------------------------------------
-
-	# def init_scrape_start
-
-	# 	start_date   = self.initial_scrape_start.to_time.utc.to_i         # convert date to unix epoch time
-	# 	end_date     = self.initial_scrape_end.to_time.utc.to_i
-
-	# 	@saved_posts_count      = 0
-	# 	@saved_comments_count   = 0
-	# 	@last_result_created_time = end_date
-	# 	logger.debug ">>>>>>>>>>> Running Init Scrape Start (via Controller) <<<<<<<<<<<<"
-
-	# 	get_fb_posts start_date, end_date
-	# 	logger.debug "get_fb_posts complete =>> get_fb_comments"
-
-	# 	get_fb_comments self.id
-	# 	logger.debug "get_fb_comments complete"
-	# end
-	# handle_asynchronously :init_scrape_start, priority: 20, queue: "initscrape"
-
-
-
-	# def collect_comments
-	# 	logger.debug ">>>>>>>>>>>>>>>>> collect_comments running >>>>>>>>>>>>>>>>>"
-
-	# 	scraping_pages = ScrapePage.continuous
-	# 	logger.debug "Number of pages that have continous collection: #{scraping_pages.count}"
-
-	# 	if scraping_pages.count > 0
-	# 		scraping_pages.each do |current_scrape_page|
-	# 			if epoch_time(current_scrape_page.next_scrape_date ) < epoch_time(Time.now)
-	# 				logger.debug "next_scrape_date < Time.now ||| #{current_scrape_page.next_scrape_date} vs #{Time.now}"
-	# 				logger.debug "get_new_fb_posts called"
-
-	# 				@saved_posts_count      = 0
-	# 				@saved_comments_count   = 0
-	# 				get_new_fb_posts
-
-	# 				logger.debug "calling get_new_fb_comments"
-
-	# 				get_new_fb_comments
-
-	# 				# set date for next scrape & save to db
-	# 				next_scrape_date = Time.now + current_scrape_page.scrape_frequency
-	# 				current_scrape_page.update(next_scrape_date: next_scrape_date)
-	# 			end
-	# 		end
-	# 		logger.debug "*********************** All pages processed ***********************"
-	# 	else
-	# 		logger.debug "No pages with continous scraping set up"
-	# 	end
-	# end
-	# handle_asynchronously :collect_comments, priority: 20, queue: "continuous_scrape"
-
-	# def get_new_fb_posts
-	# 	logger.debug "SCRAPER : get_fb_posts >>>"
-	# 	if self.next_scrape_date?
-	# 		self.next_scrape_date = Time.now - 1.day 
-	# 	end
-	# 	get_fb_posts epoch_time(self.next_scrape_date) , epoch_time(Time.now)
-	# end
-
-	# def get_new_fb_comments
-	# 	logger.debug "SCRAPER : get_new_fb_comments >>>"
-	# 	get_fb_comments
-	# end
-
-
-	#---------------------------------------------------
-
 
 	private
 
