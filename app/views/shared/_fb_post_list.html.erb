@@ -21,7 +21,7 @@
           <td><%= fb_post.page_url %></td>
           <td><%= link_to fb_post.message, {controller: "fb_posts", action: :show, scrape_page_id: fb_post.scrape_page_id, id: fb_post} %></td>
           <td><%= time_ago_in_words(fb_post.created_time) %> ago</td>
-          <td><%= fb_post.total_comments %></td>
+          <td><%= fb_post.fb_comments_count %></td>
 
         </tr>
       <% end %>

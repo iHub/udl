@@ -13,7 +13,7 @@ class FbPost < ActiveRecord::Base
     self.per_page = WILL_PAGINATE_POSTS_PER_PAGE
 
     def page_url
-        self.scrape_page.page_url  
+        self.scrape_page.page_url
     end
 
     def offset(page)

@@ -57,7 +57,7 @@ class ScrapePagesController < ApplicationController
 		
 		@scrape_page = @scrape_session.scrape_pages.find(params[:id])
 
-		@fb_posts = @scrape_page.fb_posts.paginate(page: params[:page])
+		@fb_posts = @scrape_page.fb_posts.paginate(page: params[:page]).includes(:scrape_page)
 
 		@page_number = params[:page]
 
