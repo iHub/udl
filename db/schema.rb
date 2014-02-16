@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140215211827) do
+ActiveRecord::Schema.define(version: 20140216054146) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -201,6 +201,7 @@ ActiveRecord::Schema.define(version: 20140215211827) do
     t.string   "fb_page_id"
     t.boolean  "override_session_settings"
     t.string   "page_type"
+    t.integer  "fb_posts_count",            default: 0
   end
 
   add_index "scrape_pages", ["fb_page_id"], name: "index_scrape_pages_on_fb_page_id"

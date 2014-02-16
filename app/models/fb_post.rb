@@ -1,7 +1,7 @@
 class FbPost < ActiveRecord::Base
 
     # associations
-    belongs_to :scrape_page
+    belongs_to :scrape_page, counter_cache: true    
     has_many   :fb_comments, dependent: :destroy
 
     default_scope -> { order('created_at DESC') }
