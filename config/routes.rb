@@ -8,6 +8,9 @@ ULog::Application.routes.draw do
   get "fb_posts/show"
   match "fb_posts/search", to: 'fb_posts#search', via: 'post'
 
+  get "answers/index"
+  get "answers/show"
+
   match "/queue" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :users

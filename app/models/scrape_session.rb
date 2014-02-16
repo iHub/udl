@@ -11,6 +11,7 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :fb_comments, 	:through => :fb_posts
 
 	has_many :questions, 	dependent: :destroy
+	has_many :answers, 		through:   :questions
 	has_many :annotators, 	dependent: :destroy
 	has_many :annotations, 	dependent: :destroy
 

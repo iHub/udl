@@ -1,9 +1,18 @@
 class AnswersController < ApplicationController
 
   def index
-    @scrape_session = get_scrape_session(params[:scrape_session_id])
-    @question = Question.find(params[:question_id])
-    @answers = @question.answers
+    
+    @page_number = params[:page]
+
+    if !params[:scrape_session_id].nil?
+        @scrape_session = get_scrape_session(params[:scrape_session_id])
+        @answers = @scrape_session.answers.paginate(:page => params[:page])   
+        @answer_scope = "session"
+    elsif !params[:question_id].nil?
+        @question = Question.find(params[:question_id])
+        @answers = @question.answers.paginate(:page => params[:page])
+        @answer_scope = "question"
+    end
   end
 
   def edit

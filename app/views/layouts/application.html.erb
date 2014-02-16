@@ -143,12 +143,15 @@
                   </li>
 
                   <li>
-                    <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#answers-collapse">
+                    <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "answers" %>" data-toggle="collapse" data-target="#answers-collapse">
                       <span class="glyphicon glyphicon-flash"></span>Answers
                     </button>
 
-                    <ul id="answers-collapse" class="collapse">
-                      <li><a href="#">All Answers</a></li>
+                    <ul id="answers-collapse" class="<%=  yield(:app_page) == "answers" ? "in" : "collapse" %>">
+                      <li>
+                        <%= link_to "All Answers", {controller: "answers", action: :index, scrape_session_id: @scrape_session.id}, 
+                      class: " #{"active" if yield(:app_sub) == "answers_index"}"  %>
+                      </li>
                       <li><a href="#">Add New</a></li>                
                     </ul>
                   </li>
@@ -156,7 +159,6 @@
                   <li>
                     <%= link_to "<span class='glyphicon glyphicon-list-alt'></span>Posts".html_safe, {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id}, 
                       class: " #{"active" if yield(:app_page) == "fb_posts"}"  %>
-
                   </li>
 
                   <li>
