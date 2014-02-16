@@ -31,13 +31,13 @@
 </div>
 
 <% if !@answers.blank? %>
-	<div>
-		<h3>Answers for this Question</h3>
-	</div>
-
-	<%= render 'shared/answer_list', object: @answers, question: @question %>
-
-	<!-- add pagination -->
+    <div class="panel panel-default dash-stats-sessions">
+      <div class="panel-heading answers">Answers</div>
+      <div class="panel-body">
+       <%= render 'shared/answer_list', object: @answers, question: @question %>
+      </div>
+      <div class="panel-footer"><%= will_paginate @answers %></div>
+    </div>
 
 <% else %>
 	<div class="well well-sm">

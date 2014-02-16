@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
   def show
     @scrape_session = get_scrape_session(params[:scrape_session_id])
   	@question = @scrape_session.questions.find(params[:id])
-    @answers = @question.answers
+    @answers = @question.answers.paginate(:page => params[:page])
   end
 
   def destroy
