@@ -1,4 +1,5 @@
 <% provide(:page_title, "Edit Answer") %>
+<% provide(:app_page, "answers" ) %>
 
 <div class="page-header">
     <h2>Edit Answer</h2>
@@ -8,6 +9,6 @@
 
     <div class="panel-body">
         
-        <%= render 'shared/answer_form' %>
+        <%= render 'shared/answer_form', scrape_session: @scrape_session, question: @question, answer: @answer %>
     </div>
 </div>
