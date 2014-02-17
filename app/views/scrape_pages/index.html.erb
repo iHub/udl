@@ -28,9 +28,17 @@
     </div>
   <div class="whitespace"></div>
 <% else %>
-	<div class="well well-sm">
-		<h4>You haven't added any pages to this session</h4>
-	</div>
+
+<div class="panel panel-default session-summary">
+  <div class="panel-body">
+    <h3>This Session doesn't have any pages.</h3>
+    <div class="whitespace"></div>
+      <div class="col-md-4">
+      <%= link_to "ADD PAGE", new_scrape_session_scrape_page_path(@scrape_session), class: "btn btn-large btn-primary btn-block"  %>
+      </div>
+  </div>
+</div>
+
 <% end %>
 
 
