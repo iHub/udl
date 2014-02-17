@@ -53,6 +53,14 @@ class ScrapePage < ActiveRecord::Base
 		self.fb_comments.size
 	end
 	
+	def added_by
+		if added_by_user = User.find(user_id)	
+			added_by_user.username
+		else
+			"User does not exist."
+		end
+	end
+
 	def epoch_time(standard_date_time)
 		standard_date_time.to_time.utc.to_i
 	end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140217065921) do
+ActiveRecord::Schema.define(version: 20140217104254) do
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20140217065921) do
     t.datetime "updated_at"
     t.integer  "fb_comments_count", default: 0
     t.boolean  "regular_post",      default: true
+    t.datetime "updated_time"
   end
 
   add_index "fb_posts", ["fb_page_id"], name: "index_fb_posts_on_fb_page_id"
