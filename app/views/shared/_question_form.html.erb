@@ -1,5 +1,7 @@
 <%= form_for [@scrape_session, @question] do |f|%>
 	
+	<%= render 'shared/error_messages', object: f.object %>
+	
 	<div class="form-group">
 		<%= f.label		 :question %>
 		<%= f.text_field :question, class: "form-control", 
