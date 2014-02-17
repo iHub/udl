@@ -382,22 +382,27 @@ footer .navbar-nav > li > a{
 /*---------------------------------------*/
 // session description
 /*---------------------------------------*/
+.session-description{
 
-.session-description-name{
-  font-size: 1.3em;
-  font-weight: bold;
-
-  .session-name{
-    color: $pageDescriptionBg;
+  tr{
+    height: 2.4em;
   }
-}
+  .session-description-name{
+    font-size: 1.3em;
+    font-weight: bold;
 
-.session-description-label{
-  text-align:right;
-  width: 25%;
-  font-weight: bold;
-  background-color: #EAEFF5;
-  padding-right: 1em !important;
+    .session-name{
+      color: $pageDescriptionBg;
+    }
+  }
+
+  .session-description-label{
+    text-align:right;
+    width: 25%;
+    font-weight: bold;
+    background-color: #EAEFF5;
+    padding-right: 1em !important;
+  }
 }
 
 .session-description-stats{
@@ -405,7 +410,7 @@ footer .navbar-nav > li > a{
   color: #fff;
 
   .well{
-    height: 60px;
+    height: 70px;
   }
   .question-stats{
     background-color: $questionStatBg;
@@ -421,11 +426,14 @@ footer .navbar-nav > li > a{
   }
 
   .stat-label{
-    width: 43%;
+    // width: 43%;
     text-transform: capitalize;
-    margin: 0  1.5em 0 1em;
-    padding-top: 0.8em;
-    @extend .pull-left;
+    // margin: 0  1.5em 0 1em;
+    padding-top: 0.5em;
+    margin-bottom: 0;
+    // @extend .pull-left;
+    text-align: center;
+    // border-top: 1px solid #fff;
 
     .glyphicon{
       margin-right: 10px;
@@ -434,8 +442,10 @@ footer .navbar-nav > li > a{
 
   .stat-value{
     font-weight: bold;
-    font-size: 1.7em;
-    @extend .pull-left;
+    font-size: 1.4em;
+    text-align: center;
+    margin-bottom: 0;
+    // @extend .pull-left;
 
     &:after{
       clear: both;

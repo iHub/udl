@@ -1,4 +1,4 @@
-    <div class="col-md-9 pull-left">
+    <div class="col-md-10 pull-left">
     <div class="table-responsive session-description">
         <table class="table table-bordered table-condensed">
 
@@ -43,23 +43,26 @@
         </table>
     </div>
 </div>
-<div class="col-md-3 pull-left session-description-stats">
+<div class="col-md-2 pull-left session-description-stats">
 
     <div class="well well-sm page-count">
-        <p class="stat-label"> <span class="glyphicon glyphicon-book"></span>pages</p>
+       
         <p class="stat-value"><%= object.total_pages %></p>
+        <p class="stat-label"> <span class="glyphicon glyphicon-book"></span>pages</p>
         <div class="clearfix"></div>
     </div>
 
     <div class="well well-sm post-count">
-        <p class="stat-label"><span class='glyphicon glyphicon-list-alt'></span>posts</p>
+        
         <p class="stat-value"><%= object.total_posts %></p>
+        <p class="stat-label"><span class='glyphicon glyphicon-list-alt'></span>posts</p>
         <div class="clearfix"></div>
     </div>
 
     <div class="well well-sm comment-count">
-        <p class="stat-label"><span class='glyphicon glyphicon-comment'></span>comments</p>
+        
         <p class="stat-value"><%= object.total_comments %></p>
+        <p class="stat-label"><span class='glyphicon glyphicon-comment'></span>comments</p>
         <div class="clearfix"></div>
     </div>
 
