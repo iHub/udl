@@ -110,6 +110,22 @@ class ScrapePage < ActiveRecord::Base
 
 	########################################################
 
+	def regular_scrape(start_date, end_date)
+		logger.debug ">>>>>>>>>>> Running regular_scrape <<<<<<<<<<<<"
+		
+		@saved_posts  	 = []
+		@comment_count   = 0
+		@saved_comments  = []
+
+		regular_scrape_start_time = Time.now			# for the logs
+		@last_result_created_time = end_date
+
+		get_fb_posts start_date, end_date, true
+		regular_scrape_posts = FbPost.regular_post
+		get_fb_comments regular_scrape_posts
+
+		regular_scrape_end_time = Time.now			# for the logs
+	end
 
 	def retro_scrape(start_date, end_date)
 
