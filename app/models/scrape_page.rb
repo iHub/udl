@@ -1,11 +1,4 @@
 class ScrapePage < ActiveRecord::Base
-	
-	attr_accessor :scrape_frequency_select
-
-	#associations
-	belongs_to  :scrape_session, counter_cache: true	
-	has_many    :fb_posts, 		dependent: :destroy
-	has_many	:fb_comments, :through => :fb_posts
 
 	default_scope -> { order('created_at DESC') }
 	scope 	:continuous, 	-> { where(continous_scrape: true) }
@@ -20,14 +13,17 @@ class ScrapePage < ActiveRecord::Base
 
 	#---------------------------
 
-	before_validation :clean_page_url, :set_page_type, :get_fb_page_id, on: :create
-	# before_validation 
-	# before_create	  :get_fb_page_id
-
-	before_create   :set_defaults
-	before_save     :set_next_scrape_date
+	attr_accessor :scrape_frequency_select
 
 	#---------------------------
+
+	#associations
+	belongs_to  :scrape_session, counter_cache: true	
+	has_many    :fb_posts, 		dependent: :destroy
+	has_many	:fb_comments, :through => :fb_posts
+
+	#---------------------------
+
 
 	validates :page_url, 	presence: true
 	validates_uniqueness_of	:page_url,   scope: :scrape_session_id, message: "This page exists in this sesssion!!"
@@ -40,8 +36,17 @@ class ScrapePage < ActiveRecord::Base
 									numericality:  {only_integer: true}
 
 
+	#---------------------------
+
+	before_validation :clean_page_url, :set_page_type, :get_fb_page_id, on: :create
+	before_create   :set_defaults
+	before_save     :set_next_scrape_date
+
+	#---------------------------
+
+
 	def total_posts
-		self.fb_posts.size
+		self.fb_posts_count
 	end
 
 	def total_comments
@@ -52,6 +57,9 @@ class ScrapePage < ActiveRecord::Base
 		standard_date_time.to_time.utc.to_i
 	end
 
+	#---------------------------
+
+	
 	def get_fb_page_id
 		logger.debug "inside get_fb_page_id"
 
