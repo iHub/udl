@@ -131,14 +131,19 @@ class ScrapeSession < ActiveRecord::Base
 		page_controlled_scrape_pages    =  ScrapePage.where(scrape_session_id: ScrapeSession.overridden.select(:id)).has_override.continuous
 
 		end_date = epoch_time Time.now 
+		logger.debug "session_controlled_scrape_pages => #{session_controlled_scrape_pages.size}"
 
 		session_controlled_scrape_pages.each 	do |this_page|
 			next_date = epoch_time current_page.scrape_session.session_next_scrape_date
 			this_page.regular_scrape next_date, end_date if this_page.scrape_session.session_next_scrape_date < Time.now
-			next_scrape_date = Time.now + this_page.scrape_session.session_scrape_frequency
+			session_next_scrape_date = Time.now + this_page.scrape_session.session_scrape_frequency
+			next_scrape_date 		 = Time.now + this_page.scrape_frequency
 			this_page.update_attributes(next_scrape_date: next_scrape_date)
-			this_page.scrape_session.update_attributes(session_next_scrape_date: next_scrape_date)
+			this_page.scrape_session.update_attributes(session_next_scrape_date: session_next_scrape_date)
 		end		    
+
+		logger.debug "---------------------------------------------------"
+		logger.debug "page_controlled_scrape_pages => #{page_controlled_scrape_pages.size}"
 
 		page_controlled_scrape_pages.each do |this_page|
 			next_date = epoch_time current_page.scrape_session.session_next_scrape_date

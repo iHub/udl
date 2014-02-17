@@ -112,6 +112,7 @@ class ScrapePage < ActiveRecord::Base
 
 	def regular_scrape(start_date, end_date)
 		logger.debug ">>>>>>>>>>> Running regular_scrape <<<<<<<<<<<<"
+		logger.debug "Current Page => #{page_url}"
 		
 		@saved_posts  	 = []
 		@comment_count   = 0
@@ -122,10 +123,13 @@ class ScrapePage < ActiveRecord::Base
 
 		get_fb_posts start_date, end_date, true
 		regular_scrape_posts = FbPost.regular_post
+		logger.debug "Total Posts => #{regular_scrape_posts.count}"
 		get_fb_comments regular_scrape_posts
 
 		regular_scrape_end_time = Time.now			# for the logs
 	end
+	handle_asynchronously :regular_scrape, priority: 20, queue: "regular_scrape"
+
 
 	def retro_scrape(start_date, end_date)
 
@@ -151,6 +155,7 @@ class ScrapePage < ActiveRecord::Base
 		retro_scrape_end_time = Time.now			# for the logs
 	end
 	handle_asynchronously :retro_scrape, priority: 20, queue: "retro_scrape"
+
 
 	#---------------------------------------------------
 

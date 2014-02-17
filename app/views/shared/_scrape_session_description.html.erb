@@ -26,7 +26,7 @@
 
               <tr>
                 <td class="session-description-label">Continous</td>
-                <td><%= object.session_continuous_scrape %></td>
+                <td><%= object.session_continuous_scrape.to_s.upcase %></td>
               </tr>
 
               <tr>
@@ -36,7 +36,7 @@
 
               <tr>
                 <td class="session-description-label">Allow Overrides</td>
-                <td><%= object.allow_page_override %></td>
+                <td><%= object.allow_page_override.to_s.upcase %></td>
               </tr>
 
           </tbody>
