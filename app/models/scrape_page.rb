@@ -368,12 +368,14 @@ class ScrapePage < ActiveRecord::Base
 		end
 
 		def set_defaults
+			logger.debug "Setting defaults"
 			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT  if scrape_frequency == nil
 			self.continous_scrape  = CONTINUOUS_SCRAPE_DEFAULT if continous_scrape == nil
 			self.override_session_settings = OVERRIDE_SESSION_DEFAULT if override_session_settings == nil
 		end
 
 		def set_next_scrape_date	
+			logger.debug "Setting next scrape date"
 			self.scrape_frequency  = SCRAPE_FREQUENCY_DEFAULT if scrape_frequency == nil
 			self.next_scrape_date  = Time.now + scrape_frequency
 		end
