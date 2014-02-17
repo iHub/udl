@@ -6,11 +6,12 @@ class AnswersController < ApplicationController
     
     @page_number = params[:page]
 
-    if !params[:scrape_session_id].nil?
+    if !params[:scrape_session_id].nil? && params[:question_id].nil?
         @scrape_session = get_scrape_session(params[:scrape_session_id])
         @answers = @scrape_session.answers.paginate(:page => params[:page])   
         @answer_scope = "session"
     elsif !params[:question_id].nil?
+        @scrape_session = get_scrape_session(params[:scrape_session_id])
         @question = Question.find(params[:question_id])
         @answers = @question.answers.paginate(:page => params[:page])
         @answer_scope = "question"

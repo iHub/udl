@@ -23,13 +23,13 @@
 	<div class="clearfix"></div>
 </div>
 
-<div class="well well-sm question-description">
-	<div class="session-name pull-right">Session: <strong><%= @scrape_session.name %></strong></div>
-	<h3 class="question"><%= @question.question %>
-	</h3>
-	<hr />
-	<p class="question-description"><%= @question.description %></p>
-</div>
+  <div class="well well-sm question-description">
+    <div class="session-name pull-right">Session: <strong><%= @scrape_session.name %></strong></div>
+    <h3 class="question"><%= @question.question.capitalize %>
+    </h3>
+    <hr />
+    <p class="question-description"><%= @question.description.capitalize %></p>
+  </div>
 
 
 <% if !@answers.blank? %>
