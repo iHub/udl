@@ -23,12 +23,14 @@
 	<div class="clearfix"></div>
 </div>
 
-<div class="well well-sm">
-	<h3 class="session-name"><%= @question.question %><small class="pull-right">Session: <strong><%= @scrape_session.name %></strong></small>
+<div class="well well-sm question-description">
+	<div class="session-name pull-right">Session: <strong><%= @scrape_session.name %></strong></div>
+	<h3 class="question"><%= @question.question %>
 	</h3>
-	<p class="session-description-well"><%= @question.description %></p>
 	<hr />
+	<p class="question-description"><%= @question.description %></p>
 </div>
+
 
 <% if !@answers.blank? %>
     <div class="panel panel-default dash-stats-sessions">
@@ -51,9 +53,5 @@
 
 
 <% content_for :debug_dump do %>
-	<h4>Question Info</h4>
-	<p><%= @question.inspect %></p>
-	<br />
-	<p>Answers <%= @answers.inspect %></p>
-	<br />
+
 <% end %>

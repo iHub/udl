@@ -345,6 +345,21 @@ footer .navbar-nav > li > a{
   }
 }
 
+.question-description{
+
+  background-color: $questionStatBg;
+  color: #efefef;
+
+  .session-name{
+    
+  }
+  .question{
+    font-size: 3em;
+  }
+  .question-description{
+    font-weight: bold;
+  }
+}
 
 /*---------------------------------------*/
 // search bar after description for inside pages header
