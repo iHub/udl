@@ -301,7 +301,7 @@ class ScrapePage < ActiveRecord::Base
             this_comment[:parent_id]       =  "0"
 
             fb_comment = fb_post.fb_comments.build(this_comment)
-            logger.debug "pre-save fb_comment => #{fb_comment}"
+            logger.debug "pre-save fb_comment => #{fb_comment.message}"
             logger.debug "Time now is => #{Time.now}"
             @comment_count +=1  
 
