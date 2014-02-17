@@ -27,7 +27,9 @@ class ScrapePagesController < ApplicationController
     	@scrape_page.override_session_settings  = params[:scrape_page][:override_session_settings]
     	@scrape_page.scrape_frequency 			= frequency_minutes params[:scrape_page][:scrape_frequency_select]
 		@scrape_page.user_id					= current_user.id
+
     	if @scrape_page.save 		# has been saved?
+    		ScrapePageLog.log_page_event(@scrape_page, current_user.id, "create")
 			success_message = "Your page has been added to the Session!"
 			flash[:success] = success_message
 			redirect_to scrape_session_scrape_pages_path
@@ -45,6 +47,7 @@ class ScrapePagesController < ApplicationController
 		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
 
 		if @scrape_page.update_attributes(scrape_page_params)
+			ScrapePageLog.log_page_event(@scrape_page, current_user.id, "edit")
 			flash[:success] = "Your Page has been updated."
 			redirect_to scrape_session_scrape_page_path
 		else
@@ -71,7 +74,9 @@ class ScrapePagesController < ApplicationController
 
 	def destroy
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
-		scrape_page = @scrape_session.scrape_pages.find(params[:id]).destroy 
+		scrape_page = @scrape_session.scrape_pages.find(params[:id]).destroy
+		ScrapePageLog.log_page_event(scrape_page, current_user.id, "delete")
+
 		flash[:success] = "Page Deleted!"
 		redirect_to scrape_session_scrape_pages_path
 	end
@@ -79,11 +84,6 @@ class ScrapePagesController < ApplicationController
 	############################################################
 	
 	private
-
-		
-
-		
-		
 
 		# strong params
 	    def scrape_page_params
