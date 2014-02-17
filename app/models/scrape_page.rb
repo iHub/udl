@@ -125,7 +125,7 @@ class ScrapePage < ActiveRecord::Base
 		@last_result_created_time = end_date
 
 		
-		get_fb_posts start_date, end_date
+		get_fb_posts start_date, end_date, false
 
 		logger.debug "get_fb_posts complete =>> get_fb_comments"
 
@@ -140,7 +140,7 @@ class ScrapePage < ActiveRecord::Base
 
 	# handle fb posts > get and save
 
-	def get_fb_posts(start_date, end_date)
+	def get_fb_posts(start_date, end_date, regular_post)
 
 		logger.debug "============ Running get_fb_posts ==============="
 
@@ -157,7 +157,7 @@ class ScrapePage < ActiveRecord::Base
 		    logger.debug "----- Before Save ----------"
 		    logger.debug "fb_posts.inspect => #{fb_posts.inspect}"
 
-		    save_fb_posts fb_posts
+		    save_fb_posts fb_posts, regular_post
 
 		    logger.debug "@last_result_created_time => #{@last_result_created_time}"
 		    logger.debug "start_date => #{start_date}"
@@ -166,17 +166,16 @@ class ScrapePage < ActiveRecord::Base
 		    if @last_result_created_time > start_date
 		        logger.debug "@last_result_created_time < start_date => true"
 		        logger.debug "@last_result_created_time => #{@last_result_created_time} vs start_date => #{start_date}"
-		        get_fb_posts start_date, @last_result_created_time
+		        get_fb_posts start_date, @last_result_created_time, regular_post
 		    end
 
 		elsif fb_posts.empty?
 		    logger.debug "###################### fb_posts is Empty!"
 		end
 	end
-	# handle_asynchronously :get_fb_posts, priority: 20, queue: "get_fb_posts"
 
 
-	def save_fb_posts(fb_posts)
+	def save_fb_posts(fb_posts, regular_post)
 		logger.debug "_________________ save_fb_posts ____________________"
 		logger.debug "fb_posts.nil? => #{fb_posts.nil?}"
 
@@ -188,6 +187,7 @@ class ScrapePage < ActiveRecord::Base
 		    this_post[:message] 		= fb_post["message"]
 		    this_post[:fb_page_id] 		= self.fb_page_id
 		    this_post[:scrape_page_id]  = self.id
+		    this_post[:regular_post]	= regular_post
 		    
 		    current_post = FbPost.new(this_post)
 
