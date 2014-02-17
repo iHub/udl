@@ -65,7 +65,7 @@
                             <tr>
                                 <td><%= check_box_tag "scrape_page_ids[]", scrape_page.id, false, class: 'page-checkbox' %></td>
                                   <td><strong><%= scrape_page.page_url %></strong></td>
-                                  <td>User Name</td>
+                                  <td><%= scrape_page.added_by %></td>
                                   <td><%= time_ago_in_words(scrape_page.created_at)%> ago</td>
                             </tr>
                           <% end %>

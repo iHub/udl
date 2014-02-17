@@ -174,7 +174,7 @@ class ScrapePage < ActiveRecord::Base
 
 		logger.debug "get_fb_posts complete =>> get_fb_comments"
 
-		get_fb_comments @saved_posts
+		# get_fb_comments @saved_posts
 
 		logger.debug "get_fb_comments complete"
 		retro_scrape_end_time = Time.now			# for the logs
@@ -193,7 +193,7 @@ class ScrapePage < ActiveRecord::Base
 		logger.debug "start_date #{start_date} "
 		logger.debug "end_date #{end_date} "
 		query_limit  = 500
-		posts_fql_query = "SELECT post_id, message, created_time FROM stream WHERE source_id = '#{self.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
+		posts_fql_query = "SELECT post_id, message, created_time, updated_time FROM stream WHERE source_id = '#{self.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
 		logger.debug "posts_fql_query => #{posts_fql_query}"
 
 		fb_posts = fb_graph.fql_query(posts_fql_query)
@@ -226,12 +226,14 @@ class ScrapePage < ActiveRecord::Base
 		logger.debug "fb_posts.nil? => #{fb_posts.nil?}"
 
 
+
 		fb_posts.each do |fb_post|
+			logger.debug "error could be here | fb_post[\"updated_time\"] => #{fb_post["updated_time"]}"
 		    this_post = {}
 		    this_post[:fb_post_id] 	    = fb_post["post_id"]
 		    this_post[:created_time] 	= Time.at(fb_post["created_time"]).utc
 		    this_post[:message] 		= fb_post["message"]
-		    this_post[:updated_time] 	= fb_post["updated_time"]
+		    this_post[:updated_time] 	= Time.at(fb_post["updated_time"]).utc
 		    this_post[:fb_page_id] 		= self.fb_page_id
 		    this_post[:scrape_page_id]  = self.id
 		    this_post[:regular_post]	= regular_post
@@ -270,24 +272,23 @@ class ScrapePage < ActiveRecord::Base
 		logger.debug "Page => #{page_url} >>> selected_posts.size => #{selected_posts.size}"
 		return false if selected_posts.size == 0
 
-		
-
 		selected_posts.each do |current_fb_post|
 
 			logger.debug "going through each post from selected_posts"
 
 			logger.debug "perform graph search on current_fb_post from selected_posts"
 
-			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
+			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "updated_time,comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
 			
 			logger.debug "graph complete on current_fb_post"
 			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspect}"
 			logger.debug "pass graph query result to save_fb_comments"
+			logger.debug "current_fb_post.updated_time => #{current_fb_post.updated_time}"
+			logger.debug "fb_post_graph_object[\"updated_time\"] => #{fb_post_graph_object["updated_time"]}"
 
 			if !fb_post_graph_object["comments"].nil?  && current_fb_post.updated_time < fb_post_graph_object["updated_time"]
 				logger.debug "The post has been updated since last check and it has comments"
 		    	save_fb_comments current_fb_post, fb_post_graph_object
-		    	current_fb_post
 		    	current_fb_post.update_attributes(updated_time: fb_post_graph_object["updated_time"])
 		    else
 		    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "

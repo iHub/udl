@@ -34,7 +34,7 @@ class ScrapePagesController < ApplicationController
 			flash[:success] = success_message
 			redirect_to scrape_session_scrape_pages_path
 		else
-			logger.debug "errors >>> #{@scrape_page.errors.inspect}"
+			# flash.now[:danger] = @scrape_page.inspect + @scrape_page.errors.messages.to_s
 			render 'new'
 		end
 	end
