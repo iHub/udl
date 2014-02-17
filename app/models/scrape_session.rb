@@ -1,6 +1,19 @@
 class ScrapeSession < ActiveRecord::Base
 
+	default_scope -> { order('created_at DESC') }
+	scope 	:continuous, -> { where(session_continuous_scrape: true) }	# active collection
+	scope 	:dormant,    -> { where(session_continuous_scrape: false) }	# active collection
+	scope 	:absolute, 	 -> { where(allow_page_override: false) }
+	scope 	:overridden, -> { where(allow_page_override: true) }
+
+
+	SCRAPE_FREQUENCY_DEFAULT    = 600
+	CONTINUOUS_SCRAPE_DEFAULT   = false
+	ALLOW_PAGE_OVERRIDE_DEFAULT = false
+
+
 	attr_accessor :scrape_frequency_select
+
 
 	# associations
 	belongs_to :user, counter_cache: true	
@@ -24,18 +37,8 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :regular_scrape_logs,  dependent: :destroy
 
 
-	default_scope -> { order('created_at DESC') }
-	scope 	:continuous, -> { where(session_continuous_scrape: true) }	# active collection
-	scope 	:dormant,    -> { where(session_continuous_scrape: false) }	# active collection
-	scope 	:absolute, 	 -> { where(allow_page_override: false) }
-	scope 	:overridden, -> { where(allow_page_override: true) }
-
-	# validates :user_id, presence: true
 	validates :name, 	presence: true
 
-	SCRAPE_FREQUENCY_DEFAULT    = 600
-	CONTINUOUS_SCRAPE_DEFAULT   = false
-	ALLOW_PAGE_OVERRIDE_DEFAULT = false
 
 	before_create :set_defaults
 	before_save   :set_next_scrape_date
@@ -47,7 +50,7 @@ class ScrapeSession < ActiveRecord::Base
 	end
 
 	def total_pages
-		self.scrape_pages.size
+		self.scrape_pages_count
 	end
 
 	def total_posts
@@ -136,26 +139,6 @@ class ScrapeSession < ActiveRecord::Base
 		end			
 
 	end
-
-	# def collect_page_comments(current_page, setting_source)
-	# 	if setting_source == "session"
-	# 		logger.debug "Collecting via session settings"
-	# 		frequency = current_page.scrape_session.session_scrape_frequency
-			
-	# 	elsif setting_source == "page"
-	# 		logger.debug "Collecting via scrape page settings"
-	# 		frequency = current_page.scrape_frequency
-	# 		next_date = epoch_time current_page.next_scrape_date
-	# 	end
-
-	# 	end_date = epoch_time Time.now 
-
-	# 	if next_date < epoch_time(Time.now)
-	# 		current_page.retro_scrape next_date, end_date
-	# 		# current_page.get_fb_posts next_date, end_date
-	# 		# current_page.get_fb_comments
-	# 	end
-	# end
 
 	#---------------------------------------------------
 
