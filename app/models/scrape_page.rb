@@ -231,6 +231,7 @@ class ScrapePage < ActiveRecord::Base
 		    this_post[:fb_post_id] 	    = fb_post["post_id"]
 		    this_post[:created_time] 	= Time.at(fb_post["created_time"]).utc
 		    this_post[:message] 		= fb_post["message"]
+		    this_post[:updated_time] 	= fb_post["updated_time"]
 		    this_post[:fb_page_id] 		= self.fb_page_id
 		    this_post[:scrape_page_id]  = self.id
 		    this_post[:regular_post]	= regular_post
@@ -283,7 +284,7 @@ class ScrapePage < ActiveRecord::Base
 			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspect}"
 			logger.debug "pass graph query result to save_fb_comments"
 
-			if !fb_post_graph_object["comments"].nil?
+			if !fb_post_graph_object["comments"].nil? # && current_fb_post.updated_time < 
 		    	save_fb_comments current_fb_post, fb_post_graph_object
 		    else
 		    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "
