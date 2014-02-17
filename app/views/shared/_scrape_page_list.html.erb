@@ -21,7 +21,7 @@
         <tr>
           <td><%= index+1 %></td>
           <td>
-              <strong><%= link_to scrape_page.page_url,  scrape_session_scrape_page_path(@scrape_session.id, scrape_page) %><strong>
+              <strong><%= link_to scrape_session_scrape_page_path(@scrape_session.id, scrape_page) do %>www.facebook.com/<%= scrape_page.page_url %><% end %><strong>
           </td>
           <td><%= time_ago_in_words(scrape_page.created_at)%> ago</td>
           <td><%= scrape_page.continous_scrape.to_s.upcase %></td>
