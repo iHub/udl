@@ -31,7 +31,8 @@ class ScrapePagesController < ApplicationController
 			success_message = "Your page has been added to the Session!"
 			flash[:success] = success_message
 			redirect_to scrape_session_scrape_pages_path
-		else 
+		else
+			logger.debug "errors >>> #{errors.inspect}"
 			render 'new'
 		end
 	end
