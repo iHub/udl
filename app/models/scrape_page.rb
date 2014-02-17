@@ -284,8 +284,11 @@ class ScrapePage < ActiveRecord::Base
 			logger.debug "fb_post_graph_object => #{fb_post_graph_object.inspect}"
 			logger.debug "pass graph query result to save_fb_comments"
 
-			if !fb_post_graph_object["comments"].nil? # && current_fb_post.updated_time < 
+			if !fb_post_graph_object["comments"].nil?  && current_fb_post.updated_time < fb_post_graph_object["updated_time"]
+				logger.debug "The post has been updated since last check and it has comments"
 		    	save_fb_comments current_fb_post, fb_post_graph_object
+		    	current_fb_post
+		    	current_fb_post.update_attributes(updated_time: fb_post_graph_object["updated_time"])
 		    else
 		    	logger.debug "fb_post_graph_object[\"comments\"].nil? => #{fb_post_graph_object["comments"].nil?} "
 			end
