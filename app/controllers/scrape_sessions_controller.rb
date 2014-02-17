@@ -38,6 +38,7 @@ class ScrapeSessionsController < ApplicationController
     	scrape_session.session_scrape_frequency 	= frequency_minutes params[:scrape_session][:scrape_frequency_select] if scrape_session.session_continuous_scrape
 
 		if scrape_session.save
+			ScrapeSessionLog.new.record_log_event(scrape_session, current_user.id, "create")
 			flash[:success] = "Session created!"
 			redirect_to root_url
 		else
@@ -51,6 +52,7 @@ class ScrapeSessionsController < ApplicationController
     	@scrape_session.session_continuous_scrape 	= params[:scrape_session][:session_continuous_scrape]
 
 		if @scrape_session.update_attributes(scrape_session_params)
+			ScrapeSessionLog.new.record_log_event(@scrape_session, current_user.id, "edit")
 			flash[:success] = "Your Session has been updated."
 			redirect_to scrape_session_path
 		else
@@ -58,6 +60,12 @@ class ScrapeSessionsController < ApplicationController
 		end
 	end
 
+	def destroy
+		scrape_session = ScrapeSession.find(params[:id]).destroy		
+		ScrapeSessionLog.new.record_log_event(scrape_session, current_user.id, "delete")
+		flash[:danger] = "Session '#{scrape_session.name}' deleted"
+		redirect_to root_url
+	end
 
 	def delete
 		@scrape_session = ScrapeSession.find(params[:id])
@@ -96,12 +104,6 @@ class ScrapeSessionsController < ApplicationController
 		logger.debug "retro-params => #{params.inspect}"
 		flash[:success] = "Batch Retro scrape in progress"
 		redirect_to scrape_session_path
-	end
-
-	def destroy
-		scrape_session = ScrapeSession.find(params[:id]).destroy
-		flash[:danger] = "Session '#{scrape_session.name}' deleted"
-		redirect_to root_url
 	end
 
 	private

@@ -305,12 +305,12 @@ class ScrapePage < ActiveRecord::Base
 
 		def fb_graph
 			logger.debug "inside fb_graph"
-			fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
+			@fb_graph ||= Koala::Facebook::API.new(fb_app_access_token)
 		end
 
 		def fb_app_access_token
 			logger.debug "getting the access token"
-			fb_app_access_token ||= AppSetting.last.fb_app_access_token
+			@fb_app_access_token ||= AppSetting.last.fb_app_access_token
 		end
 
 		def set_defaults

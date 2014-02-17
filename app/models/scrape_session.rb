@@ -40,9 +40,6 @@ class ScrapeSession < ActiveRecord::Base
 	before_create :set_defaults
 	before_save   :set_next_scrape_date
 
-	after_create  :log_event_create
-	after_update  :log_event_edit
-	after_destroy :log_event_delete
 
 	def user_name
 		session_owner = User.find(self.user_id)
@@ -177,41 +174,4 @@ class ScrapeSession < ActiveRecord::Base
 			self.session_next_scrape_date  = Time.now + session_scrape_frequency
 		end
 
-		def log_event_create
-			log_scrape_session_event "create"
-		end
-
-		def log_event_edit
-			log_scrape_session_event "edit"
-		end
-
-		def log_event_delete
-			logger.debug "current_user => #{current_user.inspect}"
-			log_scrape_session_event "delete"
-		end
-
-		def log_scrape_session_event(event)
-			event_params = {}
-			event_params[:scrape_session_id] 		= id
-			event_params[:scrape_session_name] 	    = name
-			event_params[:event_time]  				= Time.now
-			event_params[:user_id]     				= current_user.id
-			event_params[:username]    				= current_user.username
-			event_params[:event_type]  				= event
-
-			event_params[:session_scrape_frequency]     = session_scrape_frequency
-			event_params[:session_next_scrape_date]		= session_next_scrape_date
-			event_params[:session_continuous_scrape]	= session_continuous_scrape
-			event_params[:allow_page_override]			= allow_page_override
-			event_params[:scrape_page_count]			= total_pages
-			event_params[:fb_posts_count]				= total_posts
-			event_params[:fb_comments_count]			= total_comments
-
-			log_event = ScrapeSessionLog.new(event_params)
-
-			if log_event.save
-				logger.debug "scrape_session Log : #{event}"
-			end 
-
-	    end
 end

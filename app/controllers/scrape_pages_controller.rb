@@ -86,11 +86,8 @@ class ScrapePagesController < ApplicationController
 
 		# strong params
 	    def scrape_page_params
-	      params.require(:scrape_page).permit(:page_url, 
-									      	  # :scrape_frequency,
-									      	  :scrape_frequency_select,
+	      params.require(:scrape_page).permit(:page_url,
 									      	  :override_session_settings,
-									      	  :next_scrape_date,
 									      	  :continous_scrape )
 	    end
 
