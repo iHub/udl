@@ -59,7 +59,7 @@ class ScrapePage < ActiveRecord::Base
 
 	#---------------------------
 
-	
+
 	def get_fb_page_id
 		logger.debug "inside get_fb_page_id"
 
@@ -121,7 +121,7 @@ class ScrapePage < ActiveRecord::Base
 	def regular_scrape(start_date, end_date)
 		logger.debug ">>>>>>>>>>> Running regular_scrape <<<<<<<<<<<<"
 		logger.debug "Current Page => #{page_url}"
-		
+
 		@saved_posts  	 = []
 		@comment_count   = 0
 		@saved_comments  = []
@@ -130,9 +130,18 @@ class ScrapePage < ActiveRecord::Base
 		@last_result_created_time = end_date
 
 		get_fb_posts start_date, end_date, true
+		
 		regular_scrape_posts = FbPost.regular_post
+
 		logger.debug "Total Posts => #{regular_scrape_posts.count}"
 		get_fb_comments regular_scrape_posts
+
+		# update settings for next scrape
+		session_next_scrape_date = Time.now + self.scrape_session.session_scrape_frequency
+		next_scrape_date 		 = Time.now + scrape_frequency
+		
+		self.update_attributes(next_scrape_date: next_scrape_date)
+		self.scrape_session.update_attributes(session_next_scrape_date: session_next_scrape_date)
 
 		regular_scrape_end_time = Time.now			# for the logs
 	end
@@ -278,6 +287,9 @@ class ScrapePage < ActiveRecord::Base
 
 	def save_fb_comments(fb_post, fb_post_graph_object)
 
+		logger.debug "Start save_fb_comments"
+		logger.debug "fb_post => #{fb_post.message}"
+
         fb_post_graph_object["comments"]["data"].each do |comment|
             this_comment = {}
             this_comment[:comment_id]      = comment["id"]
@@ -289,7 +301,8 @@ class ScrapePage < ActiveRecord::Base
             this_comment[:parent_id]       =  "0"
 
             fb_comment = fb_post.fb_comments.build(this_comment)
-
+            logger.debug "pre-save fb_comment => #{fb_comment}"
+            logger.debug "Time now is => #{Time.now}"
             @comment_count +=1  
 
             if fb_comment.save

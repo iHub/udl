@@ -1,16 +1,25 @@
 class FbComment < ActiveRecord::Base
 
+    # default_scope -> { order('created_at DESC') }
+
+
+    WILL_PAGINATE_COMMENTS_PER_PAGE = 50
+
     belongs_to :fb_post, counter_cache: true  
     # before_save :comment_unique_to_this_post
 
-    # default_scope -> { order('created_at DESC') }
-    validates_uniqueness_of :fb_comment_id, scope: :fb_post_id
+    
+    validates_uniqueness_of :comment_id, scope: :fb_post_id
 
-    WILL_PAGINATE_COMMENTS_PER_PAGE = 50
-    self.per_page = WILL_PAGINATE_COMMENTS_PER_PAGE
+    
+    # self.per_page = WILL_PAGINATE_COMMENTS_PER_PAGE
 
     def page_url
         self.fb_post.page_url  
+    end
+
+    def per_page
+        WILL_PAGINATE_COMMENTS_PER_PAGE
     end
 
     def is_reply
