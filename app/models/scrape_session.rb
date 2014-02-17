@@ -128,6 +128,7 @@ class ScrapeSession < ActiveRecord::Base
 			next_date = epoch_time current_page.scrape_session.session_next_scrape_date
 			this_page.regular_scrape next_date, end_date if this_page.scrape_session.session_next_scrape_date < Time.now
 			next_scrape_date = Time.now + this_page.scrape_session.session_scrape_frequency
+			this_page.update_attributes(next_scrape_date: next_scrape_date)
 			this_page.scrape_session.update_attributes(session_next_scrape_date: next_scrape_date)
 		end		    
 
