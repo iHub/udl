@@ -74,14 +74,24 @@ class ScrapeSession < ActiveRecord::Base
 #-------------------------------------
 
 	def csv_import(file)
+		
+		return false if file.nil?
+
 		file_pages_url_strip = []
 		
 		logger.debug "params file => #{file.inspect}"
-		import_pages = SmarterCSV.process(file.tempfile)
+
+		begin
+			import_pages = SmarterCSV.process(file.tempfile)
+		rescue Exception => e
+			logger.debug "Invalid file submitted."
+			self.errors.add(:file, "#{e.message}")
+			return false
+		end
+		
 		logger.debug "import_pages => #{import_pages.inspect}"
 		import_pages.each do |page|
-			# logger.debug "key, value => #{key.inspect} , #{value.inspect}"
-			# file_pages_url_strip << page[:page_url].gsub(/.*(facebook.com)[\/]/, '') 
+			
 			import_page = ScrapePage.new
 			logger.debug "page[:page_url] => #{page[:page_url]}"
 			import_page.page_url 		  = page[:page_url]
@@ -91,8 +101,6 @@ class ScrapeSession < ActiveRecord::Base
 				logger.debug "Valid url -- added to db"
 			end
 		end
-
-		logger.debug "file_pages_url_strip => #{file_pages_url_strip.inspect}"
 
 		# spreadsheet = open_spreadsheet(file)
 		# logger.debug "spreadsheet => #{spreadsheet.inspect}"
