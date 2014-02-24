@@ -6,14 +6,17 @@ class ScrapeSession < ActiveRecord::Base
 	scope 	:absolute, 	 -> { where(allow_page_override: false) }
 	scope 	:overridden, -> { where(allow_page_override: true) }
 
+	#-------------------------------------------------------------------------
 
 	SCRAPE_FREQUENCY_DEFAULT    = 600
 	CONTINUOUS_SCRAPE_DEFAULT   = false
 	ALLOW_PAGE_OVERRIDE_DEFAULT = false
 
+	#-------------------------------------------------------------------------
 
 	attr_accessor :scrape_frequency_select
 
+	#-------------------------------------------------------------------------
 
 	# associations
 	belongs_to :user, counter_cache: true	
@@ -36,13 +39,16 @@ class ScrapeSession < ActiveRecord::Base
 	# has_many :init_scrape_logs, 	dependent: :destroy
 	has_many :regular_scrape_logs,  dependent: :destroy
 
+	#-------------------------------------------------------------------------
 
 	validates :name, 	presence: true
 
+	#-------------------------------------------------------------------------
 
 	before_create :set_defaults
 	before_save   :set_next_scrape_date
 
+	#-------------------------------------------------------------------------
 
 	def user_name
 		session_owner = User.find(self.user_id)
@@ -61,23 +67,21 @@ class ScrapeSession < ActiveRecord::Base
 		self.fb_comments.size
 	end
 
-#-------------------------------------
-# refactor to module
-#-------------------------------------
+	#-------------------------------------------------------------------------
+	# refactor to module
+	#-------------------------------------------------------------------------
 
 	def epoch_time(standard_date_time)
 		standard_date_time.to_time.utc.to_i
 	end
 
-#-------------------------------------
-# Import methods
-#-------------------------------------
+	#-------------------------------------------------------------------------
+	# Import methods
+	#-------------------------------------------------------------------------
 
 	def csv_import(file)
 		
 		return false if file.nil?
-
-		file_pages_url_strip = []
 
 		begin
 			import_pages = SmarterCSV.process(file.tempfile)
@@ -107,9 +111,9 @@ class ScrapeSession < ActiveRecord::Base
 		end
 	end
 
-#-------------------------------------
-# Session Scraper methods
-#-------------------------------------
+	#-------------------------------------------------------------------------
+	# Session Scraper methods
+	#-------------------------------------------------------------------------
 
 	def parse_all_sessions
 		session_controlled_scrape_pages =  ScrapePage.where(scrape_session_id: ScrapeSession.absolute.continuous.select(:id))

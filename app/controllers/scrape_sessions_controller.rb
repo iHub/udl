@@ -70,6 +70,8 @@ class ScrapeSessionsController < ApplicationController
 		@scrape_session = ScrapeSession.find(params[:id])
 	end
 
+	#-------------------------------------------------------------------------
+
 	def import
 		@scrape_session = get_scrape_session(params[:id])
 	end
@@ -84,6 +86,8 @@ class ScrapeSessionsController < ApplicationController
 		end
 	end
 
+	#-------------------------------------------------------------------------
+	
 	def retro
 		@scrape_session = get_scrape_session(params[:id])
 		@scrape_pages   = @scrape_session.scrape_pages
@@ -104,6 +108,8 @@ class ScrapeSessionsController < ApplicationController
 		flash[:success] = "Batch Retro scrape in progress"
 		redirect_to scrape_session_path
 	end
+
+	#-------------------------------------------------------------------------
 
 	private
 
