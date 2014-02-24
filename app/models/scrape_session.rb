@@ -78,37 +78,24 @@ class ScrapeSession < ActiveRecord::Base
 		return false if file.nil?
 
 		file_pages_url_strip = []
-		
-		logger.debug "params file => #{file.inspect}"
 
 		begin
 			import_pages = SmarterCSV.process(file.tempfile)
 		rescue Exception => e
-			logger.debug "Invalid file submitted."
 			self.errors.add(:file, "#{e.message}")
 			return false
 		end
 		
-		logger.debug "import_pages => #{import_pages.inspect}"
 		import_pages.each do |page|
 			
 			import_page = ScrapePage.new
-			logger.debug "page[:page_url] => #{page[:page_url]}"
 			import_page.page_url 		  = page[:page_url]
 			import_page.scrape_session_id = self.id
-			logger.debug "import_page.page_url => #{import_page.page_url}"
 			if import_page.save
-				logger.debug "Valid url -- added to db"
+				#--- log this
 			end
 		end
 
-		# spreadsheet = open_spreadsheet(file)
-		# logger.debug "spreadsheet => #{spreadsheet.inspect}"
-		# header = spreadsheet.row(1)
-		# (2..spreadsheet.last_row).each do |i|
-		# 	file_pages << spreadsheet.cell(1,i)
-		# end
-		# logger.debug "file_pages => #{file_pages.inspect}"
 	end
 
 	def self.open_spreadsheet(file)
@@ -125,26 +112,16 @@ class ScrapeSession < ActiveRecord::Base
 #-------------------------------------
 
 	def parse_all_sessions
-		logger.debug "Starting parse_all_sessions"
 		session_controlled_scrape_pages =  ScrapePage.where(scrape_session_id: ScrapeSession.absolute.continuous.select(:id))
 		session_controlled_scrape_pages += ScrapePage.where(scrape_session_id: ScrapeSession.overridden.continuous.select(:id)).no_override
 		page_controlled_scrape_pages    =  ScrapePage.where(scrape_session_id: ScrapeSession.overridden.select(:id)).has_override.continuous
 
 		end_date = epoch_time Time.now 
-		logger.debug "session_controlled_scrape_pages => #{session_controlled_scrape_pages.size}"
-
-		# uber logging
-		session_controlled_scrape_pages.each_with_index	do |this_page, index|
-			logger.debug "session_controlled_scrape_pages => #{index} : #{this_page.page_url}"
-		end	
 
 		session_controlled_scrape_pages.each 	do |this_page|
 			next_date = epoch_time this_page.scrape_session.session_next_scrape_date
 			this_page.regular_scrape next_date, end_date if next_date < end_date
 		end		    
-
-		logger.debug "---------------------------------------------------"
-		logger.debug "page_controlled_scrape_pages => #{page_controlled_scrape_pages.size}"
 
 		page_controlled_scrape_pages.each do |this_page|
 			next_date = epoch_time this_page.next_scrape_date
