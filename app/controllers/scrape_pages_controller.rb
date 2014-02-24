@@ -21,21 +21,20 @@ class ScrapePagesController < ApplicationController
 
 	def create
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
-    	@scrape_page = @scrape_session.scrape_pages.build(scrape_page_params)
+    	@scrape_page    = @scrape_session.scrape_pages.new(scrape_page_params)
 
     	@scrape_page.continous_scrape 			= params[:scrape_page][:continous_scrape]
     	@scrape_page.override_session_settings  = params[:scrape_page][:override_session_settings]
     	@scrape_page.scrape_frequency 			= frequency_minutes params[:scrape_page][:scrape_frequency_select]
 		@scrape_page.user_id					= current_user.id
 
-    	if @scrape_page.save 		# has been saved?
-    		ScrapePageLog.log_page_event(@scrape_page, current_user.id, "create")
-			success_message = "Your page has been added to the Session!"
-			flash[:success] = success_message
+    	if @scrape_page.save 
+    		ScrapePageLog.log_new_page_event(@scrape_page, current_user.id)
+			flash[:success] = "Your page has been added to the Session!"
 			redirect_to scrape_session_scrape_pages_path
 		else
-			# flash.now[:danger] = @scrape_page.inspect + @scrape_page.errors.messages.to_s
-			render 'new'
+			flash.now[:danger] = @scrape_page.inspect + @scrape_page.errors.messages.to_s
+			render :new
 		end
 	end
 
@@ -47,7 +46,7 @@ class ScrapePagesController < ApplicationController
 		@scrape_page.scrape_frequency = frequency_minutes params[:scrape_page][:scrape_frequency_select]
 
 		if @scrape_page.update_attributes(scrape_page_params)
-			ScrapePageLog.log_page_event(@scrape_page, current_user.id, "edit")
+			ScrapePageLog.log_edit_page_event(@scrape_page, current_user.id)
 			flash[:success] = "Your Page has been updated."
 			redirect_to scrape_session_scrape_page_path
 		else
@@ -75,19 +74,19 @@ class ScrapePagesController < ApplicationController
 	def destroy
 		@scrape_session = get_scrape_session(params[:scrape_session_id])
 		scrape_page = @scrape_session.scrape_pages.find(params[:id]).destroy
-		ScrapePageLog.log_page_event(scrape_page, current_user.id, "delete")
+		ScrapePageLog.log_delete_page_event(scrape_page, current_user.id)
 
 		flash[:success] = "Page Deleted!"
 		redirect_to scrape_session_scrape_pages_path
 	end
-
-	############################################################
+	#-------------------------------------------------------------------------
 	
 	private
 
 		# strong params
 	    def scrape_page_params
 	      params.require(:scrape_page).permit(:page_url,
+	      									  :scrape_frequency_select,
 									      	  :override_session_settings,
 									      	  :continous_scrape )
 	    end
