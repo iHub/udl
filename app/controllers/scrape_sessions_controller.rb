@@ -30,8 +30,7 @@ class ScrapeSessionsController < ApplicationController
 	end
 
 	def create
-		scrape_session = ScrapeSession.new(scrape_session_params)
-		scrape_session.user_id = current_user.id
+		scrape_session = current_user.scrape_sessions.new(scrape_session_params)
     	scrape_session.allow_page_override  = params[:scrape_session][:allow_page_override]
 
     	scrape_session.session_continuous_scrape 	= params[:scrape_session][:session_continuous_scrape]
@@ -98,14 +97,10 @@ class ScrapeSessionsController < ApplicationController
 
 		selected_pages = ScrapePage.where(id: params[:scrape_page_ids])
 
-		logger.debug "Selected pages => #{params[:scrape_page_ids].length}"
-
 		selected_pages.each do |this_page|
 			this_page.retro_scrape start_date, end_date
 		end
 
-		logger.debug "selected_pages => #{selected_pages.inspect}"
-		logger.debug "retro-params => #{params.inspect}"
 		flash[:success] = "Batch Retro scrape in progress"
 		redirect_to scrape_session_path
 	end
