@@ -90,22 +90,29 @@ class ScrapePage < ActiveRecord::Base
 
 		regular_scrape_end_time = Time.now			# for the logs
 	end
-	handle_asynchronously :regular_scrape, priority: 20, queue: "regular_scrape"
+	handle_asynchronously :regular_scrape, priority: 10, queue: "regular_scrape"
 
 
 	def retro_scrape(start_date, end_date)
 		
-		@saved_posts  	 = []
-		@comment_count   = 0
-		@saved_comments  = []
+		@saved_posts  	 	= []
+		@comment_count   	= 0
+		@saved_comments  	= []
+		@rejected_comments  = 0
+		@rejected_posts  	= 0
 
 		retro_scrape_start_time = Time.now			# for the logs
 		@last_result_created_time = end_date
 
-		
 		get_fb_posts start_date, end_date, false
+
+		logger.debug "@saved_posts.length => #{@saved_posts.length}"
+
 		get_fb_comments @saved_posts
 
+		logger.debug "@rejected_comments => #{@rejected_comments}"
+		logger.debug "@rejected_posts    => #{@rejected_posts}"
+		logger.debug "-------------- Post Stats -----------------"
 		retro_scrape_end_time = Time.now			# for the logs
 	end
 	handle_asynchronously :retro_scrape, priority: 20, queue: "retro_scrape"
@@ -115,7 +122,9 @@ class ScrapePage < ActiveRecord::Base
 
 	# handle fb posts > get and save
 
-	def get_fb_posts(start_date, end_date, regular_post)
+	def get_fb_posts(start_date, end_date, regular_post = true)
+
+		logger.debug "Get FB Posts "
 
 		query_limit  = 500
 		posts_fql_query = "SELECT post_id, message, created_time, updated_time FROM stream WHERE source_id = '#{self.fb_page_id}' AND message != '' AND created_time > #{start_date} AND created_time < #{end_date} LIMIT #{query_limit}"
@@ -164,6 +173,7 @@ class ScrapePage < ActiveRecord::Base
 		    if current_post.save
 		    	@saved_posts << current_post
 		    else
+		    	@rejected_posts += 1
 		    	logger.debug "--------------- Record NOT Saved | possible duplicate -----------------"
 		    end
 		end
@@ -181,13 +191,13 @@ class ScrapePage < ActiveRecord::Base
 
 		selected_posts.each do |current_fb_post|
 
-			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "updated_time,comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(1000)")
+			fb_post_graph_object = fb_graph.get_object(current_fb_post.fb_post_id, :fields => "updated_time,comments.fields(comments.fields(from,message,created_time),message,from,created_time).limit(500)")
 	
-			if !fb_post_graph_object["comments"].nil?  && current_fb_post.updated_time < fb_post_graph_object["updated_time"]
+			if !fb_post_graph_object["comments"].nil?  && current_fb_post.updated_time <= fb_post_graph_object["updated_time"]
 		    	save_fb_comments current_fb_post, fb_post_graph_object
 		    	current_fb_post.update_attributes(updated_time: fb_post_graph_object["updated_time"])
 		    else
-
+		    	logger.debug ""
 			end
 		end
 	end
@@ -210,7 +220,7 @@ class ScrapePage < ActiveRecord::Base
             if fb_comment.save
               @saved_comments << fb_comment
             else
-              # count the rejects
+              @rejected_comments += 1
             end
 
             # grab nested comments
