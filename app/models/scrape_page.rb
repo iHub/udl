@@ -71,6 +71,8 @@ class ScrapePage < ActiveRecord::Base
 		@saved_posts  	 = []
 		@comment_count   = 0
 		@saved_comments  = []
+		@rejected_comments  = 0
+		@rejected_posts  	= 0
 
 		regular_scrape_start_time = Time.now			# for the logs
 		@last_result_created_time = end_date
@@ -201,6 +203,8 @@ class ScrapePage < ActiveRecord::Base
 			end
 		end
 	end
+	handle_asynchronously :get_fb_comments, priority: 15, queue: "get_fb_comments"
+
 
 	def save_fb_comments(fb_post, fb_post_graph_object)
 

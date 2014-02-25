@@ -88,9 +88,10 @@ class ScrapeSession < ActiveRecord::Base
 		
 		import_pages.each do |page|
 			
-			import_page = ScrapePage.new
-			import_page.page_url 		  = page[:page_url]
-			import_page.scrape_session_id = self.id
+			import_page = self.scrape_page.new(page_url:, page[:page_url])
+			# import_page = ScrapePage.new
+			# import_page.page_url 		  = page[:page_url]
+			# import_page.scrape_session_id = self.id
 			if import_page.save
 				#--- log this
 			end
