@@ -11,34 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140217104254) do
-
-  create_table "annotations", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "scrape_session_id"
-    t.integer  "question_id"
-    t.integer  "answer_id"
-    t.integer  "post_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "annotations", ["answer_id"], name: "index_annotations_on_answer_id"
-  add_index "annotations", ["post_id"], name: "index_annotations_on_post_id"
-  add_index "annotations", ["question_id"], name: "index_annotations_on_question_id"
-  add_index "annotations", ["scrape_session_id"], name: "index_annotations_on_scrape_session_id"
-  add_index "annotations", ["user_id"], name: "index_annotations_on_user_id"
-
-  create_table "annotators", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "scrape_session_id"
-    t.string   "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "annotators", ["scrape_session_id"], name: "index_annotators_on_scrape_session_id"
-  add_index "annotators", ["user_id"], name: "index_annotators_on_user_id"
+ActiveRecord::Schema.define(version: 20140225030952) do
 
   create_table "answer_logs", force: true do |t|
     t.integer  "scrape_session_id"
