@@ -6,48 +6,8 @@
 
 	<div class="panel-body">
 		
+		<%= render 'shared/app_setting_form', object: @app_setting %>
 
-		<%= form_for(@app_setting) do |f| %>
-			
-			<%= render 'shared/error_messages', object: f.object %>
-			
-			<div class="form-group">
-				<%= f.label		:app_name %>
-				<%= f.text_field 	:app_name, class: "form-control", 
-											placeholder: "App Name" %>
-			</div>
-
-			<div class="form-group">
-				<%= f.label		:welcome_message %>
-				<%= f.text_field 	:welcome_message, class: "form-control", 
-											placeholder: "Welcome Message" %>
-			</div>
-
-			<div class="form-group">
-				<%= f.label 		:fb_app_name %>
-				<%= f.text_field 	:fb_app_name, class: "form-control", 
-											placeholder: "FB App Name" %>
-			</div>
-
-			<div class="form-group">
-				<%= f.label 		:fb_app_id %>
-				<%= f.text_field 	:fb_app_id, class: "form-control", 
-											placeholder: "FB App ID" %>
-			</div>
-
-			<div class="form-group">
-				<%= f.label 		:fb_app_secret %>
-				<%= f.text_field 	:fb_app_secret, class: "form-control", 
-											placeholder: "FB App Secret" %>
-			</div>
-
-			<div class="form-group">
-				<%= f.label 		:fb_app_access_token %>
-				<%= f.text_field 	:fb_app_access_token, class: "form-control", 
-											placeholder: "FB App Access Token" %>
-			</div>			
-			<%= f.submit "Update", class: "btn btn-large btn-primary btn-block" %>
-		<% end %>
 	</div>
 </div>
 
