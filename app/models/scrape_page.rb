@@ -17,13 +17,11 @@ class ScrapePage < ActiveRecord::Base
 
 	#-------------------------------------------------------------------------
 
-	#associations
 	belongs_to  :scrape_session, counter_cache: true	
 	has_many    :fb_posts, 		dependent: :destroy
 	has_many	:fb_comments, :through => :fb_posts
 
 	#-------------------------------------------------------------------------
-
 
 	validates :page_url, 	presence: true
 	validates_uniqueness_of	:page_url,   scope: :scrape_session_id, message: "This page exists in this sesssion!!"
@@ -176,7 +174,7 @@ class ScrapePage < ActiveRecord::Base
 		    	@saved_posts << current_post
 		    else
 		    	@rejected_posts += 1
-		    	logger.debug "--------------- Record NOT Saved | possible duplicate -----------------"
+		    	logger.debug "--------------- Record NOT Saved #{current_post.errors.full_messages}"
 		    end
 		end
 
@@ -203,7 +201,7 @@ class ScrapePage < ActiveRecord::Base
 			end
 		end
 	end
-	handle_asynchronously :get_fb_comments, priority: 15, queue: "get_fb_comments"
+	
 
 
 	def save_fb_comments(fb_post, fb_post_graph_object)
@@ -218,7 +216,7 @@ class ScrapePage < ActiveRecord::Base
             this_comment[:fb_post_id]      = fb_post.id
             this_comment[:parent_id]       =  "0"
 
-            fb_comment = fb_post.fb_comments.build(this_comment)
+            fb_comment = fb_post.fb_comments.new(this_comment)
             @comment_count +=1  
 
             if fb_comment.save
@@ -239,14 +237,14 @@ class ScrapePage < ActiveRecord::Base
 					nested_comment[:fb_post_id]      = fb_post.id
 					nested_comment[:parent_id]       = this_comment[:comment_id]
 
-					fb_nested_comment = fb_post.fb_comments.build(nested_comment)
+					fb_nested_comment = fb_post.fb_comments.new(nested_comment)
 
 					@comment_count +=1
 
 					if fb_nested_comment.save
 						 @saved_comments << fb_nested_comment
 					else
-						# count the rejects
+						@rejected_comments += 1
 					end
 				end
             end
