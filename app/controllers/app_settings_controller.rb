@@ -1,7 +1,7 @@
 class AppSettingsController < ApplicationController
   
-	# before_action :admin_user,     only: [:index, :edit, :create]
-	# before_action :manager_user,   only: [:index, :edit]
+	before_action :admin_user,     only: [:index, :edit, :create]
+	before_action :manager_user,   only: [:index, :edit]
 
 	def index
 		@app_setting = AppSetting.last
@@ -36,12 +36,11 @@ class AppSettingsController < ApplicationController
 		  flash[:success] = "Settings updated"
 		  redirect_to app_setting_path
 		else
-		  flash[:danger] = "unable to save"
+		  flash[:danger] = "Unable to Edit"
 		  render 'edit'
 		end
 	end
-
-
+	
 	#--------------------------------------
 
 	private

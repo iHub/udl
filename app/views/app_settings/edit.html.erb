@@ -5,11 +5,12 @@
 <div class="col-md-6 panel panel-default signup">
 
 	<div class="panel-body">
-		<% password_pattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}" %>
+		
 
 		<%= form_for(@app_setting) do |f| %>
 			
-
+			<%= render 'shared/error_messages', object: f.object %>
+			
 			<div class="form-group">
 				<%= f.label		:app_name %>
 				<%= f.text_field 	:app_name, class: "form-control", 

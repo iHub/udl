@@ -7,6 +7,8 @@
 	<div class="panel-body">
 		<%= form_for(@app_setting) do |f| %>
 			
+			<%= render 'shared/error_messages', object: f.object %>
+			
 			<div class="form-group">
 				<%= f.label		:app_name %>
 				<%= f.text_field 	:app_name, class: "form-control", 
