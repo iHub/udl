@@ -24,20 +24,7 @@
       </div>
 
 <% else %>
-    <div class="panel panel-default">
-        <%= search_form_for(@search, url: fb_comments_search_path , method: :post,  class: "", role: "search")  do |f| %>
-            <div class="panel-body">
-                <%= f.text_field :message_cont, class: "form-control col-md-8 pull-left search-form", 
-                                        placeholder: "Search Comments..." %>
-           
-            <%= f.submit "Search", class: "btn btn-large btn-primary pull-right" %>
-             <div class="clearfix"></div>
-         </div>
-        <% end %>
-    </div>
 
-    <div class="clearfix"></div>
-    <hr />
 
     <div class="panel panel-default dash-stats-sessions">
       <div class="panel-heading">All Posts</div>

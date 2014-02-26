@@ -26,19 +26,6 @@
 
 <% if !@fb_posts.blank? %>
 
-    <div class="col-md-12">
-        <%= search_form_for(@search, url: fb_posts_search_path , method: :post,  class: "navbar-form", role: "search" )  do |f| %>
-            <%= f.hidden_field :scrape_session_id, {:value =>  @scrape_session.id} %>
-            <div class="form-group description-search">
-                <%= f.text_field :message_cont, class: "form-control ", 
-                                        placeholder: "Search Posts..." %>
-            </div>
-            
-        <% end %>
-    </div>
-
-    <div class="clearfix"></div>
-
     <div class="panel panel-default dash-stats-sessions">
       <div class="panel-heading">All Posts</div>
       <div class="panel-body">
