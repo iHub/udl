@@ -52,8 +52,7 @@ class ScrapePage < ActiveRecord::Base
 	end
 	
 	def added_by
-
-		added_by_user = User.find(self.user_id)	|| NullUser.new
+		added_by_user = User.where(id: self.user_id).first	|| NullUser.new
 		added_by_user.username
 	end
 
