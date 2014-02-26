@@ -2,11 +2,9 @@ ULog::Application.routes.draw do
 
   get "fb_comments/index"
   get "fb_comments/show"
-  match "fb_comments/search", to: 'fb_comments#search', via: 'post'
 
   get "fb_posts/index"
   get "fb_posts/show"
-  match "fb_posts/search", to: 'fb_posts#search', via: 'post'
 
   get "answers/index"
   get "answers/show"
@@ -15,7 +13,7 @@ ULog::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  resources :app_settings #, only: [:new, :edit, :show, :index]
+  resources :app_settings
   
   resources :scrape_sessions do
 
@@ -30,7 +28,7 @@ ULog::Application.routes.draw do
     end
 
     resources :scrape_pages do
-      resources :fb_posts, only: [:index, :show, :search]
+      resources :fb_posts, only: [:index, :show]
     end
 
     resources :questions do
@@ -38,14 +36,14 @@ ULog::Application.routes.draw do
     end
 
     # Session logs
-    resources :answer_logs,       only: [:index, :show, :search]
-    resources :question_logs,     only: [:index, :show, :search]
-    resources :regular_scrape_logs, only: [:index, :show, :search]
-    resources :scrape_page_logs, only: [:index, :show, :search]
+    resources :answer_logs,       only: [:index, :show]
+    resources :question_logs,     only: [:index, :show]
+    resources :regular_scrape_logs, only: [:index, :show]
+    resources :scrape_page_logs, only: [:index, :show]
     
   end    
   
-  #login/out routes
+  #login/logout routes
   match '/signup',  to: 'users#new',            via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
