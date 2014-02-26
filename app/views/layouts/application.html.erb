@@ -67,7 +67,7 @@
                     </li>
                   </ul>
                 </li>
-              <% else %>
+              <% elsif @has_users %>
                 <li><%= link_to "Sign in", signin_path %></li>
               <% end %>
           </ul>

@@ -21,7 +21,7 @@ class StaticPagesController < ApplicationController
         all_comments = FbComment.where(fb_post_id: all_posts.select(:id))
         @all_comments_count = all_comments.size
     end 
-  	
+  	@has_users = true if User.count > 0
   end
 
   def help

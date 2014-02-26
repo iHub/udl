@@ -30,6 +30,7 @@ class ScrapePage < ActiveRecord::Base
 	validates_uniqueness_of	:fb_page_id, scope: :scrape_session_id
 
 	validates :page_type,  presence: true
+	validates :user_id,  presence: true
 	validates :scrape_frequency, 	presence: true, if: :continous_scrape?, 
 									numericality:  {only_integer: true}
 
@@ -51,11 +52,9 @@ class ScrapePage < ActiveRecord::Base
 	end
 	
 	def added_by
-		if added_by_user = User.find(user_id)	
-			added_by_user.username
-		else
-			"User does not exist."
-		end
+
+		added_by_user = User.find(self.user_id)	|| NullUser.new
+		added_by_user.username
 	end
 
 	def epoch_time(standard_date_time)
