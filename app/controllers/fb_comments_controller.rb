@@ -3,10 +3,6 @@ class FbCommentsController < ApplicationController
   before_action :signed_in_user
   
   def index
-    
-    @search = FbComment.search(params[:q])
-    @search.build_condition
-
     @page_number = params[:page]
 
     if !params[:scrape_session_id].nil?    # scrapge session id not in params
@@ -27,13 +23,6 @@ class FbCommentsController < ApplicationController
         @fb_comments_scope = "post"
     end
 
-  end
-
-  def search
-    @fb_comments_scope = "search"
-    @search = FbComment.search(params[:q])
-    @search_params = params[:q]
-    @fb_comments = @search.result(distinct: "true")
   end
 
   def show

@@ -19,8 +19,6 @@ gem 'delayed_job_web', '1.2.5'
 gem 'roo',             '~> 1.13.2'
 gem 'whenever',        '0.9.0',    require: false
 gem 'will_paginate',   '3.0.5'
-gem 'ransack',         github: 'activerecord-hackery/ransack', 
-                       branch: 'rails-4'
 gem 'jquery-turbolinks',         '2.0.2'
 gem 'bootstrap-will_paginate',   '0.0.10'
 gem 'delayed_job_active_record', '4.0.0'

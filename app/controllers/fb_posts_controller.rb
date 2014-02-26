@@ -3,9 +3,6 @@ class FbPostsController < ApplicationController
     before_action :signed_in_user
     
     def index
-        
-        @search = FbPost.search(params[:q])
-        @search.build_condition
         @page_number = params[:page]
 
         if !params[:scrape_session_id].nil?
@@ -21,8 +18,6 @@ class FbPostsController < ApplicationController
     end
 
     def show
-        @search = FbPost.search(params[:q])
-        @search.build_condition
         @page_number = params[:page]
 
         @scrape_page = ScrapePage.find(params[:scrape_page_id])
@@ -34,16 +29,6 @@ class FbPostsController < ApplicationController
         @fb_post = FbPost.find(params[:id])
         @fb_comments = @fb_post.fb_comments.paginate(:page => params[:page]).includes(:fb_post)
     end
-
-    def search
-        @scrape_session = get_scrape_session(params[:q][:scrape_session_id])
-        @selected_posts = {}
-        @search = FbPost.search(params[:q])
-        @search_params = params[:q]
-        @fb_posts = @search.result(distinct: "true")
-        @selected_posts[:source] = "search"
-    end
-
 
     def create
         @scrape_page    =  ScrapePage.find(params[:scrape_page_id])

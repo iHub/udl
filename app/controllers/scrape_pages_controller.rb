@@ -61,9 +61,6 @@ class ScrapePagesController < ApplicationController
 		@page_number    = params[:page]
 		@selected_posts = {}
 		@selected_posts[:source] = "Page"
-
-		@search = FbPost.search(params[:q])
-    	@search.build_condition
 	end
 
 	def destroy

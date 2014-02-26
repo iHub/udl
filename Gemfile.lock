@@ -1,15 +1,3 @@
-GIT
-  remote: git://github.com/activerecord-hackery/ransack.git
-  revision: 0a77a1b89cf6e00e0a63f93bfebaa7934a21ce93
-  branch: rails-4
-  specs:
-    ransack (1.1.0)
-      actionpack (>= 4.0)
-      activerecord (>= 4.0)
-      activesupport (>= 4.0)
-      i18n
-      polyamorous (~> 0.6.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -154,8 +142,6 @@ GEM
       mini_portile (~> 0.5.0)
     pg (0.17.1)
     pg (0.17.1-x86-mingw32)
-    polyamorous (0.6.4)
-      activerecord (>= 3.0)
     polyglot (0.3.4)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
@@ -288,7 +274,6 @@ DEPENDENCIES
   rails (= 4.0.3)
   rails_12factor (= 0.0.2)
   rake (~> 10.1.1)
-  ransack!
   roo (~> 1.13.2)
   rspec-rails (= 2.14.1)
   sass-rails (= 4.0.1)
