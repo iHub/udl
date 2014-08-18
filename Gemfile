@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails',          '4.0.2'
 gem 'sass-rails',     '4.0.1'
 gem 'uglifier',       '2.1.1'
@@ -24,10 +23,23 @@ gem 'roo',            '~> 1.13.2'
 
 gem 'whenever', :require => false
 
+##########Deploy##########################################################
+  gem 'capistrano', '~> 3.0.1'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails', '~> 1.1.0'
+  gem 'capistrano-rails-console'
+  gem 'capistrano-rvm', '~> 0.1.1'
+##########################################################################
+
+##########Server##########################################################
+  gem 'unicorn'
+  gem 'unicorn-rails'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
-  gem 'rspec-rails', '2.14.1'  
+  gem 'rspec-rails', '2.14.1'
+  gem 'pry-rails'
+  gem 'pry-rescue'  
   # gem 'guard-rspec', '2.5.0'
   # gem 'spork-rails', '4.0.0'
   # gem 'guard-spork', '1.5.1'
@@ -39,7 +51,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'meta_request'
   gem 'quiet_assets'
-  # gem 'thin'
+  gem 'thin'
 end
 
 group :test do
