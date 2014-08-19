@@ -1,0 +1,16 @@
+<%= fetch(:rails_env) || fetch(:stage) %>:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: <%= fetch(:pg_database) %>
+  username: <%= fetch(:pg_user) %>
+  password: <%= fetch(:pg_password) %>
+  #host: localhost
+  #port: 5432
+  # Schema search path. The server defaults to $user,public
+  #schema_search_path: myapp,sharedapp,public
+  # Minimum log levels, in increasing order:
+  #   debug5, debug4, debug3, debug2, debug1,
+  #   log, notice, warning, error, fatal, and panic
+  # Defaults to warning.
+  #min_messages: notice
