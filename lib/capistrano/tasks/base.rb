@@ -38,13 +38,8 @@ namespace :deploy do
       # Setup postgresql and ruby
       info  '#####################################################################'
       info  '#####################################################################'
-      info  'Now remove my repo connection'
-      info  '$ git remote rm origin'
-      info  'Add your repo. Dont forget to change it in the deploy.rb file too'
-      info  '$ git remote add origin https://username@bitbucket.org/'
-      info  '$ git push -u origin'
       info  'We are now ready to Deploy >>>>>>>>>>   cap [ENV] deploy '
-      info  '$ BITBUCKET_REPO_PASSWORD=yourpassword cap production deploy:install'
+      info  'cap production deploy:install'
       info  '#####################################################################'
       info  '#####################################################################'
     end
