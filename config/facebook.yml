@@ -4,6 +4,14 @@ development:
   app_id:     630625760329068
   secret_key: a9f40e95d102b56431db887a42efccb9
 
+production:
+  app_id:     630625760329068
+  secret_key: a9f40e95d102b56431db887a42efccb9
+
+staging:
+  app_id:     630625760329068
+  secret_key: a9f40e95d102b56431db887a42efccb9
+
 test:
   app_id:     630625760329068
   secret_key: a9f40e95d102b56431db887a42efccb9

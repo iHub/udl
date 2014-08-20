@@ -14,5 +14,5 @@ set :ssh_options, {
   forward_agent: true,
   port: 6622
 }
-
+set :branch, "develop"
 set :log_level, :info
