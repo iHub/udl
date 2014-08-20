@@ -39,7 +39,7 @@ namespace :deploy do
       info  '#####################################################################'
       info  '#####################################################################'
       info  'We are now ready to Deploy >>>>>>>>>>   cap [ENV] deploy '
-      info  'cap production deploy:install'
+      info  '$ BITBUCKET_REPO_PASSWORD=yourpassword cap production deploy:install'
       info  '#####################################################################'
       info  '#####################################################################'
     end
