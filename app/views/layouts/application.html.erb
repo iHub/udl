@@ -92,6 +92,14 @@
                   <% end %>
 
                   <li>
+                    <%= link_to "TwitterParser", twitter_parser.root_path %>
+                  </li>
+
+                  <li>
+                    <%= link_to "Tagger", tagger.root_path %>
+                  </li>
+
+                  <li>
                     <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_sessions" %>" data-toggle="collapse" data-target="#sessions-collapse">
                       <span class="glyphicon glyphicon-eye-open"></span>Sessions
                     </button>
@@ -158,6 +166,8 @@
                       class: " #{"active" if yield(:app_page) == "fb_posts"}"  %>
 
                   </li>
+
+                
 
                   <li>
                     <%= link_to "<span class='glyphicon glyphicon-comment'></span>Comments".html_safe, {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id}, 

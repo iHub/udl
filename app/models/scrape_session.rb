@@ -23,8 +23,9 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :regular_scrape_logs,  dependent: :destroy
 
 #########TwitterParser && Tagger#############################
-	has_many :questions, :class_name => "Tagger::Question"
-	has_many :terms, :class_name => "TwitterParser::Term"
+	has_many :questions, :class_name => "Tagger::Question", dependent: :nullify
+	has_many :terms, :class_name => "TwitterParser::Term", dependent: :nullify
+	has_many :tweets, class_name: "TwitterParser::Tweet", dependent: :nullify
 
 	###############################################
 

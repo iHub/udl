@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924130102) do
+ActiveRecord::Schema.define(version: 20140924134238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -368,7 +368,10 @@ ActiveRecord::Schema.define(version: 20140924130102) do
     t.boolean  "retweeted",                 default: false
     t.boolean  "possibly_sensitive",        default: false
     t.string   "lang"
+    t.integer  "scrape_session_id"
   end
+
+  add_index "twitter_parser_tweets", ["scrape_session_id"], name: "index_twitter_parser_tweets_on_scrape_session_id", using: :btree
 
   create_table "user_logs", force: true do |t|
     t.integer  "user_id"
