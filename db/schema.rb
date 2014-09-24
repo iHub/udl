@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203064444) do
+ActiveRecord::Schema.define(version: 20140923042362) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -23,11 +26,11 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "annotations", ["answer_id"], name: "index_annotations_on_answer_id"
-  add_index "annotations", ["post_id"], name: "index_annotations_on_post_id"
-  add_index "annotations", ["question_id"], name: "index_annotations_on_question_id"
-  add_index "annotations", ["scrape_session_id"], name: "index_annotations_on_scrape_session_id"
-  add_index "annotations", ["user_id"], name: "index_annotations_on_user_id"
+  add_index "annotations", ["answer_id"], name: "index_annotations_on_answer_id", using: :btree
+  add_index "annotations", ["post_id"], name: "index_annotations_on_post_id", using: :btree
+  add_index "annotations", ["question_id"], name: "index_annotations_on_question_id", using: :btree
+  add_index "annotations", ["scrape_session_id"], name: "index_annotations_on_scrape_session_id", using: :btree
+  add_index "annotations", ["user_id"], name: "index_annotations_on_user_id", using: :btree
 
   create_table "annotators", force: true do |t|
     t.integer  "user_id"
@@ -37,8 +40,8 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "annotators", ["scrape_session_id"], name: "index_annotators_on_scrape_session_id"
-  add_index "annotators", ["user_id"], name: "index_annotators_on_user_id"
+  add_index "annotators", ["scrape_session_id"], name: "index_annotators_on_scrape_session_id", using: :btree
+  add_index "annotators", ["user_id"], name: "index_annotators_on_user_id", using: :btree
 
   create_table "answer_logs", force: true do |t|
     t.integer  "scrape_session_id"
@@ -54,10 +57,10 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.string   "question"
   end
 
-  add_index "answer_logs", ["answer_id"], name: "index_answer_logs_on_answer_id"
-  add_index "answer_logs", ["question_id"], name: "index_answer_logs_on_question_id"
-  add_index "answer_logs", ["scrape_session_id"], name: "index_answer_logs_on_scrape_session_id"
-  add_index "answer_logs", ["user_id"], name: "index_answer_logs_on_user_id"
+  add_index "answer_logs", ["answer_id"], name: "index_answer_logs_on_answer_id", using: :btree
+  add_index "answer_logs", ["question_id"], name: "index_answer_logs_on_question_id", using: :btree
+  add_index "answer_logs", ["scrape_session_id"], name: "index_answer_logs_on_scrape_session_id", using: :btree
+  add_index "answer_logs", ["user_id"], name: "index_answer_logs_on_user_id", using: :btree
 
   create_table "answers", force: true do |t|
     t.integer  "question_id"
@@ -67,7 +70,7 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "answers", ["question_id"], name: "index_answers_on_question_id"
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "app_settings", force: true do |t|
     t.string   "app_name"
@@ -94,7 +97,7 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "fb_comments", force: true do |t|
     t.integer  "fb_post_id"
@@ -108,8 +111,8 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.string   "parent_id"
   end
 
-  add_index "fb_comments", ["comment_id"], name: "index_fb_comments_on_comment_id"
-  add_index "fb_comments", ["fb_post_id"], name: "index_fb_comments_on_fb_post_id"
+  add_index "fb_comments", ["comment_id"], name: "index_fb_comments_on_comment_id", using: :btree
+  add_index "fb_comments", ["fb_post_id"], name: "index_fb_comments_on_fb_post_id", using: :btree
 
   create_table "fb_posts", force: true do |t|
     t.string   "fb_post_id"
@@ -121,9 +124,9 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "fb_posts", ["fb_page_id"], name: "index_fb_posts_on_fb_page_id"
-  add_index "fb_posts", ["fb_post_id"], name: "index_fb_posts_on_fb_post_id"
-  add_index "fb_posts", ["scrape_page_id"], name: "index_fb_posts_on_scrape_page_id"
+  add_index "fb_posts", ["fb_page_id"], name: "index_fb_posts_on_fb_page_id", using: :btree
+  add_index "fb_posts", ["fb_post_id"], name: "index_fb_posts_on_fb_post_id", using: :btree
+  add_index "fb_posts", ["scrape_page_id"], name: "index_fb_posts_on_scrape_page_id", using: :btree
 
   create_table "question_logs", force: true do |t|
     t.integer  "scrape_session_id"
@@ -137,9 +140,9 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "question_logs", ["question_id"], name: "index_question_logs_on_question_id"
-  add_index "question_logs", ["scrape_session_id"], name: "index_question_logs_on_scrape_session_id"
-  add_index "question_logs", ["user_id"], name: "index_question_logs_on_user_id"
+  add_index "question_logs", ["question_id"], name: "index_question_logs_on_question_id", using: :btree
+  add_index "question_logs", ["scrape_session_id"], name: "index_question_logs_on_scrape_session_id", using: :btree
+  add_index "question_logs", ["user_id"], name: "index_question_logs_on_user_id", using: :btree
 
   create_table "questions", force: true do |t|
     t.integer  "scrape_session_id"
@@ -149,7 +152,7 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "questions", ["scrape_session_id"], name: "index_questions_on_scrape_session_id"
+  add_index "questions", ["scrape_session_id"], name: "index_questions_on_scrape_session_id", using: :btree
 
   create_table "regular_scrape_logs", force: true do |t|
     t.integer  "scrape_session_id"
@@ -164,8 +167,8 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.string   "scrape_page_url"
   end
 
-  add_index "regular_scrape_logs", ["scrape_page_id"], name: "index_regular_scrape_logs_on_scrape_page_id"
-  add_index "regular_scrape_logs", ["scrape_session_id"], name: "index_regular_scrape_logs_on_scrape_session_id"
+  add_index "regular_scrape_logs", ["scrape_page_id"], name: "index_regular_scrape_logs_on_scrape_page_id", using: :btree
+  add_index "regular_scrape_logs", ["scrape_session_id"], name: "index_regular_scrape_logs_on_scrape_session_id", using: :btree
 
   create_table "scrape_page_logs", force: true do |t|
     t.integer  "user_id"
@@ -186,9 +189,9 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "scrape_page_logs", ["scrape_page_id"], name: "index_scrape_page_logs_on_scrape_page_id"
-  add_index "scrape_page_logs", ["scrape_session_id"], name: "index_scrape_page_logs_on_scrape_session_id"
-  add_index "scrape_page_logs", ["user_id"], name: "index_scrape_page_logs_on_user_id"
+  add_index "scrape_page_logs", ["scrape_page_id"], name: "index_scrape_page_logs_on_scrape_page_id", using: :btree
+  add_index "scrape_page_logs", ["scrape_session_id"], name: "index_scrape_page_logs_on_scrape_session_id", using: :btree
+  add_index "scrape_page_logs", ["user_id"], name: "index_scrape_page_logs_on_user_id", using: :btree
 
   create_table "scrape_pages", force: true do |t|
     t.string   "page_url"
@@ -202,8 +205,8 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.boolean  "override_session_settings"
   end
 
-  add_index "scrape_pages", ["fb_page_id"], name: "index_scrape_pages_on_fb_page_id"
-  add_index "scrape_pages", ["scrape_session_id"], name: "index_scrape_pages_on_scrape_session_id"
+  add_index "scrape_pages", ["fb_page_id"], name: "index_scrape_pages_on_fb_page_id", using: :btree
+  add_index "scrape_pages", ["scrape_session_id"], name: "index_scrape_pages_on_scrape_session_id", using: :btree
 
   create_table "scrape_session_logs", force: true do |t|
     t.integer  "user_id"
@@ -223,8 +226,8 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "scrape_session_logs", ["scrape_session_id"], name: "index_scrape_session_logs_on_scrape_session_id"
-  add_index "scrape_session_logs", ["user_id"], name: "index_scrape_session_logs_on_user_id"
+  add_index "scrape_session_logs", ["scrape_session_id"], name: "index_scrape_session_logs_on_scrape_session_id", using: :btree
+  add_index "scrape_session_logs", ["user_id"], name: "index_scrape_session_logs_on_user_id", using: :btree
 
   create_table "scrape_sessions", force: true do |t|
     t.integer  "user_id"
@@ -238,8 +241,81 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "session_next_scrape_date"
   end
 
-  add_index "scrape_sessions", ["allow_page_override"], name: "index_scrape_sessions_on_allow_page_override"
-  add_index "scrape_sessions", ["user_id"], name: "index_scrape_sessions_on_user_id"
+  add_index "scrape_sessions", ["allow_page_override"], name: "index_scrape_sessions_on_allow_page_override", using: :btree
+  add_index "scrape_sessions", ["user_id"], name: "index_scrape_sessions_on_user_id", using: :btree
+
+  create_table "twitter_parser_accounts", force: true do |t|
+    t.string   "name"
+    t.string   "twitter_user_id"
+    t.string   "username"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "twitter_parser_terms", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "channel"
+  end
+
+  create_table "twitter_parser_tweets", force: true do |t|
+    t.string   "tweet_id"
+    t.string   "text"
+    t.string   "tweet_user"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "tweet_created_at"
+    t.string   "source"
+    t.string   "truncated"
+    t.string   "in_reply_to_status_id"
+    t.string   "in_reply_to_status_id_str"
+    t.string   "in_reply_to_user_id"
+    t.string   "in_reply_to_user_id_str"
+    t.string   "in_reply_to_screen_name"
+    t.string   "user"
+    t.string   "tweet_user_id"
+    t.string   "tweet_user_id_str"
+    t.string   "tweet_user_name"
+    t.string   "tweet_user_screen_name"
+    t.string   "location"
+    t.string   "url"
+    t.string   "expanded_url"
+    t.string   "entities_url"
+    t.string   "description"
+    t.boolean  "protected",                 default: false
+    t.string   "followers_count"
+    t.string   "friends_count"
+    t.string   "listed_count"
+    t.string   "tweet_user_created_at"
+    t.string   "favourites_count"
+    t.string   "utc_offset"
+    t.string   "time_zone"
+    t.boolean  "geo_enabled",               default: false
+    t.boolean  "verified",                  default: false
+    t.string   "statuses_count"
+    t.boolean  "contributors_enabled",      default: false
+    t.boolean  "is_translator",             default: false
+    t.boolean  "is_translation_enabled",    default: false
+    t.string   "following"
+    t.string   "follow_request_sent"
+    t.string   "notifications"
+    t.string   "geo"
+    t.string   "coordinates"
+    t.string   "place"
+    t.string   "contributors"
+    t.string   "retweet_count"
+    t.string   "favorite_count"
+    t.string   "entities"
+    t.string   "hashtags"
+    t.string   "symbols"
+    t.string   "urls"
+    t.string   "user_mentions"
+    t.boolean  "favorited",                 default: false
+    t.boolean  "retweeted",                 default: false
+    t.boolean  "possibly_sensitive",        default: false
+    t.string   "lang"
+  end
 
   create_table "user_logs", force: true do |t|
     t.integer  "user_id"
@@ -256,7 +332,7 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.datetime "updated_at"
   end
 
-  add_index "user_logs", ["user_id"], name: "index_user_logs_on_user_id"
+  add_index "user_logs", ["user_id"], name: "index_user_logs_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "firstname"
@@ -269,7 +345,7 @@ ActiveRecord::Schema.define(version: 20140203064444) do
     t.string   "remember_token"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
 end

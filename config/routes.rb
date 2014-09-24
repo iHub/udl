@@ -1,5 +1,7 @@
 ULog::Application.routes.draw do
 
+  mount TwitterParser::Engine => '/twitter_parser'
+
   get "fb_comments/index"
   get "fb_comments/show"
   match "fb_comments/search", to: 'fb_comments#search', via: 'post'

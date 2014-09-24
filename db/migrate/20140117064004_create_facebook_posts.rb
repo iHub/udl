@@ -4,8 +4,8 @@ class CreateFacebookPosts < ActiveRecord::Migration
 
 		t.integer	:comment_id
 		t.integer	:page_id  			# belongs to page -> id on ULOG
-		t.string	:created_time 		# created at time on fb
-		t.string 	:from_user_id
+		# t.string	:created_time 		# created at time on fb
+		# t.string 	:from_user_id
 		t.string	:from_user_name
 		t.text		:message
 
