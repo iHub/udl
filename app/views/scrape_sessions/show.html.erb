@@ -66,12 +66,12 @@
 	<div class="panel panel-default dash-stats-sessions">
 	  <div class="panel-heading questions">Recent Questions</div>
 	  <div class="panel-body">
-	   <%= render 'shared/question_list', object: @questions %>
+	   <%#= render 'shared/question_list', object: @questions %>
 	  </div>
 
 	  <% if @has_more_questions %>
-		  <div class="panel-footer">
-		  	<%= link_to "View All Questions", scrape_session_questions_path(@scrape_session), class: "" %>
+		  <div class#="panel-footer">
+		  	<%#= link_to "View All Questions", scrape_session_questions_path(@scrape_session), class: "" %>
 		  </div>
 	  <% end %>
 
@@ -84,3 +84,7 @@
 <% content_for :debug_dump do %>
 
 <% end %>
+
+<%= link_to "New Question", tagger.new_question_url+"?ref=#{@scrape_session.id}", class: 'big-button' %>
+<%= link_to("Terms Added", twitter_parser.terms_url) %>
+<%= link_to "Add twitter terms", twitter_parser.new_term_url+"?ref=#{@scrape_session.id}", class: "big-button" %>

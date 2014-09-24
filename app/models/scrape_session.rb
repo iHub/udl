@@ -22,6 +22,10 @@ class ScrapeSession < ActiveRecord::Base
 	# has_many :init_scrape_logs, 	dependent: :destroy
 	has_many :regular_scrape_logs,  dependent: :destroy
 
+#########TwitterParser && Tagger#############################
+	has_many :questions, :class_name => "Tagger::Question"
+	has_many :terms, :class_name => "TwitterParser::Term"
+
 	###############################################
 
 	default_scope -> { order('created_at DESC') }

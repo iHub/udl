@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923042362) do
+ActiveRecord::Schema.define(version: 20140924130102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,6 +244,56 @@ ActiveRecord::Schema.define(version: 20140923042362) do
   add_index "scrape_sessions", ["allow_page_override"], name: "index_scrape_sessions_on_allow_page_override", using: :btree
   add_index "scrape_sessions", ["user_id"], name: "index_scrape_sessions_on_user_id", using: :btree
 
+  create_table "tagger_answers", force: true do |t|
+    t.integer  "question_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tagger_answers", ["question_id"], name: "index_tagger_answers_on_question_id", using: :btree
+
+  create_table "tagger_questions", force: true do |t|
+    t.string   "content"
+    t.integer  "forum_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "scrape_session_id"
+  end
+
+  add_index "tagger_questions", ["forum_id"], name: "index_tagger_questions_on_forum_id", using: :btree
+  add_index "tagger_questions", ["scrape_session_id"], name: "index_tagger_questions_on_scrape_session_id", using: :btree
+
+  create_table "tagger_tagger_posts", force: true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tweet_id"
+  end
+
+  add_index "tagger_tagger_posts", ["tweet_id"], name: "index_tagger_tagger_posts_on_tweet_id", using: :btree
+  add_index "tagger_tagger_posts", ["user_id"], name: "index_tagger_tagger_posts_on_user_id", using: :btree
+
+  create_table "tweet_answers", force: true do |t|
+    t.integer  "tweet_id"
+    t.integer  "answer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tweet_answers", ["answer_id"], name: "index_tweet_answers_on_answer_id", using: :btree
+  add_index "tweet_answers", ["tweet_id"], name: "index_tweet_answers_on_tweet_id", using: :btree
+
+  create_table "tweet_taggers", force: true do |t|
+    t.integer  "tweet_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tweet_taggers", ["tweet_id"], name: "index_tweet_taggers_on_tweet_id", using: :btree
+  add_index "tweet_taggers", ["user_id"], name: "index_tweet_taggers_on_user_id", using: :btree
+
   create_table "twitter_parser_accounts", force: true do |t|
     t.string   "name"
     t.string   "twitter_user_id"
@@ -257,7 +307,10 @@ ActiveRecord::Schema.define(version: 20140923042362) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "channel"
+    t.integer  "scrape_session_id"
   end
+
+  add_index "twitter_parser_terms", ["scrape_session_id"], name: "index_twitter_parser_terms_on_scrape_session_id", using: :btree
 
   create_table "twitter_parser_tweets", force: true do |t|
     t.string   "tweet_id"

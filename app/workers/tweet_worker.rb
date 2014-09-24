@@ -33,7 +33,7 @@ class TweetWorker
 	  track_tweet_term
 	  TweetStream::Client.new.track(@terms.join(', ')) do |status|
 	    TwitterParser::Tweet.create_tweet(status)
-	  end  
+	  end
 	end
 
 	def follow_and_track(id)

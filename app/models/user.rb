@@ -4,6 +4,13 @@ class User < ActiveRecord::Base
 	has_many :scrape_sessions, 		dependent: :destroy
 	has_many :scrape_sessions_logs, dependent: :destroy
 	
+############Tagger && TwitterParser#####################################
+	has_many :tweet_taggers
+  has_many :tweets, :through => :tweet_taggers, class_name: "TwitterParser::Tweet"
+  has_many :tagger_posts, :class_name => "Tagger::TaggerPost"
+	has_many :tagged_posts, :through => :tagger_posts, :source => :user
+#################################################################################
+
 	# validations---------------
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 	validates :firstname,  presence: true, length: { maximum: 50 }
