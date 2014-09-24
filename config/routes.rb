@@ -1,6 +1,7 @@
 ULog::Application.routes.draw do
 
   mount TwitterParser::Engine => '/twitter_parser'
+  mount Tagger::Engine => '/tagger'
 
   get "fb_comments/index"
   get "fb_comments/show"

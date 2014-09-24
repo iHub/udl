@@ -23,11 +23,14 @@ gem 'roo',            '~> 1.13.2'
 gem 'puma'
 gem 'whenever', :require => false
 gem 'pg'
+gem 'chosen-rails'
 
 gem 'tweetstream'
 gem 'sidekiq'
 gem 'figaro', :github=>"laserlemon/figaro"
 gem 'twitter_parser', :path => 'lib/twitter_parser'
+gem 'tagger', path: '/home/zegetech/code/new-tagger'
+
 ##########Deploy##########################################################
   gem 'capistrano', '~> 3.0.1'
   gem 'capistrano-bundler'
