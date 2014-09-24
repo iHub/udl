@@ -29,7 +29,7 @@ gem 'tweetstream'
 gem 'sidekiq'
 gem 'figaro', :github=>"laserlemon/figaro"
 gem 'twitter_parser', :path => 'lib/twitter_parser'
-gem 'tagger', path: '/home/zegetech/code/new-tagger'
+gem 'tagger', path: 'lib/new-tagger'
 
 ##########Deploy##########################################################
   gem 'capistrano', '~> 3.0.1'

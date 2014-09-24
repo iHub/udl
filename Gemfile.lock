@@ -6,7 +6,7 @@ GIT
       thor (~> 0.14)
 
 PATH
-  remote: /home/zegetech/code/new-tagger
+  remote: lib/new-tagger
   specs:
     tagger (0.0.1)
       chosen-rails
