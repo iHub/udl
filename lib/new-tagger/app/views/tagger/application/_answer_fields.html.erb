@@ -1,0 +1,13 @@
+<fieldset>
+	<table class="table">
+		<tr>
+			<td>
+				<%= f.text_field :content, class: "form-control" %>
+			</td>
+			<td>
+				<%= f.hidden_field :_destroy %>
+				<%= link_to "Remove Answer", '#', class: "remove_fields small-red-button" %>
+			</td>
+		</tr>
+	</table>
+</fieldset>

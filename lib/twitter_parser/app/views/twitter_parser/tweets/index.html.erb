@@ -1,0 +1,23 @@
+<h1>Listing tweets (<%= @tweets.count %>)</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Tweet</th>
+      <th>Text</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tweets.each do |tweet| %>
+      <tr>
+        <td><%= tweet.tweet_id %></td>
+        <td><%= tweet.text %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tweet', new_tweet_path %>

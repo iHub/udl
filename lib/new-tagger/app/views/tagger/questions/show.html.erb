@@ -1,0 +1,39 @@
+<div class="col-md-6">
+	<div class="panel panel-default">
+		<div class="panel-title panel-heading">
+			<h3>Question</h3>
+		</div>
+
+		<div class="panel-body">
+			<h3><%= @question.content %></h3>
+		</div>
+	</div>
+	
+</div>
+
+<%- @answers = @question.answers%>
+
+<% if @answers.present? %>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-title panel-heading">
+				<h3>Answers</h3>
+			</div>
+
+			<div class="panel-body">
+				<ul>
+					<% @answers.each do |answer| %>	
+				   	<li><%= answer.content %></li>
+				   <% end %>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+<% end %>
+
+<div class="clear">
+	<hr>
+	<%= link_to 'Edit Question', edit_question_path(@question), class: "big-button" %>
+	<%= link_to "Assign Tagger", question_assign_path(@question), class: "button"  %>
+</div>

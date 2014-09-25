@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TwitterParser</title>
+  <%= stylesheet_link_tag    "twitter_parser/application", media: "all" %>
+  <%= javascript_include_tag "twitter_parser/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+	<header>
+    <%= render 'layouts/navigation' %>
+  </header>
+  <main role="main">
+     <%= yield %>
+  </main>
+
+</body>
+</html>

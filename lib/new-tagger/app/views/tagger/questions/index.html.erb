@@ -1,0 +1,28 @@
+<h1>Listing questions</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>Scrape Session</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= link_to("#{question.content}", question) %></td>
+        <td><%= link_to("#{question.scrape_session.name}", main_app.scrape_session_url(question.scrape_session.id)) %></td>
+        <td><%= link_to "Assign", question_assign_path(question) %></td>    
+        <td><%= link_to 'Show', question, class: "button" %></td>
+        <td><%= link_to 'Edit', edit_question_path(question), class: "button" %></td>
+        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }, class: 'danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Question', new_question_path, class: "big-button" %>

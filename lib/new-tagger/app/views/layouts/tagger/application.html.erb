@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tagger</title>
+  <%= stylesheet_link_tag    "tagger/application", media: "all" %>
+  <%= javascript_include_tag "tagger/application" %>
+  <%= csrf_meta_tags %>
+</head>
+	<body>
+		<header>
+	    <%= render 'layouts/navigation' %>
+	  </header>
+	  <main role="main">
+	  	 <%= render 'layouts/tagger/messages' %>
+	     <%= yield %>
+	  </main>
+	</body>
+</html>

@@ -1,0 +1,13 @@
+<div class="authform">
+  <%= form_for(@term) do |f| %>
+    <h1>New Term</h1>
+    <hr>
+    <div class="form-group">
+      <%= f.label :title %><br>
+      <%= f.text_field :title, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="actions">
+      <%= f.submit class: "button" %>
+    </div>
+  <% end %>
+</div>
