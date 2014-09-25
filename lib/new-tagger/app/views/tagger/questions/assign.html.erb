@@ -17,13 +17,9 @@
 		
 	<div class="form-group">
 		<%= f.label :user_ids, "Tagger" %>
-		<%= f.collection_select :user_ids, User.order(:name), :id, :name, {}, {multiple: true, class: 'form-control chosen-select'} %>
+		<%= f.collection_select :user_ids, User.order(:firstname), :id, :firstname, {}, {multiple: true, class: 'form-control chosen-select'} %>
 	</div>
-<!-- 'chosen-select' -->
-	<!-- <div class="form-group"> -->
-		<%#= f.label :tag_number, "Number of records to tag" %>
-		<%#= f.text_field :tag_number, {class: "form-control"} %>
-	<!-- </div> -->
+
 
 	<%= f.submit 'Tag Question', class: "button" %>
 

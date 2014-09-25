@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
 ############Tagger && TwitterParser#####################################
 	has_many :tweet_taggers
   has_many :tweets, :through => :tweet_taggers, class_name: "TwitterParser::Tweet"
+  
   has_many :tagger_posts, :class_name => "Tagger::TaggerPost"
-	has_many :tagged_posts, :through => :tagger_posts, :source => :user
+	has_many :tagged_posts, :through => :tagger_posts, :source => :tweet
 #################################################################################
 
 	# validations---------------

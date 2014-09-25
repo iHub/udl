@@ -1,0 +1,39 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Tagger</th>
+      <th>Data being tagged</th>
+      <th>Session</th>
+      <th>Question</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tweets.each do |tweet| %>
+      <tr>
+      	<td>
+      		<%- tweet.taggers.each do |tagger| %>
+      			<%= tagger.username %>
+      		<% end %>
+      	</td>
+        <td><%= tweet.text %></td>
+        <td><%= tweet.scrape_session.name if tweet.scrape_session %></td>
+        <% if tweet.answers %>    
+          <% tweet.answers.each do |answer| %>
+          	<td><%= answer.question.content %></td>
+          	<td>
+              <ul>
+              	<li><%= answer.content %></li>
+              </ul>
+            </td>
+          <% end %>
+        <% end %>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= will_paginate(@scrape_sessions) %>

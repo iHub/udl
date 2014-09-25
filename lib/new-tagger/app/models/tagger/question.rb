@@ -16,20 +16,20 @@ module Tagger
     class << self
     	def assign_records_to_user(params)
     		@user_ids = params[:question][:user_ids].reject(&:blank?)
-    		@forum = find(params[:question_id]).forum
-    		@posts = @forum.posts
+    		@scrape_session = find(params[:question_id]).scrape_session
+    		@tweets = @scrape_session.tweets
 
     		if @user_ids.count == 1
     			@user = User.find(@user_ids).first
-    			@user.post_ids = @posts.map(&:id)            
+    			@user.tweet_ids = @tweets.map(&:id)            
     		else
     			@users = User.find(@user_ids)
     			@x ||= 0
-    			@a = @posts.count/@users.count
+    			@a = @tweets.count/@users.count
     			@y ||= @a - 1
     			@users.each do |user|
-    				@tagged_posts = @posts[@x..@y]
-    				user.post_ids = @tagged_posts.map(&:id)
+    				@tagged_posts = @tweets[@x..@y]
+    				user.tweet_ids = @tagged_posts.map(&:id)
     				@x = @y
     				@y = @x+@y
     			end

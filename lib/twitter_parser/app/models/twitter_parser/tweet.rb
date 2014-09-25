@@ -5,6 +5,15 @@ module TwitterParser
   class Tweet < ActiveRecord::Base
 
     default_scope { order('created_at DESC') }
+    has_many :tweet_taggers, class_name: "Tagger::TweetTagger"
+
+    belongs_to :scrape_session
+    
+    has_many :tweet_answers
+    has_many :answers, :through => :tweet_answers, class_name: "Tagger::Answer"
+
+    has_many :tagger_posts, :class_name => "Tagger::TaggerPost"#, :foreign_key => "reference_id"
+    has_many :taggers, :through => :tagger_posts, :foreign_key => "user_id", source: :user
 
     class << self     
 

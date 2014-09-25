@@ -60,6 +60,7 @@ module Tagger
       if request.method == "GET"
         @title = "Assign Question to member"
       elsif request.method == "POST"
+        return redirect_to (request.referrer || back), alert: "Tagger has to be present" if params[:question][:user_ids].reject!(&:blank?).blank?
         Question.assign_records_to_user(params)
         # @question.assign_question_to_taggers(params[:question][:tag_number])
       end
