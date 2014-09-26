@@ -24,6 +24,7 @@ gem 'puma'
 gem 'whenever', :require => false
 gem 'pg'
 gem 'chosen-rails'
+gem 'sinatra'
 
 gem 'tweetstream'
 gem 'sidekiq'

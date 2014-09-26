@@ -1,7 +1,9 @@
+require 'sidekiq/web'
 ULog::Application.routes.draw do
 
   mount TwitterParser::Engine => '/twitter_parser'
   mount Tagger::Engine => '/tagger'
+  mount Sidekiq::Web => '/sidekiq'
 
   get "fb_comments/index"
   get "fb_comments/show"

@@ -431,6 +431,7 @@ DEPENDENCIES
   sdoc (= 0.4.0)
   selenium-webdriver (= 2.39.0)
   sidekiq
+  sinatra
   smarter_csv (~> 1.0.17)
   tagger!
   thin
