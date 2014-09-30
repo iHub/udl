@@ -10,9 +10,9 @@ set :repo_url, "git@github.com:iHub/udl.git"
 set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:application)}"
 # set :port, 6622
 set :pty, true
-set :ssh_options, {
-  forward_agent: true,
-  port: 6622
-}
+# set :ssh_options, {
+  # forward_agent: true
+  # port: 6622
+# }
 set :branch, "develop"
-set :log_level, :info
+# set :log_level, :info

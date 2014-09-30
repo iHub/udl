@@ -17,10 +17,16 @@ module TwitterParser
   	end
 
   	def create_user_account(twitter_response)
+      return false if twitter_user_id.present?
+    #########################################################
+      @user = User.first
   		name = twitter_response.attrs[:name]
   		twitter_user_id = twitter_response.attrs[:id]
   		@account = Account.find_by_username("#{self.username}")
   		@account.update(name: name, twitter_user_id: twitter_user_id)
+      ScrapeSession.create(name: twitter_user_id, session_scrape_frequency: 600, 
+        session_next_scrape_date: "#{Date.today+10.days}", 
+        session_continuous_scrape: true, allow_page_override: true, user: @user)
   	end
 
   end

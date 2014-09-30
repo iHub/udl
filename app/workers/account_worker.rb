@@ -13,16 +13,14 @@ class AccountWorker
 	end
 
 	def follow_and_track(id)
+		tweetstream_configure
+		@accounts = TwitterParser::Account.all.map(&:twitter_user_id).map(&:to_i)
+		puts "#{@accounts}"
 		account = TwitterParser::Account.find(id)
 		client  = twittter_client_configure
 		@twitter_response = client.user("#{account.username}")
 		account.create_user_account(@twitter_response) if @twitter_response
-		track_tweet_term
-	end
 
-	def track_tweet_term
-    tweetstream_configure
-    @accounts = TwitterParser::Account.all.map(&:twitter_user_id).map(&:to_i)
     TweetStream::Client.new.follow(@accounts) do |status|
       puts "#{status}"
       TwitterParser::Term.create(title: "#{status.text}", channel: "#{status.attrs[:user][:screen_name]}")

@@ -5,8 +5,8 @@ class ScrapeSessionsController < ApplicationController
 	DEFAULT_SCRAPE_FREQUENCY = 600
 
 	def index
-		# @scrape_sessions = ScrapeSession.paginate(page: params[:page])
-		@scrape_sessions = current_user.scrape_sessions
+		@scrape_sessions = ScrapeSession.paginate(page: params[:page])
+		# @scrape_sessions = current_user.scrape_sessions
 	end
 
 	def new

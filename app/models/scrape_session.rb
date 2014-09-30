@@ -36,7 +36,7 @@ class ScrapeSession < ActiveRecord::Base
 	scope 	:overridden, -> { where(allow_page_override: true) }
 
 	# validates :user_id, presence: true
-	validates :name, 	presence: true
+	validates :name, 	presence: true, uniqueness: true
 
 	def user_name
 		session_owner = User.find(self.user_id)
