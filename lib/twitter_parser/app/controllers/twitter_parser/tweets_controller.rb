@@ -19,7 +19,7 @@ module TwitterParser
     end
 
     def tagged_posts
-      @tweets = current_user.tagged_posts.paginate(:per_page => 10, :page => params[:page])
+      @tweets = current_user.tagged_posts#.paginate(:per_page => 10, :page => params[:page])
     
       respond_to do |format|
         format.html
