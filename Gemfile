@@ -25,6 +25,7 @@ gem 'whenever', :require => false
 gem 'pg'
 gem 'chosen-rails'
 gem 'sinatra'
+gem 'pg_search'
 
 gem 'tweetstream'
 gem 'sidekiq'

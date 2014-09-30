@@ -15,7 +15,12 @@ module TwitterParser
 
     # GET /terms/new
     def new
+      return redirect_to (request.referrer || root_url), alert: "You have to specify a scrape session to create a term" unless request.url.scan("?ref=").present?
       @term = Term.new
+      @id = request.url.split("?ref=").last
+      scrape_session = ScrapeSession.find("#{@id}")
+      @title = "New question for #{scrape_session.name}"
+      session[:scrape_session] = @id      
     end
 
     # GET /terms/1/edit
@@ -24,9 +29,11 @@ module TwitterParser
 
     # POST /terms
     def create
-      @term = Term.new(term_params)
+      scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
+      @term = Term.new(term_params.merge(scrape_session: scrape_session))
       @term.channel = "Umati Twitter"
       if @term.save
+        session[:scrape_session] = nil
         redirect_to @term, notice: 'Term was successfully created.'
       else
         render :new

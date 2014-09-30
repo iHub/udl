@@ -6,6 +6,7 @@
       <th>Title</th>
       <th>Creation Date</th>
       <th>Channel</th>
+      <th>Session</th>
       <th></th>
     </tr>
   </thead>
@@ -16,6 +17,9 @@
         <td><%= term.title %></td>
         <td><%= long_date term.created_at %></td>
         <td><%= term.channel %></td>
+        <% if term.scrape_session %>
+          <td><%= link_to "#{term.scrape_session.name}", main_app.scrape_session_path(term.scrape_session) %></td>
+        <% end %>        
         <td><%= link_to 'Destroy', term, method: :delete, data: { confirm: 'Are you sure?' }, class: "small-danger" %></td>
       </tr>
     <% end %>

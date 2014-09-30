@@ -8,25 +8,25 @@
 # set :pg_password, ask("PostgreSQL Password: ", nil)
 
 # namespace :postgresql do
-#   desc "Install the latest stable release of PostgreSQL."
-#   task :install do
-#     on roles :db do
-#       execute :sudo, "add-apt-repository -y ppa:pitti/postgresql"
-#       execute :sudo, "apt-get -y update"
-#       execute :sudo, "apt-get -y install postgresql libpq-dev"
+#   # desc "Install the latest stable release of PostgreSQL."
+#   # task :install do
+#   #   on roles :db do
+#   #     execute :sudo, "add-apt-repository -y ppa:pitti/postgresql"
+#   #     execute :sudo, "apt-get -y update"
+#   #     execute :sudo, "apt-get -y install postgresql libpq-dev"
 
-#     end
-#   end
-#   after "deploy:install", "postgresql:install"
+#   #   end
+#   # end
+#   # after "deploy:install", "postgresql:install"
 
-#   desc "Create a database for this application."
-#   task :setup do
-#     on roles :db do
-#       execute :sudo, %Q{ -u postgres psql -c "create user #{fetch(:pg_user)} with password '#{fetch(:pg_password)}';"}
-#       execute :sudo, %Q{ -u postgres psql -c "create database #{fetch(:pg_database)} owner #{fetch(:pg_user)};"}
-#     end
-#   end
-#   before "deploy:setup", "postgresql:setup"
+#   # desc "Create a database for this application."
+#   # task :setup do
+#   #   on roles :db do
+#   #     execute :sudo, %Q{ -u postgres psql -c "create user #{fetch(:pg_user)} with password '#{fetch(:pg_password)}';"}
+#   #     execute :sudo, %Q{ -u postgres psql -c "create database #{fetch(:pg_database)} owner #{fetch(:pg_user)};"}
+#   #   end
+#   # end
+#   # before "deploy:setup", "postgresql:setup"
 
 #   # desc "Symlink the database.yml file into latest release"
 #   # task :symlink do

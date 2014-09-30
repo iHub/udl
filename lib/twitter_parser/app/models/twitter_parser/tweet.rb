@@ -3,38 +3,43 @@ require 'twitter'
 
 module TwitterParser
   class Tweet < ActiveRecord::Base
+    after_commit :assign_session, on: :create
 
     default_scope { order('created_at DESC') }
-    has_many :tweet_taggers, class_name: "Tagger::TweetTagger"
 
-    belongs_to :scrape_session
-    
+    has_many :tweet_taggers, class_name: "Tagger::TweetTagger"
+    belongs_to :scrape_session    
     has_many :tweet_answers
     has_many :answers, :through => :tweet_answers, class_name: "Tagger::Answer"
-
-    has_many :tagger_posts, :class_name => "Tagger::TaggerPost"#, :foreign_key => "reference_id"
+    has_many :tagger_posts, :class_name => "Tagger::TaggerPost"
     has_many :taggers, :through => :tagger_posts, :foreign_key => "user_id", source: :user
-
+    
     class << self     
-
-      # Use 'follow' to follow a group of user ids (integers, not screen names)
-      def follow_and_track #(consumer_key, consumer_secret, oauth_token, oauth_token_secret)
-        TweetStream.configure do |config|
-          config.consumer_key = ENV['api_key']
-          config.consumer_secret = ENV['api_secret']
-          config.oauth_token = ENV['oauth_token']
-          config.oauth_token_secret = ENV['oauth_secret']
-          config.auth_method = :oauth
-        end
-
-        @accounts = TwitterParser::Account.all.map(&:twitter_user_id).map(&:to_i)
-        TweetStream::Client.new.follow(@accounts) do |status|
-          puts "#{status}"
-          ###Create an umati term to be included in the terms.
-          TwitterParser::Term.create(title: "#{status.text}", channel: "#{status.attrs[:user][:screen_name]}")
-          TwitterParser::TweetWorker.perform_async(self.id, "#{status.text}", "search_api")
+      def to_csv(tweets)
+        CSV.generate do |csv|
+          csv << ["Tagged Record", "Tagger", "Session", "Question", "Answer"]
+          tweets.each do |tweet|   
+            csv << ["#{tweet.text}", "#{tweet.taggers.map(&:username)}", "#{tweet.scrape_session.name}", "#{tweet.answers.first.question.content}", "#{tweet.answers.first.content}"]
+          end
         end
       end
+
+      # def follow_and_track
+      #   TweetStream.configure do |config|
+      #     config.consumer_key = ENV['api_key']
+      #     config.consumer_secret = ENV['api_secret']
+      #     config.oauth_token = ENV['oauth_token']
+      #     config.oauth_token_secret = ENV['oauth_secret']
+      #     config.auth_method = :oauth
+      #   end
+
+      #   @accounts = TwitterParser::Account.all.map(&:twitter_user_id).map(&:to_i)
+      #   TweetStream::Client.new.follow(@accounts) do |status|
+      #     puts "#{status}"
+      #     TwitterParser::Term.create(title: "#{status.text}", channel: "#{status.attrs[:user][:screen_name]}")
+      #     TwitterParser::TweetWorker.perform_async(self.id, "#{status.text}", "search_api")
+      #   end
+      # end
 
       def create_tweet(status)
         create(
@@ -50,6 +55,10 @@ module TwitterParser
           :retweeted => status.retweeted, :lang => status.lang,
         )
       end
+    end
+
+    def assign_session
+      AssignSessionWorker.perform_in(1.second, self.id)
     end
   
   end

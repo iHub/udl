@@ -15,8 +15,7 @@ module Tagger
 
     # GET /questions/new
     def new
-      return redirect_to (request.referrer || root_url) unless request.url.scan("?").present?
-
+      return redirect_to (request.referrer || root_url) unless request.url.scan("?ref=").present?
       @question = Question.new
       @id = request.url.split("?ref=").last
       scrape_session = ScrapeSession.find("#{@id}")
@@ -31,7 +30,7 @@ module Tagger
     # POST /questions
     def create
       scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
-      @question = Question.new(question_params.merge(:scrape_session => scrape_session))
+      @question = Question.new(question_params.merge(scrape_session: scrape_session))
       if @question.save
         redirect_to @question, notice: 'Question was successfully created.'
         session[:scrape_session] = nil

@@ -31,21 +31,21 @@ namespace :postfix do
 		end
 	end
 
-	# desc "Show postfix stats"
-	# task :stats, roles: :mail do
-	# 	run "#{sudo} ls /var/spool/postfix/incoming|wc -l"
-	# 	run "#{sudo} ls /var/spool/postfix/active|wc -l"
-	# 	run "#{sudo} ls -R /var/spool/postfix/deferred|wc -l"
-	# end
+	desc "Show postfix stats"
+	task :stats, roles: :mail do
+		run "#{sudo} ls /var/spool/postfix/incoming|wc -l"
+		run "#{sudo} ls /var/spool/postfix/active|wc -l"
+		run "#{sudo} ls -R /var/spool/postfix/deferred|wc -l"
+	end
 
-	# desc "Setup postfix configuration for mail server"
-	# task :setup do
-	# 	on roles: :mail do
-	# 		set :hostname, find_servers_for_task(current_task).first.host
-	# 		template "postfix_main.erb", "/tmp/postfix_main_cf"
-	# 		run "#{sudo} mv /etc/postfix/main.cf /tmp/old_postfix_main_cf"
-	# 		run "#{sudo} mv /tmp/postfix_main_cf /etc/postfix/main.cf"
-	# 		run "#{sudo} /etc/init.d/postfix reload"
-	# 	end
-	# end
+	desc "Setup postfix configuration for mail server"
+	task :setup do
+		on roles: :mail do
+			set :hostname, find_servers_for_task(current_task).first.host
+			template "postfix_main.erb", "/tmp/postfix_main_cf"
+			run "#{sudo} mv /etc/postfix/main.cf /tmp/old_postfix_main_cf"
+			run "#{sudo} mv /tmp/postfix_main_cf /etc/postfix/main.cf"
+			run "#{sudo} /etc/init.d/postfix reload"
+		end
+	end
 end

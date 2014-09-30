@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
 		SecureRandom.urlsafe_base64
 	end
 
+	def to_s
+		username
+	end
+	
 	def User.encrypt(token)
 		Digest::SHA1.hexdigest(token.to_s)
 	end

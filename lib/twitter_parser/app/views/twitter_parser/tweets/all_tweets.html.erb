@@ -6,35 +6,10 @@
   <tbody>
     <% @tweets.each do |tweet| %>
       <tr>
-        <td><%= tweet.text %></td>
-        <td><%= tweet.scrape_session.name if tweet.scrape_session %></td>
-
-        <% if tweet.scrape_session && tweet.scrape_session.questions %>
-          <td>
-            <% tweet.scrape_session.questions.each do |quiz| %>
-              <%= quiz.content %>
-              <%- quiz.answers.each do |ans| %>
-                <ul>
-                  <li><%= link_to("#{ans.content}", tweet_tag_path(tweet)+"?ref=#{ans.id}" ) %></li>
-                </ul>
-              <% end %>
-            <% end %>
-          </td>
-        <% end %>
-        <% if tweet.answers.present? %>
-          <% tweet.answers.each do |answer| %>
-            <td><%= answer.content %></td>
-          <% end %>
-          
-        <% end %>
-        
+        <td><%= tweet.text %></td>        
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%#= link_to 'New scrape_session', new_scrape_session_path %>
-<br>
-<%#= will_paginate(@scrape_sessions) %>

@@ -21,10 +21,10 @@ module TwitterParser
     def tagged_posts
       @tweets = current_user.tagged_posts.paginate(:per_page => 10, :page => params[:page])
     
-      # respond_to do |format|
-      #   format.html
-      #   format.csv { render text: @posts.to_csv(@posts) }
-      # end
+      respond_to do |format|
+        format.html
+        format.csv { render text: @tweets.to_csv(@tweets) }
+      end
     end
 
 
