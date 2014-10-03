@@ -17,7 +17,7 @@ module Tagger
     	def assign_records_to_user(params)
     		@user_ids = params[:question][:user_ids].reject(&:blank?)
     		@scrape_session = find(params[:question_id]).scrape_session
-    		@tweets = @scrape_session.tweets
+    		@tweets = @scrape_session.tweets.limit(20)
 
     		if @user_ids.count == 1
     			@user = User.find(@user_ids).first
