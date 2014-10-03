@@ -36,8 +36,8 @@ gem 'tagger', path: 'lib/new-tagger'
 # gem 'net-ssh', '~> 2.8.1'#, :git => "https://github.com/net-ssh/net-ssh"
 
 ##########Server##########################################################
-  # gem 'unicorn'
-  # gem 'unicorn-rails'
+  gem 'unicorn'
+  gem 'unicorn-rails'
 
 group :development, :test do
   gem 'rspec-rails', '2.14.1'
