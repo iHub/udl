@@ -1,8 +1,8 @@
 require "bundler/capistrano"
 require "rvm/capistrano"
-# require 'sidekiq/capistrano'
-# set :whenever_command, "bundle exec whenever"
-# require "whenever/capistrano"
+require 'sidekiq/capistrano'
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
 
 load 'config/recipes/base'
 load 'config/recipes/nginx'
@@ -14,7 +14,7 @@ load 'config/recipes/assets'
 load 'config/recipes/nodejs'
 # load 'config/recipes/ruby'
 
-server "41.242.1.68", :web, :app, :db, primary: true
+server "178.79.179.70", :web, :app, :db, primary: true
 
 set :rails_env, :production
 set :application, "umati"

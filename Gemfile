@@ -23,12 +23,11 @@ gem 'delayed_job_web', '1.2.2'
 gem 'delayed_job_active_record', '4.0.0'
 gem 'roo',            '~> 1.13.2'
 gem 'puma'
-gem 'whenever', :require => false
 gem 'pg'
 gem 'chosen-rails'
 gem 'sinatra'
 gem 'pg_search'
-
+gem 'whenever', :require => false
 gem 'tweetstream'
 gem 'sidekiq'
 gem 'figaro', :github=>"laserlemon/figaro"
