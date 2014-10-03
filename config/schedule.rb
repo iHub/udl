@@ -2,7 +2,7 @@
 set :output, "#{path}/log/cron.log"
 
 set :environment, :production
-	every 30.seconds do
+	every 1.minute do
 	  rake "udl:poll"
 	end
 
