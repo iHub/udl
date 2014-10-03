@@ -1,7 +1,7 @@
 production:
   adapter: postgresql
   encoding: utf8
-  database: udl_logger
+  database: udl_collector
   username: postgres
   password: 92033
   host: 41.242.1.69
