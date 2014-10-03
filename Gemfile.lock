@@ -327,7 +327,7 @@ GEM
     smarter_csv (1.0.17)
     spreadsheet (1.0.0)
       ruby-ole (>= 1.0)
-    sprockets (2.12.2)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -422,6 +422,7 @@ DEPENDENCIES
   sidekiq
   sinatra
   smarter_csv (~> 1.0.17)
+  sprockets (~> 2.11.0)
   tagger!
   thin
   turbolinks (= 2.2.0)

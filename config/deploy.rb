@@ -16,7 +16,7 @@ load 'config/recipes/nodejs'
 
 server "41.242.1.68", :web, :app, :db, primary: true
 
-set :rails_env, :sandbox
+set :rails_env, :production
 set :application, "umati"
 set :user, "deploy"
 set :deploy_to, "/home/#{user}/apps/#{application}"
