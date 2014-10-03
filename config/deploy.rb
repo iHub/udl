@@ -1,18 +1,32 @@
-#Recipies loaded in alphabetical order
-Dir.glob("lib/capistrano/tasks/*.rb").sort.each { |r| load r }
+require "bundler/capistrano"
+require "rvm/capistrano"
+# require 'sidekiq/capistrano'
+# set :whenever_command, "bundle exec whenever"
+# require "whenever/capistrano"
 
-set :application, 'umati'
-set :user, 'deploy'
+load 'config/recipes/base'
+load 'config/recipes/nginx'
+load 'config/recipes/unicorn'
+load 'config/recipes/redis'
+load 'config/recipes/memcached'
+load 'config/recipes/check'
+load 'config/recipes/assets'
+load 'config/recipes/nodejs'
+# load 'config/recipes/ruby'
 
-# set :repo_url, "https://github.com/iHub/udl.git"
-set :repo_url, "git@github.com:iHub/udl.git"
-# set :deploy_to, '/var/www/my_app'
-set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:application)}"
-# set :port, 6622
-set :pty, true
-# set :ssh_options, {
-  # forward_agent: true
-  # port: 6622
-# }
+server "41.242.1.68", :web, :app, :db, primary: true
+
+set :rails_env, :sandbox
+set :application, "umati"
+set :user, "deploy"
+set :deploy_to, "/home/#{user}/apps/#{application}"
+set :deploy_via, :remote_cache
+set :use_sudo, false
+set :sidekiq_cmd, "bundle exec sidekiq -q tweets, -q accounts, -q sessions"
+set :scm, "git"
+set :repository, "git@github.com:iHub/udl.git"
 set :branch, "develop"
-# set :log_level, :info
+
+default_run_options[:pty] = true
+ssh_options[:forward_agent] = true
+after "deploy", "deploy:cleanup"
