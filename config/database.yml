@@ -6,7 +6,7 @@ production:
   password: 92033
   host: 41.242.1.69
   port: 5432
-  pool: 15
+  pool: 10
 
 development:
   adapter:  postgresql
