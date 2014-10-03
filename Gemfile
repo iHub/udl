@@ -36,10 +36,6 @@ gem 'tagger', path: 'lib/new-tagger'
 gem 'capistrano-sidekiq'
 # gem 'net-ssh', '~> 2.8.1'#, :git => "https://github.com/net-ssh/net-ssh"
 
-##########Server##########################################################
-  gem 'unicorn'
-  gem 'unicorn-rails'
-
 group :development, :test do
   gem 'rspec-rails', '2.14.1'
   gem 'pry-rails'
@@ -70,5 +66,8 @@ end
 
 group :production do
   # gem 'pg', '0.15.1'
+  ##########Server##########################################################
+  gem 'unicorn'
+  gem 'unicorn-rails'
   gem 'rails_12factor', '0.0.2'
 end
