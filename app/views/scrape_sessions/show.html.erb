@@ -15,6 +15,9 @@
 		    <li><%= link_to "Retro Scrape", retro_scrape_session_path(@scrape_session) %></li>
 		    <li><%= link_to "Edit Session", edit_scrape_session_path(@scrape_session) %></li>
 		    <li class="divider"></li>
+		    <li><%= link_to "Add twitter terms", twitter_parser.new_term_url+"?ref=#{@scrape_session.id}", class: "big-button" %></li>
+		    <li><%= link_to 'Follow Account', twitter_parser.new_account_path+"?ref=#{@scrape_session.id}" %></li>		    
+		    <li class="divider"></li>
 			<li>
 				<%= link_to("Delete Session", @scrape_session, :method => :delete, data: { confirm: "Are you sure? You cannot undo this action"}, class: "delete-link") %>
 			</li>
@@ -84,7 +87,3 @@
 <% content_for :debug_dump do %>
 
 <% end %>
-
-<%= link_to "New Question", tagger.new_question_url+"?ref=#{@scrape_session.id}", class: 'big-button' %>
-<%= link_to("Terms Added", twitter_parser.terms_url) %>
-<%= link_to "Add twitter terms", twitter_parser.new_term_url+"?ref=#{@scrape_session.id}", class: "big-button" %>

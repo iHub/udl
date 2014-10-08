@@ -64,7 +64,8 @@
     </div>
 
     <div class="well well-sm post-count">
-        <p class="stat-label"><span class='glyphicon glyphicon-comment'></span>Tweets Count</p>
+        <p class="stat-label"><span class='glyphicon glyphicon-comment'></span>
+        <%= link_to("Tweets Count", [:tweets, @scrape_session]) %></p>
         <p class="stat-value"><%= object.tweets.count %></p>
         <div class="clearfix"></div>
     </div>

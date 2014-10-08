@@ -10,7 +10,7 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :fb_posts, 	:through => :scrape_pages
 	has_many :fb_comments, 	:through => :fb_posts
 
-	has_many :questions, 	dependent: :destroy
+	# has_many :questions, 	dependent: :destroy
 	has_many :annotators, 	dependent: :destroy
 	has_many :annotations, 	dependent: :destroy
 
@@ -26,6 +26,7 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :questions, :class_name => "Tagger::Question", dependent: :nullify
 	has_many :terms, :class_name => "TwitterParser::Term", dependent: :nullify
 	has_many :tweets, class_name: "TwitterParser::Tweet", dependent: :nullify
+	has_many :accounts, :class_name => "TwitterParser::Account"#, :foreign_key => "reference_id"
 
 	###############################################
 

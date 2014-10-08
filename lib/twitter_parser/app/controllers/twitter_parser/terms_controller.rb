@@ -18,9 +18,10 @@ module TwitterParser
       return redirect_to (request.referrer || root_url), alert: "You have to specify a scrape session to create a term" unless request.url.scan("?ref=").present?
       @term = Term.new
       @id = request.url.split("?ref=").last
-      scrape_session = ScrapeSession.find("#{@id}")
-      @title = "New question for #{scrape_session.name}"
-      session[:scrape_session] = @id      
+      @scrape_session = ScrapeSession.find("#{@id}")
+      @title = "New question for #{@scrape_session.name}"
+      session[:scrape_session] = @id
+      @scrape_session_selected = true
     end
 
     # GET /terms/1/edit
@@ -29,12 +30,13 @@ module TwitterParser
 
     # POST /terms
     def create
-      scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
-      @term = Term.new(term_params.merge(scrape_session: scrape_session))
+      @scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
+      @term = Term.new(term_params.merge(scrape_session: @scrape_session))
+      @scrape_session_selected = true
       @term.channel = "Umati Twitter"
-      if @term.save
+      if @term.save        
+        redirect_to main_app.scrape_session_path(@scrape_session), notice: 'Term was successfully created.'
         session[:scrape_session] = nil
-        redirect_to @term, notice: 'Term was successfully created.'
       else
         render :new
       end

@@ -24,6 +24,7 @@ ULog::Application.routes.draw do
     member do
       get :import
       get :retro
+      get :tweets
     end
 
     member do

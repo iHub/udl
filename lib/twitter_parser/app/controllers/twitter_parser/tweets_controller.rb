@@ -26,9 +26,7 @@ module TwitterParser
         format.csv { render text: @tweets.to_csv(@tweets) }
       end
     end
-
-
-
+    
     # GET /tweets/1
     def show
     end

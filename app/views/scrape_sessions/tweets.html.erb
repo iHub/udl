@@ -6,9 +6,8 @@
   <tbody>
     <% @tweets.each do |tweet| %>
       <tr>
-      	<td><%= tweet.tweet_user_screen_name %></td>
-        <td><%= tweet.text %></td>
-        <td><%= tweet.retweet_count %></td>
+        <td><%= tweet.tweet_user_screen_name %></td>
+        <td><%= tweet.text %></td>      
       </tr>
     <% end %>
   </tbody>

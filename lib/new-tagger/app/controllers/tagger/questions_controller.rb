@@ -6,7 +6,13 @@ module Tagger
 
     # GET /questions
     def index
-      @questions = Question.all
+      return redirect_to (request.referrer || root_url) unless request.url.scan("?ref=").present?# or request.referrer.scan("?ref=").present?)
+      @id = request.url.split("?ref=").last
+      @scrape_session = ScrapeSession.find("#{@id}")
+      session[:scrape_session] = @id
+      @scrape_session_selected = true
+
+      @questions = @scrape_session.questions
     end
 
     # GET /questions/1
@@ -15,12 +21,15 @@ module Tagger
 
     # GET /questions/new
     def new
-      return redirect_to (request.referrer || root_url) unless request.url.scan("?ref=").present?
+      return redirect_to (request.referrer || root_url) unless (request.url.scan("?ref=").present? or request.referrer.scan("?ref=").present?)
       @question = Question.new
-      @id = request.url.split("?ref=").last
-      scrape_session = ScrapeSession.find("#{@id}")
-      @title = "New question for #{scrape_session.name}"
+      request.url.scan("?ref=").present? ? @id = request.url.split("?ref=").last : @id = request.referrer.split("?ref=").last
+      # @id = (request.url.split("?ref=").last or request.referrer.split("?ref=").last)
+      # binding.pry
+      @scrape_session = ScrapeSession.find("#{@id}")
+      @title = "New question for #{@scrape_session.name}"
       session[:scrape_session] = @id
+      @scrape_session_selected = true
     end
 
     # GET /questions/1/edit
@@ -29,10 +38,11 @@ module Tagger
 
     # POST /questions
     def create
-      scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
-      @question = Question.new(question_params.merge(scrape_session: scrape_session))
+      @scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
+      @question = Question.new(question_params.merge(scrape_session: @scrape_session))
+      @scrape_session_selected = true
       if @question.save
-        redirect_to @question, notice: 'Question was successfully created.'
+        redirect_to main_app.scrape_session_path(@scrape_session)#, notice: 'Question was successfully created.'
         session[:scrape_session] = nil
       else
         render :new
@@ -42,7 +52,7 @@ module Tagger
     # PATCH/PUT /questions/1
     def update
       if @question.update(question_params)
-        redirect_to @question, notice: 'Question was successfully updated.'
+        redirect_to @question#, notice: 'Question was successfully updated.'
       else
         render :edit
       end
@@ -51,7 +61,7 @@ module Tagger
     # DELETE /questions/1
     def destroy
       @question.destroy
-      redirect_to questions_url, notice: 'Question was successfully destroyed.'
+      redirect_to questions_url#, notice: 'Question was successfully destroyed.'
     end
 
     def assign

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930062134) do
+ActiveRecord::Schema.define(version: 20141007043335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -301,7 +301,10 @@ ActiveRecord::Schema.define(version: 20140930062134) do
     t.string   "username"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "scrape_session_id"
   end
+
+  add_index "twitter_parser_accounts", ["scrape_session_id"], name: "index_twitter_parser_accounts_on_scrape_session_id", using: :btree
 
   create_table "twitter_parser_terms", force: true do |t|
     t.string   "title"

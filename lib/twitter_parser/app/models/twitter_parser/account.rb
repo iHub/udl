@@ -3,6 +3,7 @@ require 'twitter'
 module TwitterParser
   class Account < ActiveRecord::Base
 
+    belongs_to :scrape_session#, class_name: "Scrape_Session#", foreign_key: "scrape_session#_id"
   	after_commit :find_user_and_extract_id
 
   	validates_uniqueness_of :username, on: :create, message: "must be unique"

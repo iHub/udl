@@ -15,7 +15,12 @@ module TwitterParser
 
 	  # GET /accounts/new
 	  def new
+	  	return redirect_to (request.referrer || root_url), alert: "You have to specify a scrape session to follow an account" unless request.url.scan("?ref=").present?
+	    @id = request.url.split("?ref=").last
+	    session[:scrape_session] = @id    
+	    @scrape_session = ScrapeSession.find("#{@id}")
 	    @account = Account.new
+	    @scrape_session_selected = true
 	  end
 
 	  # GET /accounts/1/edit
@@ -24,9 +29,13 @@ module TwitterParser
 
 	  # POST /accounts
 	  def create
-	    @account = Account.new(account_params)
-	    if @account.save
-	      redirect_to accounts_url, notice: 'account was successfully created.'
+	  	return redirect_to (request.referrer || root_url), alert: "You have to specify a scrape session to follow an account" unless session[:scrape_session].present?
+	  	@scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
+	    @account = Account.new(account_params.merge(scrape_session: @scrape_session))
+	    @scrape_session_selected = true
+	    if @account.save	    	
+	      redirect_to main_app.scrape_session_url(@scrape_session), notice: 'account was successfully created.'
+	      session[:scrape_session] = nil
 	    else
 	      render :new
 	    end

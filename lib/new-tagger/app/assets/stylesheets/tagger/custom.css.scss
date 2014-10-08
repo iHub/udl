@@ -1,0 +1,681 @@
+@import "bootstrap";
+/*@import "bootstrap-responsive";*/
+
+/*variables */
+$darkBlue:     #052738;
+$lightGray:    #f5f5f5;
+$footerHeight: 30px;
+$well_aux_tex: #546F92;
+$headerGreen: #f7941e; /*#92AF7B;*/
+$well_question: #555; 
+$navHoverRed: rgb(158, 34, 34);
+$helpPageHeader: #68828F;
+$pageStats: #60A124;
+
+/*mixin*/
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*main styles*/
+html,
+body {
+  height: 100%;
+}
+
+body{
+  color: #6d6e70;
+  font-family: 'Lato', sans-serif;
+  background-color: #f9f9f9;
+  /*background: url(noisy_grid.png);*/
+}
+
+header{
+/*  -moz-box-shadow:    0px 5px 5px #bbb;
+  -webkit-box-shadow: 0px 5px 5px #bbb;
+  box-shadow:         0px 5px 5px #bbb;*/
+}
+h1, h2, h3, h4, h5{
+  font-family: 'Lato', sans-serif;
+  /*font-weight: bold;*/
+}
+
+h4, h5{
+  font-weight: normal;  
+}
+
+/*---------------------------------------*/
+
+body {
+    padding-top: 50px;
+    overflow: hidden;
+}
+
+header.navbar-inverse{
+  padding-right: 20px;
+}
+
+#wrapper {
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    display: inline-block;
+}
+#main-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    padding: 50px 0 0px 0;
+
+    .jumbotron{
+      padding-top: 100px;
+      background-color: #fff;
+    }
+}
+#main {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 15px;
+}
+#sidebar-wrapper {
+    height: 100%;
+    padding: 50px 0 0px 0;
+    position: fixed;
+    border-right: 1px solid gray;
+    background-color: #111;
+}
+
+#sidebar {
+    position: relative;
+    height: 100%;
+    overflow:hidden;
+
+    nav{
+     
+      
+      ul{
+        padding: 0;
+        margin: 0;
+        font-size: 13px;
+        line-height: 0.5em;
+        list-style: none;
+        position: relative;
+
+        li > a, 
+        li > .nav-collapse{
+          line-height: normal;
+          background-color: #111 ;
+          padding: 10px 10px 10px 11px;
+          color: #a8a8a8;
+          display: block;
+          width: 100%;
+          text-decoration: none!important;
+          position: relative;
+          border: 0;
+          text-align: left;
+          border-bottom: 1px solid #252525;
+
+          font:{
+            size: 14px;
+            weight: 400;
+          }
+
+          &:hover{
+            color: #fff;
+            background-color: #000;
+          }
+
+          .glyphicon{
+            margin: 0 15px 0 5px;
+          }
+        }
+
+
+
+        /*nested nav*/
+        ul > li > a{
+            padding-left: 40px;
+            background-color: #222  ;
+            font-size: 13px;
+          }
+          .active{
+            color: $headerGreen;
+
+          }
+          &:hover{
+            color: #fff;
+            background-color: #2a2a2a;
+          }
+
+      }
+    }
+}
+#sidebar .list-group-item {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+}
+
+/*---------------------------------------*/
+/* media queries */
+/*---------------------------------------*/
+
+@media (max-width: 992px) {
+    body {
+        padding-top: 0px;
+    }
+
+    #main-wrapper {
+        float:right;
+    }
+}
+
+
+@media (max-width: 992px) {
+    #main-wrapper {
+        padding-top: 0px;
+        float: left !important;
+        height:100%;
+        overflow: scroll;
+    }
+
+    #sidebar-wrapper {
+        position: static;
+        height:auto;
+        /*max-height: 300px;*/
+        border-right:0;
+  }
+}
+
+/*---------------------------------------*/
+
+.footer {
+    background-color:#ffffff;
+    bottom:0;
+    position:fixed;
+    padding:10px;
+}
+
+
+/*---------------------------------------*/
+
+
+.checklist-form{
+  input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    margin-left: 0.8em;
+  }
+}
+
+/*---------------------------------------*/
+
+.container .credit {
+  margin: 20px 0;
+}
+
+footer .footer{
+  z-index: 1500;
+}
+footer > .container {
+  padding-left: 15px;
+  padding-right: 15px;  
+}
+
+footer .navbar-nav > li > a{
+  padding: 3px 15px;
+  font-size: 0.9em;
+}
+
+.navbar-inverse{
+	background-color: $darkBlue;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFF;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, 
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: #f7941e;
+}
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 10px;
+  @include box_sizing;
+}
+
+.signup{
+  background-color: #efefef;
+}
+
+/*---------------------------------------*/
+
+.dash-stats{
+  .well {
+    color: #fff;
+
+    h3{
+      font-size: 3em;
+      text-align: center;
+      margin-bottom: 0.7em;
+    }
+
+    p.stat-description{
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 1em;
+      border-bottom : 1px solid #fff;
+      border-top    : 1px solid #fff;
+      padding: 10px 0;
+
+      span{
+        margin-right: 20px;
+        font-size: 1em;
+      }
+    }
+  }
+
+  .session-stats{
+    background-color: $darkBlue;
+  }
+  .page-stats{
+    background-color: $pageStats;
+  }
+  .post-stats{
+    background-color: $headerGreen;
+  }
+  .comment-stats{
+    background-color: $navHoverRed;
+  }
+}
+
+.dash-stats-sessions.panel.panel-default{
+
+    .panel-heading{
+     
+    }
+
+    .panel-heading.pages{
+      background-color: #4B6434;
+    }
+
+    .panel-heading.questions{
+      background-color: #603C86;
+    }
+
+}
+
+
+/*---------------------------------------*/
+// session description
+/*---------------------------------------*/
+
+.session-description-name{
+  font-size: 1.3em;
+  font-weight: bold;
+
+  .session-name{
+    color: #60A124;
+  }
+}
+
+.session-description-label{
+  text-align:right;
+  width: 25%;
+  font-weight: bold;
+  background-color: #EAEFF5;
+  padding-right: 1em !important;
+}
+
+.session-description-stats{
+
+  color: #fff;
+
+  .well{
+    height: 60px;
+  }
+  .question-stats{
+    background-color: $darkBlue;
+  }
+  .page-count{
+    background-color: #60A124;
+  }
+  .post-count{
+    background-color: $headerGreen;
+  }
+  .comment-count{
+    background-color: $navHoverRed;
+  }
+
+  .stat-label{
+    width: 43%;
+    text-transform: capitalize;
+    margin: 0  1.5em 0 1em;
+    padding-top: 0.8em;
+    @extend .pull-left;
+
+    .glyphicon{
+      margin-right: 10px;
+    }
+  }
+
+  .stat-value{
+    font-weight: bold;
+    font-size: 1.7em;
+    @extend .pull-left;
+
+    &:after{
+      clear: both;
+    }
+  }
+}
+
+/*---------------------------------------*/
+
+.panel.panel-default{
+
+  .panel-heading{
+      background-color: #222;
+      color: #ccc;
+      text-transform: uppercase;
+    }
+}
+
+/*---------------------------------------*/
+
+.alert-container{
+  padding-top: 20px;
+}
+
+.alert-notice {
+  @extend .alert-warning;
+}
+
+.alert-error {
+  @extend .alert-danger;
+}
+
+/*---------------------------------------*/
+
+.username{
+  margin: 10px 0 30px;
+  height: 40px;
+
+  h3{
+    @extend .pull-right;
+    margin-top: 0;
+  }
+}
+
+h3.panel-title{
+  font-weight:bold;
+}
+
+.debug-dump{ 
+  color: #6E95A5;
+
+  h3{
+    font-weight:bold;
+    color: #3DADA9;  
+  }
+}
+
+.well{
+
+  .session-name{
+    text-transform: capitalize;
+    span{
+      font-weight: bold;
+    }
+  }
+
+  .session-description-well{
+    color : $well_aux_tex; 
+  }
+  .session-question{
+    font-weight: bold;
+    font-size: 1.5em;
+    color: $well_question;
+  }
+  
+
+  hr{
+    color: #444;
+    background-color: #444;
+  }
+  hr.well-description{
+    color: #bbb;
+    background-color: #bbb;
+  }
+}
+
+.session-description{
+
+  .comments-counter, .posts-counter{
+    display: block;
+    width: 55%;
+    height: 40px;
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    color: #555;
+
+    strong{
+      color: #3e6d88;
+    }
+  }
+
+}
+.description-search{
+  width: 15em;  
+  width: 100%;
+}
+
+.page-header{
+
+  h2{
+    margin-top: 0;
+    color: $headerGreen;
+  }
+
+  h2.app-title{
+    color: #444;
+  }
+  .nav-pills{
+    margin-right: 30px;
+
+    .session-manage{
+      width: 160px;
+      background-color: $headerGreen;
+      color: #fff;
+    }
+  }
+
+  .nav-pills > li {
+    padding-left: 15px;
+  }
+
+  .nav-pills > li > a,{
+    background-color: #888;
+    color: #fff;
+    padding: 5px 15px;
+  }
+
+  .nav-pills > li > a:hover, 
+  .nav-pills > li > a:focus{
+    background-color: $headerGreen;
+    color: #fff
+  }
+  .nav-pills > li > a.delete-link:hover{
+      background-color: $navHoverRed;
+    }
+
+}
+.post-content{
+
+  span{
+    color: $headerGreen;
+    padding-left: 10px;
+    font-style: italic;
+    font-weight: bold;
+  }
+}
+
+.navbar-brand {
+  padding: 10px 15px 0;
+}
+
+.form-divider{
+  width: 100%;
+  height: 2px;
+  border-bottom: 1px solid #bbb;
+  margin-bottom: 20px;
+  padding-top: 20px;
+}
+
+.form-date-divider{
+  padding: 0 40px;
+}
+.form-radio-group{
+  width: 200px;
+  margin: 5px 0;
+  padding: 0 15px;
+  height: 40px;
+  border: 1px solid #ccc;
+}
+.form-radio{
+  float: left;
+  width: 20px;
+}
+
+.form-radio-label{
+  float: left;
+  padding-left: 15px;
+  margin-top: 10px;
+}
+
+.whitespace{
+  width: 100%;
+  height: 20px;
+}
+
+.comment-created-time{
+  font-size: 0.9em;
+  color: #707e82;
+
+}
+
+div.pagination > ul {
+  @extend .pagination
+}
+.pagination-count{
+  color: $headerGreen;
+}
+
+/*--------------------------------*/
+/* PAGINATION OVERRIDES           */
+/*--------------------------------*/
+
+.pagination {
+    border-radius: 4px;
+    display: inline-block;
+    margin: 20px 0;
+    padding-left: 0;
+}
+.pagination  li {
+    display: inline;
+}
+.pagination  li  a, .pagination  li  span {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+}
+.pagination  li:first-child  a, .pagination  li:first-child  span {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    margin-left: 0;
+}
+.pagination  li:last-child  a, .pagination  li:last-child  span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.pagination  li  a:hover, .pagination  li  span:hover, .pagination  li  a:focus, .pagination  li  span:focus {
+    background-color: #EEEEEE;
+}
+.pagination  .active  a, .pagination  .active  span, .pagination  .active  a:hover, .pagination  .active  span:hover, .pagination  .active  a:focus, .pagination  .active  span:focus {
+    background-color: #428BCA;
+    border-color: #428BCA;
+    color: #FFFFFF;
+    cursor: default;
+    z-index: 2;
+}
+.pagination  .disabled  span, .pagination  .disabled  span:hover, .pagination  .disabled  span:focus, .pagination  .disabled  a, .pagination  .disabled  a:hover, .pagination  .disabled  a:focus {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+    color: #999999;
+    cursor: not-allowed;
+}
+.pagination-lg  li  a, .pagination-lg  li  span {
+    font-size: 18px;
+    padding: 10px 16px;
+}
+.pagination-lg  li:first-child  a, .pagination-lg  li:first-child  span {
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+}
+.pagination-lg  li:last-child  a, .pagination-lg  li:last-child  span {
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.pagination-sm  li  a, .pagination-sm  li  span {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+.pagination-sm  li:first-child  a, .pagination-sm  li:first-child  span {
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+}
+.pagination-sm  li:last-child  a, .pagination-sm  li:last-child  span {
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+/*----------------------------------------------------*/
+.help-content{
+
+  .help-section{
+    padding:15px 0 25px;
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 20px;
+
+    .help-section-sub{
+      margin: 20px 0;
+    }
+  }
+
+  h3, h4{
+    border-bottom : 1px solid #EEEEEE;
+    padding       : 10px 0;
+    margin-bottom : 15px;
+    color: $helpPageHeader;
+  }
+  h5{
+    font-weight: bold;
+    color: $helpPageHeader;
+  }
+}

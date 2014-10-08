@@ -1,6 +1,37 @@
-<li><%= link_to "All Records", twitter_parser.all_tweets_url %></li>
-<li><%= link_to "Questions", tagger.questions_url %></li>
-<li><%= link_to "Terms", twitter_parser.terms_url %></li>
-<li><%= link_to "Twitter Accounts", twitter_parser.accounts_url %></li>
-<li><%= link_to "Scrape Sessions", main_app.scrape_sessions_url %></li>
-<li><%= link_to "Tagged Posts", twitter_parser.tagged_posts_url %></li>
+<!-- <li><%#= link_to "All Records", twitter_parser.all_tweets_url %></li>
+<li><%#= link_to "Questions", tagger.questions_url %></li>
+<li><%#= link_to "Terms", twitter_parser.terms_url %></li>
+<li><%#= link_to "Twitter Accounts", twitter_parser.accounts_url %></li>
+<li><%#= link_to "Scrape Sessions", main_app.scrape_sessions_url %></li>
+<li><%#= link_to "Tagged Posts", twitter_parser.tagged_posts_url %></li> -->
+
+<ul class="nav navbar-nav navbar-right">
+  <li><%= link_to "About", main_app.about_path %></li>
+  <li><%= link_to "Help",  main_app.help_path %></li>
+
+  <% if signed_in? %>
+
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <%= current_user.username %>
+        <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "Profile", main_app.user_path(current_user) %></li>
+        <li><%= link_to "User Settings", main_app.edit_user_path(current_user) %></li>
+        <li class="divider"></li>
+
+        <% if current_user.isadmin? %>
+          <li><%= link_to "App Settings", main_app.app_settings_path %></li>
+          <li class="divider"></li>
+        <% end %>
+
+        <li>
+          <%= link_to "Sign out", main_app.signout_path, method: "delete" %>
+        </li>
+      </ul>
+    </li>
+  <% else %>
+    <li><%= link_to "Sign in", main_app.signin_path %></li>
+  <% end %>
+</ul>

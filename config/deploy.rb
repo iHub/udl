@@ -14,7 +14,7 @@ load 'config/recipes/assets'
 load 'config/recipes/nodejs'
 # load 'config/recipes/ruby'
 
-server "178.79.179.70", :web, :app, :db, primary: true
+server "41.242.1.68", :web, :app, :db, primary: true
 
 set :rails_env, :production
 set :application, "umati"
