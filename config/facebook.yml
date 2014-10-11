@@ -1,17 +1,17 @@
 # config/facebook.yml
 
 development:
-  app_id:     630625760329068
-  secret_key: a9f40e95d102b56431db887a42efccb9
+  app_id:     283276948532275
+  secret_key: a0d71eda2c64a72d300b69c55a6ef262
 
 production:
-  app_id:     630625760329068
-  secret_key: a9f40e95d102b56431db887a42efccb9
+  app_id:     283276948532275
+  secret_key: a0d71eda2c64a72d300b69c55a6ef262
 
 staging:
-  app_id:     630625760329068
-  secret_key: a9f40e95d102b56431db887a42efccb9
+  app_id:     283276948532275
+  secret_key: a0d71eda2c64a72d300b69c55a6ef262
 
 test:
-  app_id:     630625760329068
-  secret_key: a9f40e95d102b56431db887a42efccb9
+  app_id:     283276948532275
+  secret_key: a0d71eda2c64a72d300b69c55a6ef262

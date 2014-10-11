@@ -6,7 +6,11 @@ module TwitterParser
 
     # GET /terms
     def index
-      @terms = Term.all
+      return redirect_to (request.referrer || root_url), alert: "You have to specify a scrape session to view connected accounts" unless request.url.scan("?ref=").present?
+      @id = request.url.split("?ref=").last
+      @scrape_session = ScrapeSession.find("#{@id}")
+      @scrape_session_selected = true
+      @terms = @scrape_session.terms.all
     end
 
     # GET /terms/1

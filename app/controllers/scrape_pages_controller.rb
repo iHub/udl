@@ -47,7 +47,7 @@ class ScrapePagesController < ApplicationController
     		# logger.debug "------------------------------------------------"
     		# logger.debug "@scrape_page.next_scrape_date => #{@scrape_page.next_scrape_date}"
 
-
+    	binding.pry
 			if @scrape_page.save 		# has been saved?
 				logger.debug "page saved;"
 

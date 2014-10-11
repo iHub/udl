@@ -9,21 +9,29 @@ class AccountWorker
 		case type
 		when "follow"
 			follow_and_track(id)
+    when "faccount"
+      follow_account
 		end
 	end
 
-	def follow_and_track(id)
-		tweetstream_configure
-		@accounts = TwitterParser::Account.all.map(&:twitter_user_id).map(&:to_i)
-		puts "#{@accounts}"
-		account = TwitterParser::Account.find(id)
-		client  = twittter_client_configure
+	def follow_and_track(id)		
+    client  = twittter_client_configure		
+		account = TwitterParser::Account.find(id)		
 		@twitter_response = client.user("#{account.username}")
 		account.create_user_account(@twitter_response) if @twitter_response
+  end
 
-    TweetStream::Client.new.follow(@accounts) do |status|
-      puts "#{status}"
-      TwitterParser::Term.create(title: "#{status.text}", channel: "#{status.attrs[:user][:screen_name]}")
+  def follow_account
+    # binding.pry
+    tweetstream_configure
+    @accounts = TwitterParser::Account.all.map(&:twitter_user_id).join(", ")
+    puts "#{@accounts}"
+    TweetStream::Client.new.follow(2828013602) do |status|
+      # binding.pry
+      @screen_name = "#{status.attrs[:user][:screen_name]}"
+      @account = TwitterParser::Account.where(username: "#{@screen_name}") if @screen_name
+      TwitterParser::Term.create(scrape_session: "#{@account.scrape_session}",title: "#{status.text}", channel: "#{@screen_name}") if @screen_name && @account
+      puts "#{status.text}"
       fetch_tweets_from_search_api("#{status.text}")
     end
   end
