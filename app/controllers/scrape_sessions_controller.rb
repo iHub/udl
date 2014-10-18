@@ -57,6 +57,13 @@ class ScrapeSessionsController < ApplicationController
 		@tweets = @scrape_session.tweets if @scrape_session
 	end
 
+	def annotate
+		@scrape_session = get_scrape_session(params[:id])
+		@tweet_count = @scrape_session.tweets.count if @scrape_session
+		@scrape_session_selected = true
+		@tweets = @scrape_session.tweets if @scrape_session
+	end
+
 	def update
 		@scrape_session = ScrapeSession.find(params[:id])
 

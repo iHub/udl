@@ -12,7 +12,7 @@
 
 		<div class="row dash-stats">
 
-		  <div class="col-sm-4 col-md-3">
+		  <div class="col-sm-3 col-md-3">
 		    <div class="well session-stats">
 		    	<!-- <p><span class="glyphicon glyphicon-eye-open"></span></p> -->
 		    	<h3><%= current_user.scrape_sessions.count  %></h3>
@@ -20,7 +20,7 @@
 		    </div>
 		  </div>
 
-		  <div class="col-sm-4 col-md-3">
+		  <div class="col-sm-3 col-md-3">
 		    <div class="well page-stats">
 		    	<!-- <p><span class="glyphicon glyphicon-book"></span></p> -->
 		    	<h3><%= @all_pages_count %></h3>
@@ -28,7 +28,7 @@
 		    </div>
 		  </div>
 
-		  <div class="col-sm-4 col-md-3">
+		  <div class="col-sm-3 col-md-3">
 		    <div class="well post-stats">
 		    	<!-- <p><span class='glyphicon glyphicon-list-alt'></span></p> -->
 		    	<h3><%= @all_posts_count %></h3>
@@ -36,11 +36,19 @@
 		    </div>
 		  </div>
 
-		  <div class="col-sm-4 col-md-3">
+		  <div class="col-sm-3 col-md-3">
 		    <div class="well comment-stats">
 		    	<!-- <p><span class='glyphicon glyphicon-comment'></span></p> -->
 		    	<h3><%= @all_comments_count %></h3>
 		    	<p class="stat-description"><span class='glyphicon glyphicon-comment'></span>Comments</p>
+		    </div>
+		  </div>
+
+		  <div class="col-sm-3 col-md-3">
+		    <div class="well post-stats">
+		    	<!-- <p><span class='glyphicon glyphicon-list-alt'></span></p> -->
+		    	<h3><%= @all_tweets_count %></h3>
+		    	<p class="stat-description"><span class='glyphicon glyphicon-list-alt'></span>Tweets</p>
 		    </div>
 		  </div>
 

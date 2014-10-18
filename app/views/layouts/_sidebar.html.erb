@@ -17,13 +17,6 @@
               <li><%= link_to "<span class='glyphicon glyphicon-eye-open'></span>Tagged Posts".html_safe,  twitter_parser.tagged_posts_path, class: " #{"active" if yield(:app_page) == "users"}" %></li>
               <li><%= link_to "<span class='glyphicon glyphicon-eye-open'></span>Annotate".html_safe,  twitter_parser.tweets_path, class: " #{"active" if yield(:app_page) == "users"}" %></li>
 
-              <!-- <li>
-                <%#= link_to "TwitterParser", twitter_parser.root_path %>
-              </li>
-
-              <li>
-                <%#= link_to "Tagger", tagger.root_path %>
-              </li> -->
 
               <li>
                 <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_sessions" %>" data-toggle="collapse" data-target="#sessions-collapse">
@@ -37,7 +30,15 @@
                     <%= link_to "Manage Session",  main_app.scrape_session_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_sessions_show"}"
                      %>
                   </li>
-                  <li><a href="#">Annotate</a></li>
+                  <li>
+                    <%= link_to "All tweets", main_app.tweets_scrape_session_path(@scrape_session), class: " #{"active" if yield(:app_page) == "users"}" %>
+                  </a></li>
+                  <li>
+                    <%= link_to "Annotate", main_app.annotate_scrape_session_path(@scrape_session), class: " #{"active" if yield(:app_page) == "users"}" %>
+                  </a></li>
+
+                  twitter_parser.tweets_path
+                  
                   <% end %>
 
                   <li><%= link_to "All sessions",  main_app.scrape_sessions_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_index"}" %></li>

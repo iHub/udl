@@ -17,6 +17,7 @@
           <th style="width:7%">Pages</th>
           <th style="width:7%">Posts</th>
           <th style="width:7%">Comments</th>
+          <th style="width:7%">Tweets</th>
           
         </tr>
       </thead>
@@ -38,7 +39,7 @@
             <td><%= scrape_session.total_pages %></td>
             <td><%= scrape_session.total_posts %></td>
             <td><%= scrape_session.total_comments %></td>
-            
+            <td><%= scrape_session.tweets.count %></td>
 
           </tr>
         <% end %>

@@ -12,7 +12,7 @@ load 'config/recipes/memcached'
 load 'config/recipes/check'
 load 'config/recipes/assets'
 load 'config/recipes/nodejs'
-# load 'config/recipes/ruby'
+load 'config/recipes/sidekiq'
 
 server "41.242.1.68", :web, :app, :db, primary: true
 
