@@ -1,4 +1,4 @@
-<%= link_to "CSV", tagged_posts_path(format: "csv") %>
+<%= link_to "Download CSV", tagged_posts_path(format: "csv")+"?ref=#{@scrape_session.id}" %>
 
 <table class="table table-hover">
   <thead>

@@ -36,7 +36,7 @@ gem 'tagger', path: 'lib/new-tagger'
 gem 'capistrano-sidekiq'
 gem "disqus_api"
 # gem 'net-ssh', '~> 2.8.1'#, :git => "https://github.com/net-ssh/net-ssh"
-gem "disqus_api"
+# gem "disqus_api"
 
 group :development, :test do
   gem 'rspec-rails', '2.14.1'
