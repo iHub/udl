@@ -22,7 +22,7 @@ set :user, "deploy"
 set :deploy_to, "/home/#{user}/apps/#{application}"
 # set :deploy_via, :remote_cache
 set :use_sudo, false
-set :sidekiq_cmd, "bundle exec sidekiq -q tweets, -q accounts, -q sessions"
+set :sidekiq_cmd, "bundle exec sidekiq -q tweets, -q accounts, -q sessions, -q disqus"
 set :scm, "git"
 set :repository, "git@github.com:iHub/udl.git"
 set :branch, "develop"

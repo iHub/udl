@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141007043335) do
+ActiveRecord::Schema.define(version: 20141018174710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,51 @@ ActiveRecord::Schema.define(version: 20141007043335) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "disqus_forum_comments", force: true do |t|
+    t.integer  "disqus_forum_id"
+    t.string   "points"
+    t.string   "parent"
+    t.string   "is_approved"
+    t.string   "author_about"
+    t.string   "author_username"
+    t.string   "author_name"
+    t.string   "author_url"
+    t.string   "author_is_following"
+    t.string   "author_is_follwed_by"
+    t.string   "author_profile_url"
+    t.string   "author_reputation"
+    t.string   "author_location"
+    t.string   "author_id"
+    t.string   "author_disliked"
+    t.string   "author_created_at"
+    t.string   "forum_id"
+    t.string   "forum_thread"
+    t.string   "forum_num_reports"
+    t.string   "forum_likes"
+    t.string   "forum_is_edited"
+    t.string   "forum_is_spam"
+    t.string   "forum_is_highlighted"
+    t.string   "forum_user_score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "author_raw_message"
+    t.text     "author_message"
+    t.text     "forum_message"
+  end
+
+  add_index "disqus_forum_comments", ["disqus_forum_id"], name: "index_disqus_forum_comments_on_disqus_forum_id", using: :btree
+
+  create_table "disqus_forums", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "scrape_session_id"
+    t.string   "forum_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "disqus_forums", ["scrape_session_id"], name: "index_disqus_forums_on_scrape_session_id", using: :btree
+  add_index "disqus_forums", ["user_id"], name: "index_disqus_forums_on_user_id", using: :btree
 
   create_table "fb_comments", force: true do |t|
     t.integer  "fb_post_id"

@@ -6,4 +6,9 @@ namespace :udl do
 		# @account = TwitterParser::Account.first
 	 #  AccountWorker.perform_async(@account.id, "follow") if @account
 	end
+
+	desc "Go to Disqus and fetch comments"
+	task :fetch_disqus => :environment do
+		DisqusWorker.perform_async()
+	end
 end
