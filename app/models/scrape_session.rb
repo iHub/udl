@@ -26,8 +26,8 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :questions, :class_name => "Tagger::Question", dependent: :nullify
 	has_many :terms, :class_name => "TwitterParser::Term", dependent: :nullify
 	has_many :tweets, class_name: "TwitterParser::Tweet", dependent: :nullify
-	has_many :accounts, :class_name => "TwitterParser::Account"#, :foreign_key => "reference_id"
-
+	has_many :accounts, :class_name => "TwitterParser::Account"
+	has_many :disqus_forums
 	###############################################
 
 	default_scope -> { order('created_at DESC') }

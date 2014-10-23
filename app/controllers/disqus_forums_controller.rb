@@ -1,0 +1,2 @@
+class DisqusForumsController < ApplicationController
+end

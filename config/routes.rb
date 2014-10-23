@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 ULog::Application.routes.draw do
 
+  resources :disqus_forums
+
   mount TwitterParser::Engine => '/twitter_parser'
   mount Tagger::Engine => '/tagger'
   mount Sidekiq::Web => '/sidekiq'

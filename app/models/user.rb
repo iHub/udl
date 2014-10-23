@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 	has_many :scrape_sessions_logs, dependent: :destroy
 	
 ############Tagger && TwitterParser#####################################
+	has_many :disqus_forums
 	has_many :tweet_taggers
   has_many :tweets, :through => :tweet_taggers, class_name: "TwitterParser::Tweet"
   
