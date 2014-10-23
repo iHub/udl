@@ -1,0 +1,19 @@
+development:
+  api_secret: dpmaFuRmYpler4VXXHFF7GthAz4B75ELkwYsCuvYH1Y5wzPc7AH0BQ4JG9nuErk3
+  api_key: RldVQbsRvkyiSIBhgcK86z9QTfXViPCeqzVefCQEeIKva0S5jBqv1mT1cGftKZif
+  access_token: '19f3be0f486f41ddb26a41ead40ca427'
+
+production:
+  api_secret: dpmaFuRmYpler4VXXHFF7GthAz4B75ELkwYsCuvYH1Y5wzPc7AH0BQ4JG9nuErk3
+  api_key: RldVQbsRvkyiSIBhgcK86z9QTfXViPCeqzVefCQEeIKva0S5jBqv1mT1cGftKZif
+  access_token: '19f3be0f486f41ddb26a41ead40ca427'
+
+
+
+  # api_key: RldVQbsRvkyiSIBhgcK86z9QTfXViPCeqzVefCQEeIKva0S5jBqv1mT1cGftKZif
+  # api_secret: dpmaFuRmYpler4VXXHFF7GthAz4B75ELkwYsCuvYH1Y5wzPc7AH0BQ4JG9nuErk3
+  # Authorize URL: https://disqus.com/api/oauth/2.0/authorize/
+  # Access Token URL: https://disqus.com/api/oauth/2.0/access_token/
+  # Callback URL: http://127.0.0.1:3000/
+  # access_token: 19f3be0f486f41ddb26a41ead40ca427
+  # secret_key: dpmaFuRmYpler4VXXHFF7GthAz4B75ELkwYsCuvYH1Y5wzPc7AH0BQ4JG9nuErk3
