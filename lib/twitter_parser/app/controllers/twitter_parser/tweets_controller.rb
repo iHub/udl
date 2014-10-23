@@ -14,12 +14,24 @@ module TwitterParser
 
 
     def index
-      @untagged_tweets = (current_user.tweets - current_user.tagged_posts)
+      return redirect_to :back unless request.url.split("?ref=").present?
+
+      @id = request.url.split("?ref=").last
+      @scrape_session = ScrapeSession.find(@id)
+      @scrape_session_selected = true
+      @untagged_tweets = (@scrape_session.tweets - current_user.tagged_posts)
       @tweets = @untagged_tweets.paginate(:per_page => 10, :page => params[:page])    
     end
 
     def tagged_posts
-      @tweets = current_user.tagged_posts#.paginate(:per_page => 10, :page => params[:page])
+      return redirect_to :back unless request.url.split("?ref=").present?
+
+      @id = request.url.split("?ref=").last
+      @scrape_session = ScrapeSession.find(@id)
+
+      @scrape_session_selected = true
+
+      @tweets = current_user.tagged_posts.where(scrape_session_id: @scrape_session.id).paginate(:per_page => 10, :page => params[:page])
     
       respond_to do |format|
         format.html
