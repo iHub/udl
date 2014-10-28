@@ -21,7 +21,8 @@ module Tagger
 
     		if @user_ids.count == 1
     			@user = User.find(@user_ids).first
-    			@user.tweet_ids = @tweets.map(&:id)            
+    			@user.tweet_ids = @tweets.map(&:id) 
+          AccountWorker.perform_async(@user.id, "notify")
     		else
     			@users = User.find(@user_ids)
     			@x ||= 0
@@ -32,6 +33,7 @@ module Tagger
     				user.tweet_ids = @tagged_posts.map(&:id)
     				@x = @y
     				@y = @x+@y
+            AccountWorker.perform_async(user.id, "notify")
     			end
     		end
 

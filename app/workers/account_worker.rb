@@ -11,8 +11,15 @@ class AccountWorker
 			follow_and_track(id)
     when "faccount"
       follow_account
+    when "notify"
+      notify_user(id)
 		end
 	end
+
+  def notify_user(id)
+    @user = User.find(id)
+    NotificationMailer.notify_user(@user).deliver
+  end
 
 	def follow_and_track(id)		
     client  = twittter_client_configure		

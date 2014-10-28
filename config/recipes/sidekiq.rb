@@ -1,4 +1,4 @@
-namespace :sidekiq do
+namespace :upstart do
   desc "Install upstart"
   task :install, roles: :app do
     run "#{sudo} apt-get -y update"

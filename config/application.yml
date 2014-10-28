@@ -13,3 +13,16 @@ oauth_secret: 33dYS6pRGecl0Un1jTKpoHpWWjQl7GaHLTySEJhslYe7B
 # api_secret: V9OjB8dhb1vv6LqmWfmaZXrIo52lg4mKAatfD890Ng
 # oauth_token: 1157156125-ifIlgn4l6SDEOSwv4Eet7fESFog52CsupWjxPoI
 # oauth_secret: PDCCXOhBWa4aAmHY9Tn2N7sYjVj544XIFahebJerkA
+
+
+mandrill_username: chalcchuck@gmail.com
+mandrill_password: M7Jq76c4ZNwr__ww5Hj3kA
+
+development:
+ host: "localhost:3000"
+production:
+ host: "testserver.com"
+sandbox:
+ host: "testserver.com"
+test:
+ host: "localhost:3000"

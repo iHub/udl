@@ -20,7 +20,7 @@ set :rails_env, :production
 set :application, "umati"
 set :user, "deploy"
 set :deploy_to, "/home/#{user}/apps/#{application}"
-# set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 set :use_sudo, false
 set :sidekiq_cmd, "bundle exec sidekiq -q tweets, -q accounts, -q sessions, -q disqus"
 set :scm, "git"

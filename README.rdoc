@@ -1,2 +1,40 @@
-== README
+UMATI DATA LOGGER
 
+The Umati Data Logger is suite of data collection and tagging libraries built in Ruby on Rails for purposes of colecting and tagging data from virtually all social media platforms (facebook, twitter, disqus etc) for the sole purpose of propagating inflammatory speech online. 
+The code suite is grouped into two main categories:
+
+Collection
+Tagger
+
+Setting Up Umati Data Logger
+
+Ruby on Rails Set up on your computer
+* Follow this tutorial for Mac Users:
+	  https://gorails.com/setup/osx/10.9-mavericks
+	  https://gorails.com/setup/osx/10.10-yosemite
+
+* Follow this tutorial for Linux Users:
+		https://gorails.com/setup/ubuntu/14.10
+		https://gorails.com/setup/ubuntu/14.04
+
+* Clone code from here: https://github.com/iHub/udl
+
+* Configuration
+	cd into the udl folder
+	run bundle install # to install all the gems and dependencies
+
+* Database SetUp
+	- Run rake db:create
+	- Rub rake db:migrate
+
+* Dependecies
+	- Redis: This ensures sidekiq (background processing client)
+
+* Services (job queues etc.)
+	To set up and run the background jobs run
+	- bundle exec sidekiq -q tweets, -q accounts, -q sessions, -q disqus
+
+* Fire up your Rails Server:
+	- Open up your terminal
+	- run: rails server
+	- Open up your browser and go to: localhost:3000
