@@ -1,0 +1,14 @@
+<div class="authform">
+	<%= form_for(@disqus_forum) do |f| %>
+	  <h2><%= @title %></h2>
+	  <hr>
+	  <div class="form-group">
+	    <%= f.label :forum_name, "Forum Name" %><br>
+	    <%= f.text_field :forum_name, class: "form-control" %>
+	  </div>
+
+	  <div class="form-group">
+	    <%= f.submit class: "right button" %>
+	  </div>
+	<% end %>
+</div>

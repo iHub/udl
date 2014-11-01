@@ -61,6 +61,24 @@
                 </ul>
               </li>
 
+
+
+              <li>
+                <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "questions" %>" data-toggle="collapse" data-target="#questions-collapse">
+                  <span class="glyphicon glyphicon-book"></span>Disqus Forums
+                </button>
+
+                <ul id="questions-collapse" class="<%=  yield(:app_page) == "questions" ? "in" : "collapse" %>">
+
+                  <li><%= link_to "All Disqus Froums",  main_app.disqus_forums_path+"?ref=#{@scrape_session.id}", class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
+                  <li><%= link_to "New Disqus Froum", main_app.new_disqus_forum_path+"?ref=#{@scrape_session.id}" %>
+                  </li>
+                  <!-- <li><%#= link_to "Disqus Posts", main_app.posts_disqus_forums %></li> -->
+                </ul>
+              </li>
+
+
+
               <li>
                 <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "questions" %>" data-toggle="collapse" data-target="#questions-collapse">
                   <span class="glyphicon glyphicon-search"></span>Questions

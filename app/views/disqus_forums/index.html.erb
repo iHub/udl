@@ -1,0 +1,21 @@
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Forum Name</th>
+			<th>Owner</th>
+			<th>Session</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @disqus_forums.each do |forum| %>
+			<tr>
+				<td><%= forum.forum_name %></td>
+				<td><%= forum.user %></td>
+				<td><%= forum.scrape_session.name %></td>
+			</tr>
+		<% end %>
+		
+	</tbody>
+</table>
+
+<!-- 1657166917 1657166917 -->
