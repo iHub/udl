@@ -1,0 +1,19 @@
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Disqus Forum</th>
+			<th>Name</th>
+			<th>Message</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @disqus_posts.each do |post| %>
+			<tr>
+				<td><%= post.disqus_forum %></td>
+				<td><%= post.author_name %></td>
+				<td><%= post.author_message.html_safe %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

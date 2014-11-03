@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141018174710) do
+ActiveRecord::Schema.define(version: 20141103055640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -129,9 +130,12 @@ ActiveRecord::Schema.define(version: 20141018174710) do
     t.text     "author_raw_message"
     t.text     "author_message"
     t.text     "forum_message"
+    t.integer  "scrape_session_id"
+    t.string   "forum_name"
   end
 
   add_index "disqus_forum_comments", ["disqus_forum_id"], name: "index_disqus_forum_comments_on_disqus_forum_id", using: :btree
+  add_index "disqus_forum_comments", ["scrape_session_id"], name: "index_disqus_forum_comments_on_scrape_session_id", using: :btree
 
   create_table "disqus_forums", force: true do |t|
     t.integer  "user_id"

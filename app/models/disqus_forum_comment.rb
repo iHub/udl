@@ -1,5 +1,6 @@
 class DisqusForumComment < ActiveRecord::Base
 	belongs_to :disqus_forum
+	belongs_to :scrape_session
 
 	validates :disqus_forum, presence: true
 	validates :forum_id, uniqueness: true, allow_blank: true
@@ -10,7 +11,7 @@ class DisqusForumComment < ActiveRecord::Base
 			
 			return false unless forum
 			forum.disqus_forum_comments.create(
-				points: comment[:points], parent: comment[:parent], is_approved: comment[:isApproved], author_about: comment[:author][:about], 
+				forum_name: comment[:forum] ,points: comment[:points], parent: comment[:parent], is_approved: comment[:isApproved], author_about: comment[:author][:about], 
 				author_username: comment[:author][:username], author_name: comment[:author][:name], author_url: comment[:author][:url],
 				author_is_following: comment[:author][:isFollowing], author_is_follwed_by: comment[:author][:isFollwedBy],
 				author_profile_url: comment[:author][:profileUrl], author_reputation: comment[:author][:reputation],

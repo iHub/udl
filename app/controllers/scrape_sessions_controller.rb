@@ -17,18 +17,20 @@ class ScrapeSessionsController < ApplicationController
 		@scrape_session = get_scrape_session(params[:id])
 	end
 
+	def disqus_posts
+		@scrape_session = ScrapeSession.find(params[:id]) if params[:id]
+		@disqus_posts = @scrape_session.disqus_forum_comments
+	end
+
 	def show
 		@scrape_session = get_scrape_session(params[:id])
-		@created_by 	= User.find(@scrape_session[:user_id]).username
-		
+		@created_by = User.find(@scrape_session[:user_id]).username		
 		all_questions = @scrape_session.questions
-		all_pages 	  = @scrape_session.scrape_pages
-
+		all_pages = @scrape_session.scrape_pages
 		@has_more_questions = true if all_questions.count > 5
-		@has_more_pages	    = true if all_pages.count > 5
-
-		@questions 		= all_questions.limit(5)
-		@scrape_pages   = all_pages.limit(5)
+		@has_more_pages	= true if all_pages.count > 5
+		@questions = all_questions.limit(5)
+		@scrape_pages = all_pages.limit(5)
 	end
 
 	def create

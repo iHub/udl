@@ -73,7 +73,7 @@
                   <li><%= link_to "All Disqus Froums",  main_app.disqus_forums_path+"?ref=#{@scrape_session.id}", class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
                   <li><%= link_to "New Disqus Froum", main_app.new_disqus_forum_path+"?ref=#{@scrape_session.id}" %>
                   </li>
-                  <!-- <li><%#= link_to "Disqus Posts", main_app.posts_disqus_forums %></li> -->
+                  <li><%= link_to "Disqus Posts", main_app.disqus_posts_scrape_session_path(@scrape_session) %></li>
                 </ul>
               </li>
 

@@ -27,10 +27,12 @@ class ScrapeSession < ActiveRecord::Base
 	has_many :terms, :class_name => "TwitterParser::Term", dependent: :nullify
 	has_many :tweets, class_name: "TwitterParser::Tweet", dependent: :nullify
 	has_many :accounts, :class_name => "TwitterParser::Account"
-	has_many :disqus_forums
-	###############################################
+	has_many :disqus_forums, dependent: :nullify
+	has_many :disqus_forum_comments, dependent: :nullify
+	#######################################################################
 
 	default_scope -> { order('created_at DESC') }
+	
 	scope 	:continuous, -> { where(session_continuous_scrape: true) }	# active collection
 	scope 	:dormant,    -> { where(session_continuous_scrape: false) }	# active collection
 	scope 	:absolute, 	 -> { where(allow_page_override: false) }
