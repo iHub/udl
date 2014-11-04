@@ -5,6 +5,12 @@ class DisqusForumComment < ActiveRecord::Base
 	validates :disqus_forum, presence: true
 	validates :forum_id, uniqueness: true, allow_blank: true
 	
+
+	#TaggingDisqusComments
+	#----------------------------------------------------------------------------
+	
+
+
 	def self.create_self(comments)
 		comments[:response].each do |comment|
 			forum = DisqusForum.where("forum_name @@ :q", q: "#{comment[:forum]}").first
