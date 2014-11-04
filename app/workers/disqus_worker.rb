@@ -1,5 +1,6 @@
 class DisqusWorker
 	include Sidekiq::Worker
+	include Sidetiq::Schedulable
 	sidekiq_options( { queue: :disqus } )
 
 	def perform(id)
@@ -9,7 +10,7 @@ class DisqusWorker
 	def fetch_disqus_comments(id)
 		forum = DisqusForum.find(id)
 		comments = DisqusApi.v3.posts.list(forum: "#{forum.forum_name}") if forum
-		DisqusForumComment.create_self(comments)		
+		DisqusForumComment.create_self(comments)	
 	end
 
 	def continous_comments_fetch

@@ -35,6 +35,7 @@ gem 'twitter_parser', :path => 'lib/twitter_parser'
 gem 'tagger', path: 'lib/new-tagger'
 gem 'capistrano-sidekiq'
 gem "disqus_api"
+gem 'sidetiq'
 # gem 'net-ssh', '~> 2.8.1'#, :git => "https://github.com/net-ssh/net-ssh"
 # gem "disqus_api"
 
