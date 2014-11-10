@@ -9,6 +9,6 @@ namespace :udl do
 
 	desc "Go to Disqus and fetch comments"
 	task :fetch_disqus => :environment do
-		DisqusWorker.perform_async()
+		DisqusWorker.perform_async("nil", "continous")
 	end
 end

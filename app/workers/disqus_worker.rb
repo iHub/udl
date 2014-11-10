@@ -1,10 +1,17 @@
 class DisqusWorker
 	include Sidekiq::Worker
-	include Sidetiq::Schedulable
+	# include Sidetiq::Schedulable
 	sidekiq_options( { queue: :disqus } )
 
-	def perform(id)
-		fetch_disqus_comments(id)
+	def perform(*args)
+		id = args[0]
+		opt = args[1]
+		case opt
+		when "fetch"
+			fetch_disqus_comments(id)
+		when "continous"
+			continous_comments_fetch
+		end		
 	end
 
 	def fetch_disqus_comments(id)

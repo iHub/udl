@@ -15,7 +15,7 @@ class DisqusForum < ActiveRecord::Base
 private
 	
 	def fetch_disqus_comments
-		DisqusWorker.perform_async(self.id)
+		DisqusWorker.perform_async(self.id, "fetch")
 	end
 
 end
