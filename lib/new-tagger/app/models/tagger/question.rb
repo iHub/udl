@@ -21,7 +21,6 @@ module Tagger
         @disqus_forums = @scrape_session.disqus_forum_comments.limit(5)
 
     		if @user_ids.count == 1
-          binding.pry
     			@user = User.find(@user_ids).first
     			@user.tweet_ids = @tweets.map(&:id) 
           @user.disqus_forum_comment_ids = @disqus_forums.map(&:id)
