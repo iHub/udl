@@ -70,5 +70,17 @@
         <div class="clearfix"></div>
     </div>
 
+    <div class="well well-sm post-count">
+        <p class="stat-label"><span class='glyphicon glyphicon-list-alt'></span>Disqus Posts</p>
+        <p class="stat-value"><%= object.disqus_forums.count %></p>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="well well-sm comment-count">
+        <p class="stat-label"><span class='glyphicon glyphicon-comment'></span>Disqus Comments</p>
+        <p class="stat-value"><%= object.disqus_forum_comments.count %></p>
+        <div class="clearfix"></div>
+    </div>
+
 </div>
 <div class="clearfix"></div>

@@ -31,7 +31,7 @@ class DisqusForumComment < ActiveRecord::Base
 				author_location: comment[:author][:location], author_id: comment[:author][:id], author_disliked: comment[:disliked], author_raw_message: comment[:raw_message],
 				text: comment[:message], author_created_at: comment[:createdAt], forum_id: comment[:id], forum_thread: comment[:thread], 
 				forum_likes: comment[:likes], forum_is_edited: comment[:isEdited], forum_message: comment[:message], forum_is_spam: comment[:isSpam],
-				forum_is_highlighted:comment[:isHighlighted], forum_user_score: comment[:userScore]
+				forum_is_highlighted:comment[:isHighlighted], forum_user_score: comment[:userScore], scrape_session: forum.scrape_session
 			)
 		end
 	end
