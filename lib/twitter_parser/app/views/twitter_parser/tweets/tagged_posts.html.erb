@@ -18,16 +18,18 @@
       			<%= tagger.username %>
       		<% end %>
       	</td>
-        <td><%= tweet.text %></td>
+        <td><%= tweet.text.html_safe %></td>
         <td><%= tweet.scrape_session.name if tweet.scrape_session %></td>
         <% if tweet.answers %>    
           <% tweet.answers.each do |answer| %>
-          	<td><%= answer.question.content %></td>
-          	<td>
-              <ul>
-              	<li><%= answer.content %></li>
-              </ul>
-            </td>
+            <% if answer.question.present? %>
+              <td><%= answer.question.content %></td>
+              <td>
+                <ul>
+                  <li><%= answer.content %></li>
+                </ul>
+              </td>
+            <% end %>          	
           <% end %>
         <% end %>
         

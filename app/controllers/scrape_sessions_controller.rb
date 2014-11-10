@@ -19,6 +19,7 @@ class ScrapeSessionsController < ApplicationController
 
 	def disqus_posts
 		@scrape_session = ScrapeSession.find(params[:id]) if params[:id]
+		@scrape_session_selected = true
 		@disqus_posts = @scrape_session.disqus_forum_comments
 	end
 
@@ -56,14 +57,14 @@ class ScrapeSessionsController < ApplicationController
 		@scrape_session = get_scrape_session(params[:id])
 		@tweet_count = @scrape_session.tweets.count if @scrape_session
 		@scrape_session_selected = true
-		@tweets = @scrape_session.tweets if @scrape_session
+		@tweets = @scrape_session.tweets.paginate(:per_page => 15, page: params[:page]) if @scrape_session
 	end
 
 	def annotate
 		@scrape_session = get_scrape_session(params[:id])
 		@tweet_count = @scrape_session.tweets.count if @scrape_session
 		@scrape_session_selected = true
-		@tweets = @scrape_session.tweets if @scrape_session
+		@tweets = @scrape_session.tweets.paginate(:per_page => 15, page: params[:page]) if @scrape_session
 	end
 
 	def update

@@ -15,24 +15,27 @@ module TwitterParser
 
     def index
       return redirect_to :back unless request.url.split("?ref=").present?
-
       @id = request.url.split("?ref=").last
       @scrape_session = ScrapeSession.find(@id)
       @scrape_session_selected = true
       @untagged_tweets = (@scrape_session.tweets - current_user.tagged_posts)
-      @tweets = @untagged_tweets.paginate(:per_page => 10, :page => params[:page])    
+      @untagged_posts = (@scrape_session.disqus_forum_comments - current_user.tagged_disqus_posts)
+      @all_posts = @untagged_posts.paginate(:per_page => 10, :page => params[:page])
+      @all_tweets = @untagged_tweets.paginate(:per_page => 10, :page => params[:page])
+
+      @tweets = (@all_tweets + @all_posts) 
     end
 
     def tagged_posts
       return redirect_to :back unless request.url.split("?ref=").present?
-
       @id = request.url.split("?ref=").last
       @scrape_session = ScrapeSession.find(@id)
-
       @scrape_session_selected = true
+      @all_tweets = current_user.tagged_posts.where(scrape_session_id: @scrape_session.id).paginate(:per_page => 10, :page => params[:page])
+      @disqus_forum_comments = current_user.tagged_disqus_posts.where(scrape_session_id: @scrape_session.id).paginate(:per_page => 10, :page => params[:page])
 
-      @tweets = current_user.tagged_posts.where(scrape_session_id: @scrape_session.id).paginate(:per_page => 10, :page => params[:page])
-    
+      @tweets = (@all_tweets + @disqus_forum_comments)
+
       respond_to do |format|
         format.html
         format.csv { render text: @tweets.to_csv(@tweets) }
@@ -53,13 +56,21 @@ module TwitterParser
     end
 
     def tag
-      @id = request.url.split("?ref=").last
+      @id = request.url.split("?ref=").last.split("-").first
+      @type = request.url.split("?ref=").last.split("-").last
       @answer = Tagger::Answer.find(@id) if @id
       return request.referrer unless @answer.present?
-
-      @tweet = Tweet.find(params[:tweet_id])
-      TweetAnswer.create(tweet: @tweet, answer: @answer)
-      @current_user.tagged_posts << @tweet
+      # binding.pry
+      if @type == "disqus"
+        @forum = DisqusForumComment.find(params[:tweet_id])
+        TweetAnswer.create(disqus_forum_comment: @forum, answer: @answer)
+        @current_user.tagged_disqus_posts << @forum
+      elsif @type == "tweet"
+        @tweet = Tweet.find(params[:tweet_id])
+        TweetAnswer.create(tweet: @tweet, answer: @answer)
+        @current_user.tagged_posts << @tweet  
+      end
+      
       redirect_to (request.referrer || :back), notice: "Tagged successfully"
     end
 

@@ -1,5 +1,9 @@
 <div class="authform">
 	<%= form_for(@disqus_forum) do |f| %>
+
+		<% provide(:page_title, "Disqus Forums") %>
+		<% provide(:app_page, "disqus_forums" ) %>
+		
 	  <h2><%= @title %></h2>
 	  <hr>
 	  <div class="form-group">

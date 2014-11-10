@@ -11,8 +11,10 @@
 
   <tbody>
     <% @tweets.each do |tweet| %>
+
+      <% tweet.is_a?(DisqusForumComment) ? @type = "disqus"  : @type = "tweet" %>
       <tr>
-        <td><%= tweet.text %></td>
+        <td width="50"><%= tweet.text.html_safe %></td>
         <td><%= tweet.scrape_session.name if tweet.scrape_session %></td>
 
         <% if tweet.scrape_session && tweet.scrape_session.questions %>
@@ -21,7 +23,7 @@
               <%= quiz.content %>
               <%- quiz.answers.each do |ans| %>
                 <ul>
-                  <li><%= link_to("#{ans.content}", tweet_tag_path(tweet)+"?ref=#{ans.id}" ) %></li>
+                  <li><%= link_to("#{ans.content}", tweet_tag_path(tweet)+"?ref=#{ans.id}-#{@type}" ) %></li>
                 </ul>
               <% end %>
             <% end %>

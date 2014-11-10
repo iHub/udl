@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103081529) do
+ActiveRecord::Schema.define(version: 20141110032259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "annotations", force: true do |t|
     t.integer  "user_id"
@@ -137,7 +138,7 @@ ActiveRecord::Schema.define(version: 20141103081529) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "author_raw_message"
-    t.text     "author_message"
+    t.text     "text"
     t.text     "forum_message"
     t.integer  "scrape_session_id"
     t.string   "forum_name"
@@ -327,8 +328,10 @@ ActiveRecord::Schema.define(version: 20141103081529) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tweet_id"
+    t.integer  "disqus_forum_comment_id"
   end
 
+  add_index "tagger_tagger_posts", ["disqus_forum_comment_id"], name: "index_tagger_tagger_posts_on_disqus_forum_comment_id", using: :btree
   add_index "tagger_tagger_posts", ["tweet_id"], name: "index_tagger_tagger_posts_on_tweet_id", using: :btree
   add_index "tagger_tagger_posts", ["user_id"], name: "index_tagger_tagger_posts_on_user_id", using: :btree
 
@@ -349,8 +352,10 @@ ActiveRecord::Schema.define(version: 20141103081529) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "disqus_forum_comment_id"
   end
 
+  add_index "tweet_taggers", ["disqus_forum_comment_id"], name: "index_tweet_taggers_on_disqus_forum_comment_id", using: :btree
   add_index "tweet_taggers", ["tweet_id"], name: "index_tweet_taggers_on_tweet_id", using: :btree
   add_index "tweet_taggers", ["user_id"], name: "index_tweet_taggers_on_user_id", using: :btree
 

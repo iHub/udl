@@ -8,5 +8,6 @@ module Tagger
 		has_many :disqus_answers
 		has_many :disqus_comments, through: :disqus_answers
 
+		# validates_presence_of :content
   end
 end

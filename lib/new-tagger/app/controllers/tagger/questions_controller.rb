@@ -37,7 +37,9 @@ module Tagger
     # POST /questions
     def create
       @scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
+      question_params[:answers_attributes].each { |ab| question_params[:answers_attributes].delete(ab[0]) if ab[1]['content'].blank? or ab[1]['content'] == nil }
       @question = Question.new(question_params.merge(scrape_session: @scrape_session))
+      binding.pry
       @scrape_session_selected = true
 
       if @question.save

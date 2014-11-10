@@ -2,177 +2,168 @@
  <% if signed_in? %>
 
   <div id="sidebar-wrapper" class="col-md-2">
-      <div id="sidebar">
-        <nav>
-          <ul class="nav list-group">
+    <div id="sidebar">
+      <nav>
+        <ul class="nav list-group">
 
-              <li>
-                <%= link_to "<span class='glyphicon glyphicon-off'></span>Dashboard".html_safe,  main_app.root_path, class: " #{"active" if yield(:app_page) == "dashboard"}" %>
-              </li>
+          <li>
+            <%= link_to "<span class='glyphicon glyphicon-off'></span>Dashboard".html_safe,  main_app.root_path, class: " #{"active" if yield(:app_page) == "dashboard"}" %>
+          </li>
 
-              <% if current_user.isadmin? %>
-                <li><%= link_to "<span class='glyphicon glyphicon-user'></span>Users".html_safe,  main_app.users_path, class: " #{"active" if yield(:app_page) == "users"}" %></li>
-              <% end %>
-              
-              <li>
-                <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_sessions" %>" data-toggle="collapse" data-target="#sessions-collapse">
-                  <span class="glyphicon glyphicon-eye-open"></span>Sessions
-                </button>
+          <% if current_user.isadmin? %>
+            <li><%= link_to "<span class='glyphicon glyphicon-user'></span>Users".html_safe,  main_app.users_path, class: " #{"active" if yield(:app_page) == "users"}" %></li>
+          <% end %>
+            
+          <li>
+            <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_sessions" %>" data-toggle="collapse" data-target="#sessions-collapse">
+              <span class="glyphicon glyphicon-eye-open"></span>Sessions
+            </button>
 
-                <ul id="sessions-collapse" class="<%=  yield(:app_page) == "scrape_sessions" ? "in" : "collapse" %>">
+            <ul id="sessions-collapse" class="<%=  yield(:app_page) == "scrape_sessions" ? "in" : "collapse" %>">
 
-                  <% if @scrape_session_selected %>
-                  <li>
-                    <%= link_to "Manage Session",  main_app.scrape_session_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_sessions_show"}"
-                     %>
-                  </li>
-                  <li>
-                    <%= link_to "All tweets", main_app.tweets_scrape_session_path(@scrape_session), class: " #{"active" if yield(:app_page) == "users"}" %>
-                  </a></li>
-                  <li>
-                    <%= link_to "Annotate", twitter_parser.tweets_path+"?ref=#{@scrape_session.id}", class: " #{"active" if yield(:app_page) == "users"}" %>
-                  </a></li> 
-
-                  <li><%= link_to "Tagged Posts",  twitter_parser.tagged_posts_path+"?ref=#{@scrape_session.id}", class: " #{"active" if yield(:app_page) == "users"}" %></li>         
-                  
-                  <% end %>
-
-                  <li><%= link_to "All sessions",  main_app.scrape_sessions_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_index"}" %></li>
-                  <li>
-                    <%= link_to "Add New",  main_app.new_scrape_session_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_new"}"
-                     %>
-                  </li>                
-                </ul>
-              </li>
-
-              <!-- scrape_session_selected -->
               <% if @scrape_session_selected %>
               <li>
-                <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_pages" %>" data-toggle="collapse" data-target="#pages-collapse">
-                  <span class="glyphicon glyphicon-book"></span>Pages
-                </button>
-
-                <ul id="pages-collapse" class="<%=  yield(:app_page) == "scrape_pages" ? "in" : "collapse" %>">
-                  <li><%= link_to "All Pages", main_app.scrape_session_scrape_pages_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_pages_index"}" %></li>
-                  <li>
-                    <%= link_to "Add New", main_app.new_scrape_session_scrape_page_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_pages_new"}"
-                     %>
-                  </li>                
-                </ul>
+                <%= link_to "Manage Session",  main_app.scrape_session_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_sessions_show"}"
+                 %>
               </li>
-
-
-
               <li>
-                <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "questions" %>" data-toggle="collapse" data-target="#questions-collapse">
-                  <span class="glyphicon glyphicon-book"></span>Disqus Forums
-                </button>
-
-                <ul id="questions-collapse" class="<%=  yield(:app_page) == "questions" ? "in" : "collapse" %>">
-
-                  <li><%= link_to "All Disqus Froums",  main_app.disqus_forums_path+"?ref=#{@scrape_session.id}", class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
-                  <li><%= link_to "New Disqus Froum", main_app.new_disqus_forum_path+"?ref=#{@scrape_session.id}" %>
-                  </li>
-                  <li><%= link_to "Disqus Posts", main_app.disqus_posts_scrape_session_path(@scrape_session) %></li>
-                </ul>
-              </li>
-
-
-
+                <%= link_to "All tweets", main_app.tweets_scrape_session_path(@scrape_session), class: " #{"active" if yield(:app_page) == "users"}" %>
+              </a></li>
               <li>
-                <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "questions" %>" data-toggle="collapse" data-target="#questions-collapse">
-                  <span class="glyphicon glyphicon-search"></span>Questions
-                </button>
+                <%= link_to "Annotate", twitter_parser.tweets_path+"?ref=#{@scrape_session.id}", class: " #{"active" if yield(:app_page) == "users"}" %>
+              </a></li> 
 
-                <ul id="questions-collapse" class="<%=  yield(:app_page) == "questions" ? "in" : "collapse" %>">
+              <li><%= link_to "Tagged Posts",  twitter_parser.tagged_posts_path+"?ref=#{@scrape_session.id}", class: " #{"active" if yield(:app_page) == "users"}" %></li>         
+              
+              <% end %>
 
-                  <li><%= link_to "All Questions",  tagger.questions_path+"?ref=#{@scrape_session.id}", class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
-                  <li><%= link_to "New Question", tagger.new_question_url+"?ref=#{@scrape_session.id}" %></li>                    
-                </ul>
-              </li>
-
+              <li><%= link_to "All sessions",  main_app.scrape_sessions_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_index"}" %></li>
               <li>
-                <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#answers-collapse">
-                  <span class="glyphicon glyphicon-flash"></span>Answers
-                </button>
-
-                <ul id="answers-collapse" class="collapse">
-                  <li><a href="#">All Answers</a></li>
-                  <li><a href="#">Add New</a></li>                
-                </ul>
+                <%= link_to "Add New",  main_app.new_scrape_session_path, class: "#{"active" if yield(:app_sub) == "scrape_sessions_new"}"
+                 %>
               </li>
-
-              <li>
-                <%#= link_to "<span class='glyphicon glyphicon-list-alt'></span>Posts".html_safe, {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id}, 
-                  class: " #{"active" if yield(:app_page) == "fb_posts"}"  %>
-
-              </li>
-
-
-
-              <li>
-                <%#= link_to "<span class='glyphicon glyphicon-comment'></span>Comments".html_safe, {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id}, 
-                  class: " #{"active" if yield(:app_page) == "fb_comments"}"  %>
-              </li>
-
-              <li>
-                <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#logs-collapse">
-                  <span class="glyphicon glyphicon-stats"></span>Logs
-                </button>
-
-                <ul id="logs-collapse" class="collapse">
-                  <li><a href="#">Scrape Logs</a></li>
-                  <li><a href="#">Question Logs</a></li>
-                  <li><a href="#">Answer Logs</a></li>
-                  <li><a href="#">User Logs</a></li>                
-                </ul>
-              </li>
-               <% end %> <!-- /if scrape_session_selected -->
-
             </ul>
-          </nav>
-      </div>
-  </div>
+          </li>
+
+            <!-- scrape_session_selected -->
+          <% if @scrape_session_selected %>
+            <li>
+              <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "scrape_pages" %>" data-toggle="collapse" data-target="#pages-collapse">
+                <span class="glyphicon glyphicon-book"></span>Pages
+              </button>
+
+              <ul id="pages-collapse" class="<%=  yield(:app_page) == "scrape_pages" ? "in" : "collapse" %>">
+                <li><%= link_to "All Pages", main_app.scrape_session_scrape_pages_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_pages_index"}" %></li>
+                <li>
+                  <%= link_to "Add New", main_app.new_scrape_session_scrape_page_path(@scrape_session), class: "#{"active" if yield(:app_sub) == "scrape_pages_new"}"
+                   %>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "questions" %>" data-toggle="collapse" data-target="#questions-collapse">
+                <span class="glyphicon glyphicon-search"></span>Questions
+              </button>
+
+              <ul id="questions-collapse" class="<%=  yield(:app_page) == "questions" ? "in" : "collapse" %>">
+
+                <li><%= link_to "All Questions",  tagger.questions_path+"?ref=#{@scrape_session.id}", class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
+                <li><%= link_to "New Question", tagger.new_question_url+"?ref=#{@scrape_session.id}" %></li>                    
+              </ul>
+            </li>
+
+
+            <li>
+              <button type="button" class="nav-collapse <%= "active" if yield(:app_page) == "disqus_forums" %>" data-toggle="collapse" data-target="#logs-collapse">
+                <span class="glyphicon glyphicon-book"></span>Disqus Forums
+              </button>
+
+              <ul id="logs-collapse" class="<%=  yield(:app_page) == "disqus_forums" ? "in" : "collapse" %>">
+
+                <li><%= link_to "All Disqus Froums",  main_app.disqus_forums_path+"?ref=#{@scrape_session.id}", class: "#{"active" if yield(:app_sub) == "questions_index"}" %></li>
+                <li><%= link_to "New Disqus Froum", main_app.new_disqus_forum_path+"?ref=#{@scrape_session.id}" %>
+                </li>
+                <li><%= link_to "Disqus Posts", main_app.disqus_posts_scrape_session_path(@scrape_session) %></li>
+              </ul>
+            </li>
+
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#answers-collapse">
+                <span class="glyphicon glyphicon-flash"></span>Answers
+              </button>
+
+              <ul id="answers-collapse" class="collapse">
+                <li><a href="#">All Answers</a></li>
+                <li><a href="#">Add New</a></li>                
+              </ul>
+            </li>
+
+            <li>
+              <%#= link_to "<span class='glyphicon glyphicon-list-alt'></span>Posts".html_safe, {controller: "fb_posts", action: :index, scrape_session_id: @scrape_session.id}, 
+                class: " #{"active" if yield(:app_page) == "fb_posts"}"  %>
+
+            </li>
+
+
+
+            <li>
+              <%#= link_to "<span class='glyphicon glyphicon-comment'></span>Comments".html_safe, {controller: "fb_comments", action: :index, scrape_session_id: @scrape_session.id}, 
+                class: " #{"active" if yield(:app_page) == "fb_comments"}"  %>
+            </li>
+
+            <li>
+              <button type="button" class="nav-collapse" data-toggle="collapse" data-target="#logs-collapse">
+                <span class="glyphicon glyphicon-stats"></span>Logs
+              </button>
+
+              <!-- <ul id="logs-collapse" class="collapse">
+                <li><a href="#">Scrape Logs</a></li>
+                <li><a href="#">Question Logs</a></li>
+                <li><a href="#">Answer Logs</a></li>
+                <li><a href="#">User Logs</a></li>                
+              </ul> -->
+            </li>
+             <% end %> <!-- /if scrape_session_selected -->
+
+          </ul>
+        </nav>
+    </div>
+</div>
 
 
   <div id="main-wrapper" class="col-md-10 pull-right">
-      <div id="main" role="main">
-
-        <!-- messages - errors, warnings, success -->
-        <div class="alert-container">
-          <% flash.each do |key, value| %>
-              <div class="alert alert-<%= key %>">
-                <%= value %>
-              </div>
-            <% end %>
-        </div>
-
-        <%= yield %>
-
+    <div id="main" role="main">
+      <!-- messages - errors, warnings, success -->
+      <div class="alert-container">
+        <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+          <% end %>
       </div>
+      <%= yield %>
+    </div>
+  </div> <!-- /main-wrapper -->
 
-    </div> <!-- /main-wrapper -->
+  <% else %>
 
-    <% else %>
-
-    <div id="main-wrapper" class="col-md-12">
-      <div id="main" role="main">
-
-        <!-- messages - errors, warnings, success -->
-        <div class="alert-container">
-          <% flash.each do |key, value| %>
-              <div class="alert alert-<%= key %>">
-                <%= value %>
-              </div>
-            <% end %>
-        </div>
-
-        <%= yield %>
-
+  <div id="main-wrapper" class="col-md-12">
+    <div id="main" role="main">
+      <!-- messages - errors, warnings, success -->
+      <div class="alert-container">
+        <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+          <% end %>
       </div>
+      <%= yield %>
+    </div>
 
-    </div> <!-- /main-wrapper -->
+  </div> <!-- /main-wrapper -->
 
-    <% end %>
+  <% end %>
 
 </div> <!-- /wrapper -->
