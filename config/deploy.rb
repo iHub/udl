@@ -30,4 +30,8 @@ set :branch, "develop"
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 after "deploy", "deploy:cleanup"
+# <<<<<<< HEAD
+# # after "deploy:update_code", "deploy:migrate"
+# =======
 # after "deploy:update_code", "deploy:migrate"
+# >>>>>>> fba9236afd99b23b9d89babb2951727abe42cfdb
