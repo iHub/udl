@@ -21,7 +21,7 @@ class DisqusWorker
 	end
 
 	def continous_comments_fetch
-		forums = DisqusForum.all.map(&:forum_name)
+		forums = DisqusForum.all
 		forums.each do |forum|
 			comments = DisqusApi.v3.posts.list(forum: "#{forum.forum_name}")
 			DisqusForumComment.create_self(comments)
