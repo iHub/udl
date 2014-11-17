@@ -18,6 +18,18 @@ class DisqusForumComment < ActiveRecord::Base
 	has_many :tagger_posts, :class_name => "Tagger::TaggerPost"
 	has_many :taggers, :through => :tagger_posts, source: :user
 
+
+	class << self
+		def to_csv(records)
+			CSV.generate do |csv|
+        csv << ["Tagged Record", "Tagger", "Session", "Question", "Answer"]
+        tweets.each do |tweet|   
+          csv << ["#{tweet.text}", "#{tweet.taggers.map(&:username)}", "#{tweet.scrape_session.name}", "#{tweet.answers.first.question.content}", "#{tweet.answers.first.content}"]
+        end
+      end
+		end
+	end
+
 	def self.create_self(comments)
 		comments[:response].each do |comment|
 			forum = DisqusForum.where("forum_name @@ :q", q: "#{comment[:forum]}").first

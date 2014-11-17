@@ -39,7 +39,6 @@ module Tagger
       @scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
       question_params[:answers_attributes].each { |ab| question_params[:answers_attributes].delete(ab[0]) if ab[1]['content'].blank? or ab[1]['content'] == nil }
       @question = Question.new(question_params.merge(scrape_session: @scrape_session))
-      binding.pry
       @scrape_session_selected = true
 
       if @question.save
@@ -53,7 +52,7 @@ module Tagger
     # PATCH/PUT /questions/1
     def update
       if @question.update(question_params)
-        redirect_to @question#, notice: 'Question was successfully updated.'
+        redirect_to @question
       else
         render :edit
       end
@@ -62,7 +61,7 @@ module Tagger
     # DELETE /questions/1
     def destroy
       @question.destroy
-      redirect_to questions_url#, notice: 'Question was successfully destroyed.'
+      redirect_to questions_url
     end
 
     def assign
@@ -72,20 +71,17 @@ module Tagger
       elsif request.method == "POST"
         return redirect_to (request.referrer || back), alert: "Tagger has to be present" if params[:question][:user_ids].reject!(&:blank?).blank?
         Question.assign_records_to_user(params)
-        # @question.assign_question_to_taggers(params[:question][:tag_number])
         redirect_to tagger.questions_url, notice: "Question tagged successfully"
       end
     end
 
-    private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_question
-        @question = Question.find(params[:id])
-      end
+  private
+    def set_question
+      @question = Question.find(params[:id])
+    end
 
-      # Only allow a trusted parameter "white list" through.
-      def question_params
-        params.require(:question).permit!#(:content, :scrape_session_id)
-      end
+    def question_params
+      params.require(:question).permit!
+    end
   end
 end

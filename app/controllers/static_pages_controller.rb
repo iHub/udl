@@ -21,8 +21,7 @@ class StaticPagesController < ApplicationController
         all_comments = FbComment.where(fb_post_id: all_posts.select(:id))
         @all_comments_count = all_comments.count
         @all_tweets_count = TwitterParser::Tweet.count
-        @all_forums_count = DisqusForum.count
-        @all_disqus_comments_count = DisqusForumComment.count
+        @all_disqus_comments_count = current_user.disqus_forums.map(&:disqus_forum_comments).flatten.count
     end 
   	
   end

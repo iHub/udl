@@ -1,4 +1,3 @@
-<%#= render 'annotate_data', records: @disqus_posts %>
 <h1>Annotate Data.</h1>
 
 
@@ -11,7 +10,7 @@
   </thead>
 
   <tbody>
-    <% @disqus_posts.each do |tweet| %>
+    <% @records.each do |tweet| %>
 
       <% tweet.is_a?(DisqusForumComment) ? @type = "disqus"  : @type = "tweet" %>
       <tr>
@@ -25,7 +24,7 @@
               <%= quiz.content %>
               <%- quiz.answers.each do |ans| %>
                 <ul>
-                  <li><%= link_to("#{ans.content}", twitter_parser.tweet_tag_path(tweet)+"?ref=#{ans.id}-#{@type}" ) %></li>
+                  <li><%= link_to("#{ans.content}", tweet_tag_path(tweet)+"?ref=#{ans.id}-#{@type}" ) %></li>
                 </ul>
               <% end %>
             <% end %>
@@ -47,4 +46,4 @@
 
 <%#= link_to 'New scrape_session', new_scrape_session_path %>
 <br>
-<%= will_paginate(@disqus_posts) %>
+<%= will_paginate(@records) %>

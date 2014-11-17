@@ -28,13 +28,11 @@ class AccountWorker
 		account.create_user_account(@twitter_response) if @twitter_response
   end
 
-  def follow_account
-    # binding.pry
+  def follow_account    
     tweetstream_configure
     @accounts = TwitterParser::Account.all.map(&:twitter_user_id).join(", ")
     puts "#{@accounts}"
-    TweetStream::Client.new.follow(2828013602) do |status|
-      # binding.pry
+    TweetStream::Client.new.follow(2828013602) do |status|      
       @screen_name = "#{status.attrs[:user][:screen_name]}"
       @account = TwitterParser::Account.where(username: "#{@screen_name}") if @screen_name
       TwitterParser::Term.create(scrape_session: "#{@account.scrape_session}",title: "#{status.text}", channel: "#{@screen_name}") if @screen_name && @account

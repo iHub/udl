@@ -17,10 +17,19 @@ class ScrapeSessionsController < ApplicationController
 		@scrape_session = get_scrape_session(params[:id])
 	end
 
+	def posts
+		@scrape_session = ScrapeSession.find(params[:id]) if params[:id]
+		@scrape_session_selected = true
+		@disqus_posts = @scrape_session.disqus_forum_comments.paginate(page: params[:page], :per_page => 10)
+	end
+
+
 	def disqus_posts
 		@scrape_session = ScrapeSession.find(params[:id]) if params[:id]
 		@scrape_session_selected = true
-		@disqus_posts = @scrape_session.disqus_forum_comments
+		@untagged_posts = (@scrape_session.disqus_forum_comments - current_user.tagged_disqus_posts)
+
+		@disqus_posts = @untagged_posts.paginate(page: params[:page], :per_page => 10)
 	end
 
 	def show

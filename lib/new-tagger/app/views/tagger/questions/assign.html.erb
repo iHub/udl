@@ -1,12 +1,14 @@
 <div "authform">
 	<%= form_for @question, url: question_assign_path(@question), method: "PUT" do |f| %>
 		<h2><%= @title %></h2>
-
-
+		
+		Disqus <%= f.text_field :disqus_num %>
+		Twitter <%= f.text_field :twitter_num %>
+		
 		<h2><%= @question.content %></h2>
 		<br>
 		<%- @answers = @question.answers %>
-
+		
 		<% if @answers %>
 			<%- @answers.each do |answer| %>
 				<ul>

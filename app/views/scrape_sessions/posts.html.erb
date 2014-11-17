@@ -1,0 +1,26 @@
+<% provide(:page_title, "Disqus Forums") %>
+<% provide(:app_page, "disqus_forums" ) %>
+
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Forum Name</th>
+			<th>Session</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @disqus_posts.each do |forum| %>
+			<tr>
+				<td><%= forum.forum_name %></td>
+				<td><%= forum.scrape_session.name %></td>
+				<td><%= simple_format(forum.text) %></td>
+			</tr>
+		<% end %>
+		
+	</tbody>
+</table>
+
+<%= will_paginate(@disqus_posts) %>
+<!-- 1657166917 1657166917 -->

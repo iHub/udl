@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 	has_many :tweet_taggers
   has_many :tweets, :through => :tweet_taggers, class_name: "TwitterParser::Tweet"
   has_many :disqus_forum_comments, :through => :tweet_taggers#, class_name: "Disqus"
-  
+  has_many :disqus_forums
   has_many :tagger_posts, :class_name => "Tagger::TaggerPost"
 	has_many :tagged_posts, :through => :tagger_posts, :source => :tweet
 	has_many :tagged_disqus_posts, :through => :tagger_posts, source: :disqus_forum_comment

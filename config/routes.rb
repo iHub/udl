@@ -28,6 +28,7 @@ ULog::Application.routes.draw do
       get :tweets
       get :annotate
       get :disqus_posts
+      get :posts
     end
 
     member do

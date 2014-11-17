@@ -14,7 +14,7 @@ module TwitterParser
     has_many :tagger_posts, :class_name => "Tagger::TaggerPost"
     has_many :taggers, :through => :tagger_posts, :foreign_key => "user_id", source: :user
     
-    class << self     
+    class << self
       def to_csv(tweets)
         CSV.generate do |csv|
           csv << ["Tagged Record", "Tagger", "Session", "Question", "Answer"]

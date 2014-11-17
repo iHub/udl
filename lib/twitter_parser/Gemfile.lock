@@ -161,7 +161,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.0)
-    sass (3.2.19)
+    sass (3.2.13)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2.0)
@@ -207,6 +207,7 @@ GEM
       naught (~> 1.0)
       simple_oauth (~> 0.2.0)
     tzinfo (0.3.41)
+    will_paginate (3.0.7)
 
 PLATFORMS
   ruby
@@ -225,7 +226,9 @@ DEPENDENCIES
   quiet_assets
   rspec
   rspec-rails
+  sass (= 3.2.13)
   sass-rails (~> 4.0.3)
   sidekiq
   sqlite3
   twitter_parser!
+  will_paginate

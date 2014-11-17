@@ -24,7 +24,7 @@ class DisqusForumsController < ApplicationController
 		@scrape_session = ScrapeSession.find("#{session[:scrape_session]}")
 	  @disqus_forum = DisqusForum.new(disqus_forum_params.merge({scrape_session: @scrape_session, user: current_user}))
 		if @disqus_forum.save
-			redirect_to @disqus_forum, notice: "Disqus forum successfully created"
+			redirect_to @scrape_session, notice: "Disqus forum successfully created"
 		else
 			render :new, alert: "Oooops, an error occured while creating your forum, Try again ..."
 		end

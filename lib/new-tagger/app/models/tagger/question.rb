@@ -6,7 +6,7 @@ module Tagger
     validates_presence_of :scrape_session
     validates_uniqueness_of :content
     
-    attr_accessor :tagger_ids, :user_ids
+    attr_accessor :tagger_ids, :user_ids, :disqus_num, :twitter_num
     accepts_nested_attributes_for :answers, allow_destroy: true
 
     def to_s
@@ -14,31 +14,8 @@ module Tagger
     end
 
     class << self
-    	def assign_records_to_user(params)
-    		@user_ids = params[:question][:user_ids].reject(&:blank?)
-    		@scrape_session = find(params[:question_id]).scrape_session
-    		@tweets = @scrape_session.tweets.limit(20)
-        @disqus_forums = @scrape_session.disqus_forum_comments.limit(5)
-
-    		if @user_ids.count == 1
-    			@user = User.find(@user_ids).first
-    			@user.tweet_ids = @tweets.map(&:id) 
-          @user.disqus_forum_comment_ids = @disqus_forums.map(&:id)
-          AccountWorker.perform_async(@user.id, "notify")
-    		else
-    			@users = User.find(@user_ids)
-    			@x ||= 0
-    			@a = @tweets.count/@users.count
-    			@y ||= @a - 1
-    			@users.each do |user|
-    				@tagged_posts = @tweets[@x..@y]
-    				user.tweet_ids = @tagged_posts.map(&:id)
-    				@x = @y
-    				@y = @x+@y
-            AccountWorker.perform_async(user.id, "notify")
-    			end
-    		end
-
+    	def assign_records_to_user(params)        
+    		AssignQuestionWorker.perform_async(params)
     	end
 
     	def question_forum(params)
