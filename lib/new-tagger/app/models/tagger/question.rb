@@ -15,12 +15,13 @@ module Tagger
 
     class << self
     	def assign_records_to_user(params)        
-    		AssignQuestionWorker.perform_async(params)
+    		AssignQuestionWorker.perform_async(params, nil, "assign")
     	end
 
     	def question_forum(params)
     		find(params[:question_id])
     	end
     end
+    
   end
 end

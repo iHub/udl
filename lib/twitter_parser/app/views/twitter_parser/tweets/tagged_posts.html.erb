@@ -1,8 +1,10 @@
 <%= link_to "Download CSV", tagged_posts_path(format: "csv")+"?ref=#{@scrape_session.id}" %>
 
 <table class="table table-hover">
+  
   <thead>
     <tr>
+      <th></th>
       <th>Tagger</th>
       <th>Data being tagged</th>
       <th>Session</th>
@@ -13,10 +15,9 @@
   <tbody>
     <% @tweets.each do |tweet| %>
       <tr>
+        <td><%= tweet.id %></td>
       	<td>
-      		<%- tweet.taggers.each do |tagger| %>
-      			<%= tagger.username %>
-      		<% end %>
+      		<%= tweet.taggers.first.username %>
       	</td>
         <td><%= tweet.text.html_safe %></td>
         <td><%= tweet.scrape_session.name if tweet.scrape_session %></td>
@@ -31,8 +32,7 @@
               </td>
             <% end %>          	
           <% end %>
-        <% end %>
-        
+        <% end %>        
       </tr>
     <% end %>
   </tbody>

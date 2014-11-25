@@ -12,7 +12,6 @@ module TwitterParser
       @tweets = Tweet.page(params[:page], per_page: 10)
     end
 
-
     def index
       return redirect_to :back unless request.url.split("?ref=").present?
       request.url.scan(/page/).present? ? @id = request.url.split("?").last.split("ref=").last : 
@@ -21,11 +20,11 @@ module TwitterParser
       @scrape_session = ScrapeSession.find(@id)
       @scrape_session_selected = true
       @untagged_tweets = (@scrape_session.tweets - current_user.tagged_posts)
-      @untagged_posts = (@scrape_session.disqus_forum_comments - current_user.tagged_disqus_posts)
-      @all_posts = @untagged_posts#.paginate(:per_page => 10, :page => params[:page])
-      @all_tweets = @untagged_tweets#.paginate(:per_page => 10, :page => params[:page])
+      # @untagged_posts = (@scrape_session.disqus_forum_comments - current_user.tagged_disqus_posts)
+      # @all_posts = @untagged_posts#.paginate(:per_page => 10, :page => params[:page])
+      @tweets = @untagged_tweets#.paginate(:per_page => 10, :page => params[:page])
 
-      @tweets = (@all_tweets + @all_posts)
+      # @tweets = (@all_tweets + @all_posts)
       @records = @tweets.paginate(:per_page => 10, :page => params[:page])
     end
 
@@ -34,8 +33,8 @@ module TwitterParser
       @id = request.url.split("?ref=").last
       @scrape_session = ScrapeSession.find(@id)
       @scrape_session_selected = true
-      @tweets = current_user.tagged_posts.where(scrape_session_id: @scrape_session.id)#.paginate(:per_page => 10, :page => params[:page])
-      @disqus_forum_comments = current_user.tagged_disqus_posts.where(scrape_session_id: @scrape_session.id)#.paginate(:per_page => 10, :page => params[:page])
+      @tweets = current_user.tagged_posts.where(scrape_session_id: @scrape_session.id).paginate(:per_page => 10, :page => params[:page])
+      # @disqus_forum_comments = current_user.tagged_disqus_posts.where(scrape_session_id: @scrape_session.id)#.paginate(:per_page => 10, :page => params[:page])
       # @tweets = @disqus_forum_comments
 
       respond_to do |format|
@@ -62,6 +61,7 @@ module TwitterParser
       @type = request.url.split("?ref=").last.split("-").last
       @answer = Tagger::Answer.find(@id) if @id
       return request.referrer unless @answer.present?
+      # AssignQuestionWorker.perform_async(params, @type, "tag", current_user.id)
       if @type == "disqus"
         @forum = DisqusForumComment.find(params[:tweet_id])
         TweetAnswer.create(disqus_forum_comment: @forum, disqus_answer: @answer)

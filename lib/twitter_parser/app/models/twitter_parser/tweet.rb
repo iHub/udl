@@ -18,28 +18,13 @@ module TwitterParser
       def to_csv(tweets)
         CSV.generate do |csv|
           csv << ["Tagged Record", "Tagger", "Session", "Question", "Answer"]
-          tweets.each do |tweet|   
-            csv << ["#{tweet.text}", "#{tweet.taggers.map(&:username)}", "#{tweet.scrape_session.name}", "#{tweet.answers.first.question.content}", "#{tweet.answers.first.content}"]
+          tweets.each do |tweet|
+            if tweet.answers.present?
+              csv << ["#{tweet.text}", "#{tweet.taggers.map(&:username)}", "#{tweet.scrape_session.name}", "#{tweet.answers.first.question.content}", "#{tweet.answers.first.content}"]
+            end
           end
         end
       end
-
-      # def follow_and_track
-      #   TweetStream.configure do |config|
-      #     config.consumer_key = ENV['api_key']
-      #     config.consumer_secret = ENV['api_secret']
-      #     config.oauth_token = ENV['oauth_token']
-      #     config.oauth_token_secret = ENV['oauth_secret']
-      #     config.auth_method = :oauth
-      #   end
-
-      #   @accounts = TwitterParser::Account.all.map(&:twitter_user_id).map(&:to_i)
-      #   TweetStream::Client.new.follow(@accounts) do |status|
-      #     puts "#{status}"
-      #     TwitterParser::Term.create(title: "#{status.text}", channel: "#{status.attrs[:user][:screen_name]}")
-      #     TwitterParser::TweetWorker.perform_async(self.id, "#{status.text}", "search_api")
-      #   end
-      # end
 
       def create_tweet(status)
         create(

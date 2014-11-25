@@ -20,13 +20,12 @@
 
         <% if tweet.scrape_session && tweet.scrape_session.questions %>
           <td>
-            <% tweet.scrape_session.questions.each do |quiz| %>
-              <%= quiz.content %>
-              <%- quiz.answers.each do |ans| %>
-                <ul>
-                  <li><%= link_to("#{ans.content}", tweet_tag_path(tweet)+"?ref=#{ans.id}-#{@type}" ) %></li>
-                </ul>
-              <% end %>
+            <%  @question = tweet.scrape_session.questions.last %>
+            <%= @question.content %>
+            <%- @question.answers.each do |ans| %>
+              <ul>
+                <li><%= link_to("#{ans.content}", tweet_tag_path(tweet)+"?ref=#{ans.id}-#{@type}" ) %></li>
+              </ul>
             <% end %>
           </td>
         <% end %>

@@ -2,7 +2,21 @@ class AssignQuestionWorker
 	include Sidekiq::Worker
 	sidekiq_options({ queue: :accounts })
 
-	def perform(params)
+	def perform(*args)
+		params = args[0]
+		req_type = args[1]
+		operation = args[2]
+		user = args[3]
+
+		case operation
+		when "tag"
+			tag_data(params, req_type, user)
+		when "assign"
+			assign_question_to_tagger(params)
+		end		
+	end
+
+	def assign_question_to_tagger(params)
     disqus_records = params["question"]["disqus_num"]
     twitter_records = params["question"]["twitter_num"]
 
@@ -34,4 +48,18 @@ class AssignQuestionWorker
 			end
 		end
 	end
+
+	def tag_data(params, req_type, user)
+		current_user = User.find(user)
+		if req_type == "disqus"
+      @forum = DisqusForumComment.find(params["tweet_id"])
+      TweetAnswer.create(disqus_forum_comment: @forum, disqus_answer: @answer)
+      current_user.tagged_disqus_posts << @forum
+    elsif req_type == "tweet"
+      @tweet = TwitterParser::Tweet.find(params["tweet_id"])
+      TweetAnswer.create(tweet: @tweet, answer: @answer)
+      current_user.tagged_posts << @tweet  
+    end
+	end
+
 end
