@@ -4,9 +4,9 @@ production:
   database: udl_collector
   username: postgres
   password: 92033
-  host: 41.242.1.69
+  host: 41.242.1.144
   port: 5432
-  pool: 10
+  pool: 30
 
 development:
   adapter:  postgresql
