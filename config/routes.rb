@@ -49,14 +49,16 @@ ULog::Application.routes.draw do
     resources :question_logs,     only: [:index, :show, :search]
     resources :regular_scrape_logs, only: [:index, :show, :search]
     resources :scrape_page_logs, only: [:index, :show, :search]
-    
-  end    
-  
+
+  end
+
   #login/out routes
   match '/signup',  to: 'users#new',            via: 'get'
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
-  
+  match '/users/result', to: 'users#result',    via: [:get, :put, :post, :delete]
+  match '/users/queuetimeout', to: 'users#queuetimeout', via: [:get, :put, :post, :delete]
+
   #static pages routes
   match '/help',    to: 'static_pages#help',    via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
