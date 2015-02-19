@@ -2,7 +2,8 @@ class PageScraper
 
 	@queue = :page_scrape_queue
 
-	TOKEN = "630625760329068|ALYvpBPfa_0YzbpKpstk8wc8rw4"
+	#TOKEN = "630625760329068|ALYvpBPfa_0YzbpKpstk8wc8rw4"
+	TOKEN = "283276948532275|ccea10f45e3d5119cb69cb411f9299f4"
 
 	def self.perform(scrape_page_id)
 		logger.debug "IN Resque worker : self.perform"
