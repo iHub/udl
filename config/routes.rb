@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 ULog::Application.routes.draw do
 
+  get "facebook/result"
+  get "facebook/queuetimeout"
   resources :disqus_forums
 
   mount TwitterParser::Engine => '/twitter_parser'
