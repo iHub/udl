@@ -42,7 +42,7 @@ gem 'sidetiq'
 group :development, :test do
   gem 'rspec-rails', '2.14.1'
   gem 'pry-rails'
-  gem 'pry-rescue'  
+  gem 'pry-rescue'
   gem 'capistrano', '~> 2.15.5'
   gem 'rvm-capistrano'
 end

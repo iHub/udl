@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	
+
 	before_action :signed_in_user, only: [:index, :edit, :update, :show]
 	before_action :correct_user,   only: [:edit, :update]
 	before_action :admin_user,     only: :destroy
@@ -56,6 +56,12 @@ class UsersController < ApplicationController
 		redirect_to users_url
 	end
 
+	def result
+	end
+
+	def queuetimeout
+	end
+
 	#--------------------------------------
 
 	private
@@ -65,7 +71,7 @@ class UsersController < ApplicationController
 	    # 	unless signed_in?
 		   #      store_location
 		   #      redirect_to signin_url, notice: "Please sign in to Access this page"
-		   #  end	      
+		   #  end
 	    # end
 
 		def correct_user
